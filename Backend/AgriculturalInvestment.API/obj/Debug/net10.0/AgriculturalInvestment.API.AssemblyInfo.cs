@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AgriculturalInvestment.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f6e7bcd65a830d65555e2699623826fca32128b")]
 [assembly: System.Reflection.AssemblyProductAttribute("AgriculturalInvestment.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AgriculturalInvestment.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
