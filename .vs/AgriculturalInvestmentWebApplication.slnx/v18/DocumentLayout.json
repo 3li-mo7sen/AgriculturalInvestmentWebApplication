@@ -1,7 +1,24 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Software Project 2026\\AgriculturalInvestmentWebApplication\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\UG\\Documents\\GitHub\\AgriculturalInvestmentWebApplication\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{04251237-7130-467E-6DF1-392BE61B74EB}|AgriculturalInvestment.API\\AgriculturalInvestment.API.csproj|c:\\users\\ug\\documents\\github\\agriculturalinvestmentwebapplication\\agriculturalinvestment.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{04251237-7130-467E-6DF1-392BE61B74EB}|AgriculturalInvestment.API\\AgriculturalInvestment.API.csproj|solutionrelative:agriculturalinvestment.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04251237-7130-467E-6DF1-392BE61B74EB}|AgriculturalInvestment.API\\AgriculturalInvestment.API.csproj|c:\\users\\ug\\documents\\github\\agriculturalinvestmentwebapplication\\agriculturalinvestment.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{04251237-7130-467E-6DF1-392BE61B74EB}|AgriculturalInvestment.API\\AgriculturalInvestment.API.csproj|solutionrelative:agriculturalinvestment.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04251237-7130-467E-6DF1-392BE61B74EB}|AgriculturalInvestment.API\\AgriculturalInvestment.API.csproj|c:\\users\\ug\\documents\\github\\agriculturalinvestmentwebapplication\\agriculturalinvestment.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04251237-7130-467E-6DF1-392BE61B74EB}|AgriculturalInvestment.API\\AgriculturalInvestment.API.csproj|solutionrelative:agriculturalinvestment.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04251237-7130-467E-6DF1-392BE61B74EB}|AgriculturalInvestment.API\\AgriculturalInvestment.API.csproj|c:\\users\\ug\\documents\\github\\agriculturalinvestmentwebapplication\\agriculturalinvestment.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{04251237-7130-467E-6DF1-392BE61B74EB}|AgriculturalInvestment.API\\AgriculturalInvestment.API.csproj|solutionrelative:agriculturalinvestment.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,31 +26,66 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\UG\\Documents\\GitHub\\AgriculturalInvestmentWebApplication\\AgriculturalInvestment.API\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "AgriculturalInvestment.API\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\UG\\Documents\\GitHub\\AgriculturalInvestmentWebApplication\\AgriculturalInvestment.API\\Properties\\launchSettings.json",
+              "RelativeToolTip": "AgriculturalInvestment.API\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAYAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-26T21:55:22.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\UG\\Documents\\GitHub\\AgriculturalInvestmentWebApplication\\AgriculturalInvestment.API\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "AgriculturalInvestment.API\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\UG\\Documents\\GitHub\\AgriculturalInvestmentWebApplication\\AgriculturalInvestment.API\\appsettings.Development.json",
+              "RelativeToolTip": "AgriculturalInvestment.API\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-26T21:54:26.038Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\UG\\Documents\\GitHub\\AgriculturalInvestmentWebApplication\\AgriculturalInvestment.API\\appsettings.json",
+              "RelativeDocumentMoniker": "AgriculturalInvestment.API\\appsettings.json",
+              "ToolTip": "C:\\Users\\UG\\Documents\\GitHub\\AgriculturalInvestmentWebApplication\\AgriculturalInvestment.API\\appsettings.json",
+              "RelativeToolTip": "AgriculturalInvestment.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-26T21:54:13.936Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\UG\\Documents\\GitHub\\AgriculturalInvestmentWebApplication\\AgriculturalInvestment.API\\Program.cs",
+              "RelativeDocumentMoniker": "AgriculturalInvestment.API\\Program.cs",
+              "ToolTip": "C:\\Users\\UG\\Documents\\GitHub\\AgriculturalInvestmentWebApplication\\AgriculturalInvestment.API\\Program.cs",
+              "RelativeToolTip": "AgriculturalInvestment.API\\Program.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T21:44:45.815Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
           "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{26341fe2-71dd-46fd-bb1b-2e51a92a0d64}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             }
           ]
         }
