@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace AgriculturalInvestment.API.Controllers
+namespace BackendAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]

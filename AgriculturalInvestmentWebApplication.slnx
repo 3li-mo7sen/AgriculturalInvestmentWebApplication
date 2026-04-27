@@ -1,8 +1,0 @@
-<Solution>
-  <Folder Name="/AI/" />
-  <Folder Name="/Backend/">
-    <Project Path="AgriculturalInvestment.API/AgriculturalInvestment.API.csproj" />
-  </Folder>
-  <Folder Name="/Documentation/" />
-  <Folder Name="/Frontend/" />
-</Solution>

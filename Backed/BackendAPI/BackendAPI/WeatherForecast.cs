@@ -1,4 +1,4 @@
-namespace AgriculturalInvestment.API
+namespace BackendAPI
 {
     public class WeatherForecast
     {
