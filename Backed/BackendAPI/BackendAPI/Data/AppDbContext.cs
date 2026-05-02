@@ -23,15 +23,25 @@ namespace BackendAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); 
+            base.OnModelCreating(modelBuilder);
 
-            // Inheritance (TPH)
+            // ===== Inheritance (TPH) =====
             modelBuilder.Entity<User>()
                 .HasDiscriminator<string>("Role")
                 .HasValue<Farmer>("Farmer")
                 .HasValue<Investor>("Investor")
                 .HasValue<Admin>("Admin")
                 .HasValue<ExpertTeam>("Expert");
+
+            // ===== Email Constraints (IMPORTANT) =====
+            modelBuilder.Entity<User>()
+                .Property(u => u.Email)
+                .IsRequired()           
+                .HasMaxLength(100);      
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();              
 
             // ===== FIX CASCADE DELETE ISSUE =====
             modelBuilder.Entity<Project>()
@@ -69,11 +79,9 @@ namespace BackendAPI.Data
                 .Property(i => i.Balance)
                 .HasPrecision(18, 2);
 
-            // ===== OPTIONAL (GOOD PRACTICE) =====
             modelBuilder.Entity<Contract>()
-                .HasOne(c => c.Investment)
-                .WithOne(i => i.Contract)
-                .HasForeignKey<Contract>(c => c.InvestmentId);
+                .Property(c => c.ProfitShare)
+                .HasPrecision(5, 2);
         }
     }
 }
