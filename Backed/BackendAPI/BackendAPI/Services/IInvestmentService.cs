@@ -4,6 +4,6 @@ namespace BackendAPI.Services
 {
     public interface IInvestmentService
     {
-        Task<string> InvestAsync(InvestDto dto);
+        Task<ServiceResult> InvestAsync(InvestDto dto);
     }
 }

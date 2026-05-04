@@ -61,7 +61,7 @@ using (var scope = app.Services.CreateScope())
 
         var project = new Project
         {
-            CropType = "Test Project",
+            Name = "Test Project",
             Cost = 5000,
             ExpectedProfit = 2000,
             FarmerId = farmer.Id
