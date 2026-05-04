@@ -1,11 +1,10 @@
 ﻿using BackendAPI.Data;
 using BackendAPI.DTOs;
 using BackendAPI.Models;
-using BackendAPI.Services;
 using Microsoft.EntityFrameworkCore;
+
 namespace BackendAPI.Services
 {
-
     public class InvestmentService : IInvestmentService
     {
         private readonly AppDbContext _context;
@@ -15,6 +14,7 @@ namespace BackendAPI.Services
             _context = context;
         }
 
+        // ================= CREATE =================
         public async Task<ServiceResult> InvestAsync(InvestDto dto)
         {
             if (dto.Amount <= 0)
@@ -27,13 +27,17 @@ namespace BackendAPI.Services
                 return new ServiceResult { Success = false, Message = "Investor not found" };
 
             var project = await _context.Projects
-                .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == dto.ProjectId);
 
             if (project == null)
                 return new ServiceResult { Success = false, Message = "Project not found" };
 
-            // (هنتأكد من status بعد شوية لما نضيفه)
+            if (project.Status != ProjectStatus.Published)
+                return new ServiceResult
+                {
+                    Success = false,
+                    Message = "Project is not available for investment"
+                };
 
             if (investor.Balance < dto.Amount)
                 return new ServiceResult { Success = false, Message = "Insufficient balance" };
@@ -75,15 +79,153 @@ namespace BackendAPI.Services
                     Message = "Investment successful"
                 };
             }
-            catch
+            catch (Exception ex)
             {
                 await transaction.RollbackAsync();
+
                 return new ServiceResult
                 {
                     Success = false,
-                    Message = "Server error"
+                    Message = ex.Message // مهم للتشخيص
                 };
             }
+        }
+
+        // ================= GET ALL =================
+        public async Task<List<InvestmentViewDto>> GetAllAsync()
+        {
+            return await _context.Investments
+                .Include(i => i.Investor)
+                .Include(i => i.Project)
+                .Select(i => new InvestmentViewDto
+                {
+                    Id = i.Id,
+                    Amount = i.Amount,
+                    Date = i.Date,
+                    InvestorName = i.Investor.Name,
+                    ProjectName = i.Project.Name
+                })
+                .ToListAsync();
+        }
+
+        // ================= GET BY ID =================
+        public async Task<InvestmentViewDto?> GetByIdAsync(int id)
+        {
+            return await _context.Investments
+                .Include(i => i.Investor)
+                .Include(i => i.Project)
+                .Where(i => i.Id == id)
+                .Select(i => new InvestmentViewDto
+                {
+                    Id = i.Id,
+                    Amount = i.Amount,
+                    Date = i.Date,
+                    InvestorName = i.Investor.Name,
+                    ProjectName = i.Project.Name
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        // ================= GET BY INVESTOR =================
+        public async Task<List<InvestmentViewDto>> GetByInvestorAsync(int investorId)
+        {
+            return await _context.Investments
+                .Include(i => i.Investor)
+                .Include(i => i.Project)
+                .Where(i => i.InvestorId == investorId)
+                .Select(i => new InvestmentViewDto
+                {
+                    Id = i.Id,
+                    Amount = i.Amount,
+                    Date = i.Date,
+                    InvestorName = i.Investor.Name,
+                    ProjectName = i.Project.Name
+                })
+                .ToListAsync();
+        }
+    
+        // ================= GET PROJECT INVESTORS =================
+        public async Task<List<ProjectInvestorsDto>> GetProjectInvestorsAsync(int projectId)
+        {
+            return await _context.Investments
+                .Include(i => i.Investor)
+                .Where(i => i.ProjectId == projectId)
+                .Select(i => new ProjectInvestorsDto
+                {
+                    InvestorId = i.InvestorId,
+                    InvestorName = i.Investor.Name,
+                    Amount = i.Amount,
+                    Date = i.Date
+                })
+                .ToListAsync();
+        }
+
+
+        // ================= CONTRACT =================
+
+        // Get all contracts
+        public async Task<List<ContractDto>> GetContractsAsync()
+        {
+            return await _context.Contracts
+                .Include(c => c.Investment)
+                .ThenInclude(i => i.Investor)
+                .Include(c => c.Investment)
+                .ThenInclude(i => i.Project)
+                .Select(c => new ContractDto
+                {
+                    Id = c.Id,
+                    ProfitShare = c.ProfitShare,
+                    Status = c.Status.ToString(),
+                    CreatedAt = c.CreatedAt,
+                    InvestmentId = c.InvestmentId,
+                    InvestorName = c.Investment.Investor.Name,
+                    ProjectName = c.Investment.Project.Name
+                })
+                .ToListAsync();
+        }
+
+        // Get contract by id
+        public async Task<ContractDto?> GetContractByIdAsync(int id)
+        {
+            return await _context.Contracts
+                .Include(c => c.Investment)
+                .ThenInclude(i => i.Investor)
+                .Include(c => c.Investment)
+                .ThenInclude(i => i.Project)
+                .Where(c => c.Id == id)
+                .Select(c => new ContractDto
+                {
+                    Id = c.Id,
+                    ProfitShare = c.ProfitShare,
+                    Status = c.Status.ToString(),
+                    CreatedAt = c.CreatedAt,
+                    InvestmentId = c.InvestmentId,
+                    InvestorName = c.Investment.Investor.Name,
+                    ProjectName = c.Investment.Project.Name
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        // Update contract status
+        public async Task<ServiceResult> UpdateContractStatusAsync(int id, string status)
+        {
+            var contract = await _context.Contracts.FindAsync(id);
+
+            if (contract == null)
+                return new ServiceResult { Success = false, Message = "Contract not found" };
+
+            if (!Enum.TryParse<ContractStatus>(status, true, out var newStatus))
+                return new ServiceResult { Success = false, Message = "Invalid status" };
+
+            contract.Status = newStatus;
+
+            await _context.SaveChangesAsync();
+
+            return new ServiceResult
+            {
+                Success = true,
+                Message = "Contract updated successfully"
+            };
         }
     }
 }
