@@ -227,5 +227,94 @@ namespace BackendAPI.Services
                 Message = "Contract updated successfully"
             };
         }
+
+        // ================= PROFIT =================
+
+        // Calculate profit for an investment
+        public async Task<ProfitDto?> CalculateProfitAsync(int investmentId)
+        {
+            var investment = await _context.Investments
+                .Include(i => i.Project)
+                .Include(i => i.Contract)
+                .FirstOrDefaultAsync(i => i.Id == investmentId);
+
+            if (investment == null)
+                return null;
+
+            // لازم العقد يكون Active
+            if (investment.Contract.Status != ContractStatus.Active)
+                return new ProfitDto
+                {
+                    InvestmentId = investment.Id,
+                    InvestedAmount = investment.Amount,
+                    ExpectedProfit = 0,
+                    InvestorProfit = 0,
+                    ProjectName = investment.Project.Name,
+                    Status = "Contract is not active"
+                };
+
+            // حساب نسبة المستثمر من الربح
+            var expectedProfit = investment.Project.ExpectedProfit;
+
+            var investorShare = investment.Contract.ProfitShare; // 0.2 = 20%
+
+            var investorProfit = expectedProfit * investorShare;
+
+            return new ProfitDto
+            {
+                InvestmentId = investment.Id,
+                InvestedAmount = investment.Amount,
+                ExpectedProfit = expectedProfit,
+                InvestorProfit = investorProfit,
+                ProjectName = investment.Project.Name,
+                Status = "Active"
+            };
+        }
+
+        // ================= DISTRIBUTE PROFIT =================
+
+        // Distribute profit to investor
+        public async Task<ServiceResult> DistributeProfitAsync(int investmentId)
+        {
+            var investment = await _context.Investments
+                .Include(i => i.Project)
+                .Include(i => i.Contract)
+                .Include(i => i.Investor)
+                .FirstOrDefaultAsync(i => i.Id == investmentId);
+
+            if (investment == null)
+                return new ServiceResult { Success = false, Message = "Investment not found" };
+
+            // لازم العقد يكون Active
+            if (investment.Contract.Status != ContractStatus.Active)
+                return new ServiceResult
+                {
+                    Success = false,
+                    Message = "Contract is not active"
+                };
+
+            // حساب الربح
+            var expectedProfit = investment.Project.ExpectedProfit;
+            var investorShare = investment.Contract.ProfitShare;
+
+            var investorProfit = expectedProfit * investorShare;
+
+            // إضافة الربح للـ Balance
+            investment.Investor.Balance += investorProfit;
+
+            // تحديث حالة العقد
+            investment.Contract.Status = ContractStatus.Completed;
+
+            await _context.SaveChangesAsync();
+
+            return new ServiceResult
+            {
+                Success = true,
+                Message = $"Profit distributed: {investorProfit}"
+            };
+        }
+
+
+
     }
 }

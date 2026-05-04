@@ -45,5 +45,28 @@ namespace BackendAPI.Controllers
 
             return result.Success ? Ok(result) : BadRequest(result);
         }
+
+        // ================= CALCULATE PROFIT =================
+        // GET /api/Contract/{investmentId}/profit
+        [HttpGet("{investmentId}/profit")]
+        public async Task<IActionResult> CalculateProfit(int investmentId)
+        {
+            var result = await _service.CalculateProfitAsync(investmentId);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        // ================= DISTRIBUTE PROFIT =================
+        // POST /api/Contract/{investmentId}/distribute
+        [HttpPost("{investmentId}/distribute")]
+        public async Task<IActionResult> DistributeProfit(int investmentId)
+        {
+            var result = await _service.DistributeProfitAsync(investmentId);
+
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
     }
 }

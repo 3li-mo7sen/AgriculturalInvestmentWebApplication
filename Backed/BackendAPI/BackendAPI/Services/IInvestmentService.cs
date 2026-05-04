@@ -29,5 +29,15 @@ namespace BackendAPI.Services
 
         // Update contract status
         Task<ServiceResult> UpdateContractStatusAsync(int id, string status);
+
+        // ================= PROFIT =================
+
+        // Calculate profit for an investment
+        Task<ProfitDto?> CalculateProfitAsync(int investmentId);
+
+        // ================= DISTRIBUTE PROFIT =================
+
+        // Distribute profit to investor
+        Task<ServiceResult> DistributeProfitAsync(int investmentId);
     }
 }
