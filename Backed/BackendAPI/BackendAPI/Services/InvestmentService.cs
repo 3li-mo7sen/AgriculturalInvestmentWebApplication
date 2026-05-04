@@ -2,30 +2,46 @@
 using BackendAPI.DTOs;
 using BackendAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace BackendAPI.Services
 {
     public class InvestmentService : IInvestmentService
     {
         private readonly AppDbContext _context;
+        private readonly IHttpContextAccessor _http;
 
-        public InvestmentService(AppDbContext context)
+        public InvestmentService(AppDbContext context, IHttpContextAccessor http)
         {
             _context = context;
+            _http = http;
         }
 
         // ================= CREATE =================
         public async Task<ServiceResult> InvestAsync(InvestDto dto)
         {
+            // ===== VALIDATION =====
             if (dto.Amount <= 0)
                 return new ServiceResult { Success = false, Message = "Invalid amount" };
 
+            // ================= GET USER FROM TOKEN =================
+            var userIdClaim = _http.HttpContext?.User
+                .FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userIdClaim == null)
+                return new ServiceResult { Success = false, Message = "Unauthorized" };
+
+            var investorId = int.Parse(userIdClaim);
+
+            // ================= GET INVESTOR =================
             var investor = await _context.Investors
-                .FirstOrDefaultAsync(i => i.Id == dto.InvestorId);
+                .FirstOrDefaultAsync(i => i.Id == investorId);
 
             if (investor == null)
                 return new ServiceResult { Success = false, Message = "Investor not found" };
 
+            // ================= GET PROJECT =================
             var project = await _context.Projects
                 .FirstOrDefaultAsync(p => p.Id == dto.ProjectId);
 
@@ -39,19 +55,23 @@ namespace BackendAPI.Services
                     Message = "Project is not available for investment"
                 };
 
+            // ================= BALANCE CHECK =================
             if (investor.Balance < dto.Amount)
                 return new ServiceResult { Success = false, Message = "Insufficient balance" };
 
+            // ================= CREATE INVESTMENT =================
             var investment = new Investment
             {
-                InvestorId = dto.InvestorId,
+                InvestorId = investorId, // 👈 من التوكن
                 ProjectId = dto.ProjectId,
                 Amount = dto.Amount,
                 Date = DateTime.UtcNow
             };
 
+            // ================= UPDATE BALANCE =================
             investor.Balance -= dto.Amount;
 
+            // ================= CREATE CONTRACT =================
             var contract = new Contract
             {
                 Investment = investment,
@@ -86,7 +106,7 @@ namespace BackendAPI.Services
                 return new ServiceResult
                 {
                     Success = false,
-                    Message = ex.Message // مهم للتشخيص
+                    Message = ex.Message
                 };
             }
         }
@@ -126,13 +146,22 @@ namespace BackendAPI.Services
                 .FirstOrDefaultAsync();
         }
 
-        // ================= GET BY INVESTOR =================
+        // ================= GET MY INVESTMENTS =================
         public async Task<List<InvestmentViewDto>> GetByInvestorAsync(int investorId)
         {
+            // 👇 تجاهل الـ parameter وخد من التوكن
+            var userIdClaim = _http.HttpContext?.User
+                .FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userIdClaim == null)
+                return new List<InvestmentViewDto>();
+
+            var currentUserId = int.Parse(userIdClaim);
+
             return await _context.Investments
                 .Include(i => i.Investor)
                 .Include(i => i.Project)
-                .Where(i => i.InvestorId == investorId)
+                .Where(i => i.InvestorId == currentUserId)
                 .Select(i => new InvestmentViewDto
                 {
                     Id = i.Id,
@@ -143,7 +172,7 @@ namespace BackendAPI.Services
                 })
                 .ToListAsync();
         }
-    
+
         // ================= GET PROJECT INVESTORS =================
         public async Task<List<ProjectInvestorsDto>> GetProjectInvestorsAsync(int projectId)
         {
@@ -160,17 +189,13 @@ namespace BackendAPI.Services
                 .ToListAsync();
         }
 
-
         // ================= CONTRACT =================
 
-        // Get all contracts
         public async Task<List<ContractDto>> GetContractsAsync()
         {
             return await _context.Contracts
-                .Include(c => c.Investment)
-                .ThenInclude(i => i.Investor)
-                .Include(c => c.Investment)
-                .ThenInclude(i => i.Project)
+                .Include(c => c.Investment).ThenInclude(i => i.Investor)
+                .Include(c => c.Investment).ThenInclude(i => i.Project)
                 .Select(c => new ContractDto
                 {
                     Id = c.Id,
@@ -184,14 +209,11 @@ namespace BackendAPI.Services
                 .ToListAsync();
         }
 
-        // Get contract by id
         public async Task<ContractDto?> GetContractByIdAsync(int id)
         {
             return await _context.Contracts
-                .Include(c => c.Investment)
-                .ThenInclude(i => i.Investor)
-                .Include(c => c.Investment)
-                .ThenInclude(i => i.Project)
+                .Include(c => c.Investment).ThenInclude(i => i.Investor)
+                .Include(c => c.Investment).ThenInclude(i => i.Project)
                 .Where(c => c.Id == id)
                 .Select(c => new ContractDto
                 {
@@ -206,7 +228,6 @@ namespace BackendAPI.Services
                 .FirstOrDefaultAsync();
         }
 
-        // Update contract status
         public async Task<ServiceResult> UpdateContractStatusAsync(int id, string status)
         {
             var contract = await _context.Contracts.FindAsync(id);
@@ -229,8 +250,6 @@ namespace BackendAPI.Services
         }
 
         // ================= PROFIT =================
-
-        // Calculate profit for an investment
         public async Task<ProfitDto?> CalculateProfitAsync(int investmentId)
         {
             var investment = await _context.Investments
@@ -241,7 +260,6 @@ namespace BackendAPI.Services
             if (investment == null)
                 return null;
 
-            // لازم العقد يكون Active
             if (investment.Contract.Status != ContractStatus.Active)
                 return new ProfitDto
                 {
@@ -253,11 +271,8 @@ namespace BackendAPI.Services
                     Status = "Contract is not active"
                 };
 
-            // حساب نسبة المستثمر من الربح
             var expectedProfit = investment.Project.ExpectedProfit;
-
-            var investorShare = investment.Contract.ProfitShare; // 0.2 = 20%
-
+            var investorShare = investment.Contract.ProfitShare;
             var investorProfit = expectedProfit * investorShare;
 
             return new ProfitDto
@@ -271,9 +286,7 @@ namespace BackendAPI.Services
             };
         }
 
-        // ================= DISTRIBUTE PROFIT =================
-
-        // Distribute profit to investor
+        // ================= DISTRIBUTE =================
         public async Task<ServiceResult> DistributeProfitAsync(int investmentId)
         {
             var investment = await _context.Investments
@@ -285,7 +298,6 @@ namespace BackendAPI.Services
             if (investment == null)
                 return new ServiceResult { Success = false, Message = "Investment not found" };
 
-            // لازم العقد يكون Active
             if (investment.Contract.Status != ContractStatus.Active)
                 return new ServiceResult
                 {
@@ -293,16 +305,11 @@ namespace BackendAPI.Services
                     Message = "Contract is not active"
                 };
 
-            // حساب الربح
             var expectedProfit = investment.Project.ExpectedProfit;
             var investorShare = investment.Contract.ProfitShare;
-
             var investorProfit = expectedProfit * investorShare;
 
-            // إضافة الربح للـ Balance
             investment.Investor.Balance += investorProfit;
-
-            // تحديث حالة العقد
             investment.Contract.Status = ContractStatus.Completed;
 
             await _context.SaveChangesAsync();
@@ -313,8 +320,5 @@ namespace BackendAPI.Services
                 Message = $"Profit distributed: {investorProfit}"
             };
         }
-
-
-
     }
 }

@@ -1,9 +1,11 @@
 ﻿using BackendAPI.DTOs;
 using BackendAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendAPI.Controllers
 {
+    [Authorize(Roles = "Investor")]
     [ApiController]
     [Route("api/[controller]")]
     public class InvestmentController : ControllerBase
@@ -25,6 +27,7 @@ namespace BackendAPI.Controllers
         }
 
         // GET /api/Investment
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

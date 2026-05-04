@@ -2,7 +2,9 @@ using BackendAPI.Data;
 using BackendAPI.Models;
 using BackendAPI.Services;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // DbContext
@@ -12,16 +14,45 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Services
 builder.Services.AddControllers();
 builder.Services.AddScoped<IInvestmentService, InvestmentService>();
+builder.Services.AddScoped<IInvestorService, InvestorService>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddHttpContextAccessor();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+//======================== Authentication ========================
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(jwtSettings["Key"]))
+    };
+});
+//======================
 var app = builder.Build();
 
 // Pipeline
 if (app.Environment.IsDevelopment())
 {
+    app.UseAuthentication();
+    app.UseAuthorization();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -47,7 +78,8 @@ using (var scope = app.Services.CreateScope())
             Name = "Test Investor",
             Email = "test@test.com",
             Password = "123456",
-            Balance = 10000
+            Balance = 10000,
+            Role = "Investor"
         };
 
         context.Investors.Add(investor);
@@ -61,7 +93,8 @@ using (var scope = app.Services.CreateScope())
         {
             Name = "Test Farmer",
             Email = "farmer@test.com",
-            Password = "123456"
+            Password = "123456",
+            Role = "Farmer"
         };
 
         context.Farmers.Add(farmer);

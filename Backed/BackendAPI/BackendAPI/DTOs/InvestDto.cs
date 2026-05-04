@@ -4,8 +4,6 @@ namespace BackendAPI.DTOs
 {
     public class InvestDto
     {
-        [Required]
-        public int InvestorId { get; set; }
 
         [Required]
         public int ProjectId { get; set; }

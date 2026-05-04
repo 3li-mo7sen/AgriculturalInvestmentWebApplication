@@ -1,7 +1,5 @@
-﻿using BackendAPI.Data;
-using BackendAPI.Models;
+﻿using BackendAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BackendAPI.Controllers
 {
@@ -9,11 +7,11 @@ namespace BackendAPI.Controllers
     [Route("api/[controller]")]
     public class InvestorController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IInvestorService _service;
 
-        public InvestorController(AppDbContext context)
+        public InvestorController(IInvestorService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // ================= GET ALL =================
@@ -21,17 +19,8 @@ namespace BackendAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var investors = await _context.Investors
-                .Select(i => new
-                {
-                    i.Id,
-                    i.Name,
-                    i.Email,
-                    i.Balance
-                })
-                .ToListAsync();
-
-            return Ok(investors);
+            var data = await _service.GetAllAsync();
+            return Ok(data);
         }
 
         // ================= GET BY ID =================
@@ -39,16 +28,7 @@ namespace BackendAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var investor = await _context.Investors
-                .Where(i => i.Id == id)
-                .Select(i => new
-                {
-                    i.Id,
-                    i.Name,
-                    i.Email,
-                    i.Balance
-                })
-                .FirstOrDefaultAsync();
+            var investor = await _service.GetByIdAsync(id);
 
             if (investor == null)
                 return NotFound();
