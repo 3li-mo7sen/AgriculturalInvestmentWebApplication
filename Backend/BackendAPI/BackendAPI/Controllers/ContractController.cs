@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BackendAPI.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Farmer")]
     [ApiController]
     [Route("api/[controller]")]
     public class ContractController : ControllerBase
