@@ -114,6 +114,32 @@ using (var scope = app.Services.CreateScope())
         context.Projects.Add(project);
         context.SaveChanges();
     }
+
+    // Expert Team
+    if (!context.ExpertTeams.Any())
+    {
+        var expert = new ExpertTeam
+        {
+            Name = "Test Expert",
+            Email = "expert@test.com",
+            Password = "123456"
+        };
+
+        context.ExpertTeams.Add(expert);
+    }
+
+    // Admin
+    if (!context.Admins.Any())
+    {
+        var admin = new Admin
+        {
+            Name = "Test Admin",
+            Email = "admin@test.com",
+            Password = "123456"
+        };
+
+        context.Admins.Add(admin);
+    }
 }
 // ==============================================
 
