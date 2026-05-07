@@ -57,7 +57,7 @@ namespace BackendAPI.Services
                 ExpectedProfit = dto.ExpectedProfit,
                 Duration = dto.Duration,
                 FarmerId = farmerId,
-                Status = ProjectStatus.Published
+                Status = ProjectStatus.Pending
             };
 
             _context.Projects.Add(project);
@@ -69,5 +69,23 @@ namespace BackendAPI.Services
 
             return dto;
         }
+
+        // ================= MY PROJECTS =================
+        public async Task<List<ProjectDto>> GetMyProjectsAsync(int farmerId)
+        {
+            return await _context.Projects
+                .Where(p => p.FarmerId == farmerId)
+                .Select(p => new ProjectDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Cost = p.Cost,
+                    ExpectedProfit = p.ExpectedProfit,
+                    Duration = p.Duration,
+                    Status = p.Status.ToString()
+                })
+                .ToListAsync();
+        }
+
     }
 }

@@ -12,5 +12,8 @@ namespace BackendAPI.Services
 
         // ================= CREATE =================
         Task<ProjectDto> CreateAsync(ProjectDto dto, int farmerId);
+
+        // ================= MY PROJECTS =================
+        Task<List<ProjectDto>> GetMyProjectsAsync(int farmerId);
     }
 }

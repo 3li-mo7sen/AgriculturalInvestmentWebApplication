@@ -59,5 +59,24 @@ namespace BackendAPI.Controllers
 
             return Ok(result);
         }
+
+        // ================= MY PROJECTS =================
+        // GET /api/Project/my-projects
+        [Authorize(Roles = "Farmer")]
+        [HttpGet("my-projects")]
+        public async Task<IActionResult> GetMyProjects()
+        {
+            // ===== Get Farmer Id From Token =====
+            var farmerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (farmerIdClaim == null)
+                return Unauthorized();
+
+            int farmerId = int.Parse(farmerIdClaim.Value);
+
+            var projects = await _service.GetMyProjectsAsync(farmerId);
+
+            return Ok(projects);
+        }
     }
 }
