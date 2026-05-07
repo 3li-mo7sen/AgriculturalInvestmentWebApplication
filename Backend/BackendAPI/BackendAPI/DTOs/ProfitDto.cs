@@ -1,17 +1,13 @@
-﻿namespace BackendAPI.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BackendAPI.DTOs
 {
     public class ProfitDto
     {
-        public int InvestmentId { get; set; }
+        [Required]
+        public int ContractId { get; set; }
 
-        public decimal InvestedAmount { get; set; }
-
-        public decimal ExpectedProfit { get; set; }
-
-        public decimal InvestorProfit { get; set; }
-
-        public string ProjectName { get; set; }
-
-        public string Status { get; set; }
+        [Range(0, double.MaxValue)]
+        public decimal TotalProfit { get; set; }
     }
 }

@@ -1,5 +1,12 @@
-﻿public class LoginDto
+﻿using System.ComponentModel.DataAnnotations;
+
+public class LoginDto
 {
+    [Required]
+    [EmailAddress]
     public string Email { get; set; }
+
+    [Required]
+    [MinLength(30)]
     public string Password { get; set; }
 }
