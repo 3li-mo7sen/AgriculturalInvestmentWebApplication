@@ -115,5 +115,49 @@ namespace BackendAPI.Services
             return (true, "Investor registered successfully");
         }
 
+        public async Task<ServiceResult> RegisterExpertAsync(ExpertRegisterDto dto)
+        {
+            // ===== Confirm Password =====
+            if (dto.Password != dto.ConfirmPassword)
+            {
+                return new ServiceResult
+                {
+                    Success = false,
+                    Message = "Passwords do not match"
+                };
+            }
+
+            // ===== Check Email =====
+            var existingUser = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+            if (existingUser != null)
+            {
+                return new ServiceResult
+                {
+                    Success = false,
+                    Message = "Email already exists"
+                };
+            }
+
+            // ===== Create Expert =====
+            var expert = new ExpertTeam
+            {
+                Name = dto.Name,
+                Email = dto.Email,
+                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+            };
+
+            await _context.ExpertTeams.AddAsync(expert);
+
+            await _context.SaveChangesAsync();
+
+            return new ServiceResult
+            {
+                Success = true,
+                Message = "Expert registered successfully"
+            };
+        }
+
     }
 }
