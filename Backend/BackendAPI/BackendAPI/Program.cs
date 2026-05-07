@@ -17,6 +17,7 @@ builder.Services.AddScoped<IInvestmentService, InvestmentService>();
 builder.Services.AddScoped<IInvestorService, InvestorService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
