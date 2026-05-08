@@ -9,7 +9,7 @@ namespace BackendAPI.Models
 
         [Required]
         [EmailAddress]
-        [StringLength(100)]
+        [MaxLength(50)]
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }

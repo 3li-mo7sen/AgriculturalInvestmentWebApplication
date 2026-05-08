@@ -7,6 +7,5 @@ public class LoginDto
     public string Email { get; set; }
 
     [Required]
-    [MinLength(30)]
     public string Password { get; set; }
 }

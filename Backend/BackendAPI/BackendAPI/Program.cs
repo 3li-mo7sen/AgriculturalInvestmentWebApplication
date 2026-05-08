@@ -78,8 +78,8 @@ using (var scope = app.Services.CreateScope())
         var investor = new Investor
         {
             Name = "Test Investor",
-            Email = "test@test.com",
-            Password = "123456",
+            Email = "investor@test.com",
+            Password = BCrypt.Net.BCrypt.HashPassword("123456"),
             Balance = 10000,
             Role = "Investor"
         };
@@ -95,7 +95,7 @@ using (var scope = app.Services.CreateScope())
         {
             Name = "Test Farmer",
             Email = "farmer@test.com",
-            Password = "123456",
+            Password = BCrypt.Net.BCrypt.HashPassword("123456"),
             Role = "Farmer"
         };
 
@@ -123,10 +123,11 @@ using (var scope = app.Services.CreateScope())
         {
             Name = "Test Expert",
             Email = "expert@test.com",
-            Password = "123456"
+            Password = BCrypt.Net.BCrypt.HashPassword("123456")
         };
 
         context.ExpertTeams.Add(expert);
+        context.SaveChanges();
     }
 
     // Admin
@@ -136,10 +137,11 @@ using (var scope = app.Services.CreateScope())
         {
             Name = "Test Admin",
             Email = "admin@test.com",
-            Password = "123456"
+            Password = BCrypt.Net.BCrypt.HashPassword("123456")
         };
 
         context.Admins.Add(admin);
+        context.SaveChanges();
     }
 }
 // ==============================================
