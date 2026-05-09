@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // DbContext
@@ -20,12 +21,24 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
+// ======================== CORS ========================
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+// ======================================================
+
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-//======================== Authentication ========================
+// ======================== Authentication ========================
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 
 builder.Services.AddAuthentication(options =>
@@ -47,20 +60,27 @@ builder.Services.AddAuthentication(options =>
             Encoding.UTF8.GetBytes(jwtSettings["Key"]))
     };
 });
-//======================
+// ======================================================
+
 var app = builder.Build();
 
 // Pipeline
 if (app.Environment.IsDevelopment())
 {
-    app.UseAuthentication();
-    app.UseAuthorization();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
+
+// ======================== CORS ========================
+app.UseCors("AllowAngular");
+// ======================================================
+
+// ======================== Authentication ========================
+app.UseAuthentication();
 app.UseAuthorization();
+// ======================================================
 
 app.MapControllers();
 
@@ -69,7 +89,6 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    // Apply migrations automatically
     context.Database.Migrate();
 
     // Investor
