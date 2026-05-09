@@ -1,13 +1,43 @@
-<form>
+<h1>{{loginForm.value|json}}</h1>
+<h2>{{loginForm.errors|json}}</h2>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  @if(serverError){
+  <div class="alert alert-danger mt-2">
+    {{serverError}}
+  </div>
+  }
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" formControlName="email">
+    @if(loginForm.get('email')?.touched&&loginForm.get('email')?.invalid){
+    <div class="alert alert-danger mt-2">
+      @if(loginForm.get('email')?.errors?.['required']){
+      <small>Email is required</small>
+      }
+      @if(loginForm.get('email')?.errors?.['email']){
+      <small>Invalid email</small>
+      }
+    </div>
+
+    }
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password" formControlName="password">
+    @if(loginForm.get('password')?.touched&&loginForm.get('password')?.invalid){
+    <div class="alert alert-danger mt-2">
+      @if(loginForm.get('password')?.errors?.['required']){
+      <small>Password is required</small>
+      }
+      @if(loginForm.get('password')?.errors?.['minlength']){
+      <small>Password must be at least 6 chars</small>
+      }
+    </div>
+
+    }
   </div>
-  
-  <button type="submit" class="btn btn-primary">Submit</button>
+
+  <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+
+
 </form>
