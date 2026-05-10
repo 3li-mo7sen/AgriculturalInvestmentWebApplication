@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BackendAPI.Interfaces;
+using BackendAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
