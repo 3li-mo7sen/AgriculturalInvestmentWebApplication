@@ -1,6 +1,6 @@
 ﻿using BackendAPI.DTOs;
 
-namespace BackendAPI.Services
+namespace BackendAPI.Interfaces
 {
     public interface IReportService
     {

@@ -4,6 +4,7 @@ using BackendAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using BackendAPI.Interfaces;
 
 namespace BackendAPI.Services
 {

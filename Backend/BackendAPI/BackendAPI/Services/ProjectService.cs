@@ -1,5 +1,6 @@
 ﻿using BackendAPI.Data;
 using BackendAPI.DTOs;
+using BackendAPI.Interfaces;
 using BackendAPI.Models;
 using Microsoft.EntityFrameworkCore;
 

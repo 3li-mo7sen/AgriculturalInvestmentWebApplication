@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BackendAPI.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // ======================== CORS ========================
 builder.Services.AddCors(options =>
@@ -33,6 +35,14 @@ builder.Services.AddCors(options =>
         });
 });
 // ======================================================
+
+
+// ========================== To try the Mail services in the Development life cycle ============================
+
+ builder.WebHost.UseUrls("http://0.0.0.0:5000");
+
+// ======================================================
+
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();

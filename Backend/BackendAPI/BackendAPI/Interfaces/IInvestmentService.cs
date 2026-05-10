@@ -1,6 +1,7 @@
 ﻿using BackendAPI.DTOs;
+using BackendAPI.Services;
 
-namespace BackendAPI.Services
+namespace BackendAPI.Interfaces
 {
     public interface IInvestmentService
     {

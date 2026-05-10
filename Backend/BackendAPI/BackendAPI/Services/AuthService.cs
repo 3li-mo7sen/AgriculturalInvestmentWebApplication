@@ -1,6 +1,10 @@
 ﻿using BackendAPI.Data;
 using BackendAPI.DTOs;
+using BackendAPI.Interfaces;
 using BackendAPI.Models;
+using BackendAPI.Shared;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,34 +17,54 @@ namespace BackendAPI.Services
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _config;
-
-        public AuthService(AppDbContext context, IConfiguration config)
+        private readonly IEmailService emailService;   
+        public AuthService(AppDbContext context, IConfiguration config, IEmailService emailService)
         {
             _context = context;
             _config = config;
+            this.emailService = emailService;
         }
 
         public async Task<string?> LoginAsync(LoginDto dto)
         {
+            if(string.IsNullOrEmpty(dto.Email) || string.IsNullOrEmpty(dto.Password))
+            {
+                return "please check your email and password, something went wrong";
+            }
+
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             if (user == null)
-                return null;
+            {
+                return "please check your email and password, something went wrong";
+            }
+            //  check if email is confirmed
+            if (!user.EmailConfirmed)
+            {
+                var Token = Guid.NewGuid().ToString();
+                user.EmailVerificationToken = Token;
+                await _context.SaveChangesAsync();
 
-            // ✅ compare hashed password
+                await SendEmail(user.Email, Token, "active", "ActiveEmail", "Please active your email, click on button to active");
+                return "Please confirem your email first, we have send activat to your E-mail";
+            }
+            //  compare hashed password
             bool isValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
 
             if (!isValid)
-                return null;
+            {
+                return "please check your email and password, something went wrong";
+            }
+               
 
             var claims = new[]
             {
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(ClaimTypes.Name, user.Name ?? ""),
-        new Claim(ClaimTypes.Email, user.Email ?? ""),
-        new Claim(ClaimTypes.Role, user.Role ?? "")
-    };
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Name ?? ""),
+            new Claim(ClaimTypes.Email, user.Email ?? ""),
+            new Claim(ClaimTypes.Role, user.Role ?? "")
+            };
 
             var keyString = _config["Jwt:Key"];
             if (string.IsNullOrEmpty(keyString))
@@ -71,21 +95,41 @@ namespace BackendAPI.Services
             if (exists)
                 return (false, "User already exists");
 
+            // 1) Generate verification token
+            var token = Guid.NewGuid().ToString();
+
             var farmer = new Farmer
             {
                 Name = dto.Name,
                 Email = dto.Email,
-                // ✅ HASH password
+
+                // HASH password
                 Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+
                 Role = "Farmer",
                 FarmInfo = dto.PhoneNumber,
-                LandDetails = dto.LandDetails
+                LandDetails = dto.LandDetails,
+
+                // Email not verified yet
+                EmailConfirmed = false,
+
+                // Save token in DB
+                EmailVerificationToken = token
             };
 
             _context.Users.Add(farmer);
             await _context.SaveChangesAsync();
 
-            return (true, "Farmer registered successfully");
+            // 2) Send email
+            await SendEmail(
+               farmer.Email,
+               token,
+               "active",
+               "Active Email",
+               "Please verify your email");
+
+
+            return (true, "Farmer registered successfully. Please check your email to verify account");
         }
 
         public async Task<(bool Success, string Message)> RegisterInvestorAsync(InvestorRegisterDto dto)
@@ -99,20 +143,39 @@ namespace BackendAPI.Services
             if (exists)
                 return (false, "User already exists");
 
+            // 1) Generate token
+            var token = Guid.NewGuid().ToString();
+
             var investor = new Investor
             {
                 Name = dto.Name,
                 Email = dto.Email,
-                // ✅ HASH password
+
+                // HASH password
                 Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+
                 Role = "Investor",
-                Balance = 0
+                Balance = 0,
+
+                //  not verified yet
+                EmailConfirmed = false,
+
+                //  store token
+                EmailVerificationToken = token
             };
 
             _context.Users.Add(investor);
             await _context.SaveChangesAsync();
 
-            return (true, "Investor registered successfully");
+            // 3) send email
+            await SendEmail(
+               investor.Email,
+               token,
+               "active",
+               "Active Email",
+               "Please verify your email");
+
+            return (true, "Investor registered successfully. Please verify your email.");
         }
 
         public async Task<ServiceResult> RegisterExpertAsync(ExpertRegisterDto dto)
@@ -140,24 +203,64 @@ namespace BackendAPI.Services
                 };
             }
 
+            // ===== Generate Token =====
+            var token = Guid.NewGuid().ToString();
+
             // ===== Create Expert =====
             var expert = new ExpertTeam
             {
                 Name = dto.Name,
                 Email = dto.Email,
-                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+
+                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+
+                //  Email not verified yet
+                EmailConfirmed = false,
+
+                //  Save token
+                EmailVerificationToken = token
             };
 
             await _context.ExpertTeams.AddAsync(expert);
-
             await _context.SaveChangesAsync();
+
+            // ===== Send Email =====
+            await SendEmail(
+               expert.Email,
+               token,
+               "active",
+               "Active Email",
+               "Please verify your email");
+
 
             return new ServiceResult
             {
                 Success = true,
-                Message = "Expert registered successfully"
+                Message = "Expert registered successfully. Please verify your email."
             };
         }
 
+        public async Task SendEmail(string email, string code, string component, string subject, string message)
+        {
+            var result = new EmailDTO(email, _config["EmailSetting:From"], subject, EmailStringBody.send(email, code, component, message));
+
+            await emailService.SendEmail(result);
+        }
+        public async Task<bool> ActiveAccount(ActiveAccountDTO accountDTO)
+        {
+            var user = await _context.Users
+            .FirstOrDefaultAsync(x =>x.Email == accountDTO.Email && x.EmailVerificationToken == accountDTO.Token);
+
+            if (user == null)
+                return false;
+
+            user.EmailConfirmed = true;
+            user.EmailVerificationToken = null;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+             
     }
 }
