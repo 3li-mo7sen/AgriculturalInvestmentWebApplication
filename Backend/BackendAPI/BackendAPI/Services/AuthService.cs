@@ -247,20 +247,29 @@ namespace BackendAPI.Services
             await emailService.SendEmail(result);
         }
 
-        public async Task<bool> ActiveAccount(ActiveAccountDTO accountDTO)
+        public async Task<(bool Success, string Message)> ActiveAccount(ActiveAccountDTO accountDTO)
         {
             var user = await _context.Users
-            .FirstOrDefaultAsync(x =>x.Email == accountDTO.Email && x.EmailVerificationToken == accountDTO.Token);
+                .FirstOrDefaultAsync(x =>
+                    x.Email == accountDTO.Email &&
+                    x.EmailVerificationToken == accountDTO.Token);
 
             if (user == null)
-                return false;
+                return (false, "Invalid email or token");
+
+            if (user.EmailConfirmed)
+                return (true, "Account already verified");
+
+            if (user.EmailVerificationTokenExpiry < DateTime.UtcNow)
+                return (false, "Token expired");
 
             user.EmailConfirmed = true;
             user.EmailVerificationToken = null;
+            user.EmailVerificationTokenExpiry = null;
 
             await _context.SaveChangesAsync();
 
-            return true;
+            return (true, "Account activated successfully");
         }
 
         public async Task<bool> SendEmailForForgetPassword(string email)
@@ -312,6 +321,35 @@ namespace BackendAPI.Services
             await _context.SaveChangesAsync();
 
             return "done";
+        }
+
+        public async Task<(bool Success, string Message)> ResendActivationEmailAsync(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (user == null)
+                return (false, "User not found");
+
+            if (user.EmailConfirmed)
+                return (false, "Account already activated");
+
+            // 1. Generate new token
+            var token = Guid.NewGuid().ToString();
+            user.EmailVerificationToken = token;
+            user.EmailVerificationTokenExpiry = DateTime.UtcNow.AddHours(1);
+
+            await _context.SaveChangesAsync();
+
+            // 2. Send email again
+            await SendEmail(
+                user.Email,
+                token,
+                "active",
+                "Activate your account",
+                "Please verify your email again"
+            );
+
+            return (true, "Activation email sent successfully");
         }
 
     }

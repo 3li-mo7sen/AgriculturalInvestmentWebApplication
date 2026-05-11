@@ -103,10 +103,13 @@ namespace BackendAPI.Controllers
         //================Active account=======================
         // Get /api/Auth/active
         [HttpGet("active")]
-        public async Task<ActionResult<ActiveAccountDTO>> active([FromQuery]ActiveAccountDTO accountDTO)
+        public async Task<IActionResult> Active([FromQuery] ActiveAccountDTO accountDTO)
         {
             var result = await _auth.ActiveAccount(accountDTO);
-            return result ? Ok(new{success = true, message = "Email activated successfully"}) : BadRequest(new{success = false, message = "Failed to activate email"});
+
+            if (!result.Success) return BadRequest(new { success = false, message = result.Message });
+
+            return Ok(new { success = true, message = result.Message });
         }
 
         //================Delete user by email=======================
@@ -151,18 +154,35 @@ namespace BackendAPI.Controllers
         // GET /api/Auth/me
         [Authorize]
         [HttpGet("User-Info")]
-        public IActionResult Me()
+        public Task<IActionResult> Me()
         {
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
             var name = User.FindFirst(ClaimTypes.Name)?.Value;
 
-            return Ok(new
+            var result = Ok(new
             {
                 name,
                 email,
                 role
             });
+
+            return Task.FromResult<IActionResult>(result);
         }
+
+        //=======================Resend activation email=======================
+        // GET /api/Auth/resend-activation
+        [HttpGet("resend-activation")]
+        public async Task<IActionResult> ResendActivation([FromQuery] ResendEmailDto dto)
+        {
+            var result = await _auth.ResendActivationEmailAsync(dto.Email);
+
+            if (!result.Success) return BadRequest(new { success = false, message = result.Message });
+
+            return Ok(new { success = true, message = result.Message });
+        }
+
     }
+
+  
 }
