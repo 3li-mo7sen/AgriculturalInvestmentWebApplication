@@ -1,28 +1,40 @@
 using BackendAPI.Data;
-using BackendAPI.Models;
-using BackendAPI.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using BackendAPI.Interfaces;
 using BackendAPI.Middleware;
+using BackendAPI.Models;
+using BackendAPI.Services;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
+
+
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// DbContext
+// ======================== DbContext ========================
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
+// ==========================================================
 
-// Services
+
+// ======================== Services ========================
 builder.Services.AddControllers();
+
 builder.Services.AddScoped<IInvestmentService, InvestmentService>();
 builder.Services.AddScoped<IInvestorService, InvestorService>();
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+builder.Services.AddScoped<AuthService>();
+
+builder.Services.AddHttpContextAccessor();
+// ==========================================================
+
 
 // ======================== CORS ========================
 builder.Services.AddCors(options =>
@@ -38,142 +50,99 @@ builder.Services.AddCors(options =>
 // ======================================================
 
 
-// ========================== To try the Mail services in the Development life cycle ============================
+// ======================== Mail Service ========================
+builder.WebHost.UseUrls("http://0.0.0.0:5000");
+// =============================================================
 
- builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
+// ======================== Swagger ========================
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Agri-Pro API",
+        Version = "v1",
+        Description = "Agricultural Investment Platform API"
+    });
+
+    // ================= JWT =================
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using Bearer scheme.",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+
+});
 // ======================================================
 
-
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 // ======================== Authentication ========================
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme =
+        JwtBearerDefaults.AuthenticationScheme;
+
+    options.DefaultChallengeScheme =
+        JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(jwtSettings["Key"]))
-    };
+    options.TokenValidationParameters =
+        new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
+
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
+        };
 });
-// ======================================================
+// ===============================================================
+
 
 var app = builder.Build();
 
-// Pipeline
+
+// ======================== Pipeline ========================
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
+
 // ======================== CORS ========================
 app.UseCors("AllowAngular");
-// ======================================================
+
+
+// ======================== Exception Middleware ========================
+app.UseMiddleware<ExceptionMiddleware>();
+
 
 // ======================== Authentication ========================
 app.UseAuthentication();
+
 app.UseAuthorization();
-// ======================================================
+// ================================================================
+
 
 app.MapControllers();
 
-// =================== Seeder ===================
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-    context.Database.Migrate();
-
-    // Investor
-    if (!context.Investors.Any())
-    {
-        var investor = new Investor
-        {
-            Name = "Test Investor",
-            Email = "investor@test.com",
-            Password = BCrypt.Net.BCrypt.HashPassword("123456"),
-            Balance = 10000,
-            Role = "Investor"
-        };
-
-        context.Investors.Add(investor);
-        context.SaveChanges();
-    }
-
-    // Farmer + Project
-    if (!context.Projects.Any())
-    {
-        var farmer = new Farmer
-        {
-            Name = "Test Farmer",
-            Email = "farmer@test.com",
-            Password = BCrypt.Net.BCrypt.HashPassword("123456"),
-            Role = "Farmer"
-        };
-
-        context.Farmers.Add(farmer);
-        context.SaveChanges();
-
-        var project = new Project
-        {
-            Name = "Test Project",
-            Cost = 5000,
-            ExpectedProfit = 2000,
-            Duration = 12,
-            FarmerId = farmer.Id,
-            Status = ProjectStatus.Published
-        };
-
-        context.Projects.Add(project);
-        context.SaveChanges();
-    }
-
-    // Expert Team
-    if (!context.ExpertTeams.Any())
-    {
-        var expert = new ExpertTeam
-        {
-            Name = "Test Expert",
-            Email = "expert@test.com",
-            Password = BCrypt.Net.BCrypt.HashPassword("123456")
-        };
-
-        context.ExpertTeams.Add(expert);
-        context.SaveChanges();
-    }
-
-    // Admin
-    if (!context.Admins.Any())
-    {
-        var admin = new Admin
-        {
-            Name = "Test Admin",
-            Email = "admin@test.com",
-            Password = BCrypt.Net.BCrypt.HashPassword("123456")
-        };
-
-        context.Admins.Add(admin);
-        context.SaveChanges();
-    }
-}
-// ==============================================
 
 app.Run();

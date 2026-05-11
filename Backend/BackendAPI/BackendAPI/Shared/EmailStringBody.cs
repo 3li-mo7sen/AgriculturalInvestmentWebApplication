@@ -37,7 +37,7 @@ namespace BackendAPI.Shared
                                     //<a class=""button"" href=""https://localhost:44388/api/Auth/active/account?email={email}&code={(token)}"">
                                     //        {message}
                                     //    </a>
-                                    <a class=""button"" href=""http://192.168.179.82:5000/api/Auth/active/account?Email={email}&Token={token}"">
+                                    <a class=""button"" href=""http://192.168.1.11:5000/api/Auth/active/account?Email={email}&Token={token}"">
                                             {message}
                                         </a>
                             </body>

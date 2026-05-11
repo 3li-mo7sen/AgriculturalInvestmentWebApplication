@@ -40,7 +40,11 @@ namespace BackendAPI.Controllers
                 IsEssential = true,
                 Expires = DateTime.UtcNow.AddDays(1)
             });
-            return Ok(new ResponseAPI(200));
+            return Ok(new
+            {
+                statusCode = 200,
+                token = result
+            });
         }
 
         // ================= REGISTER FARMER =================
