@@ -246,6 +246,7 @@ namespace BackendAPI.Services
 
             await emailService.SendEmail(result);
         }
+
         public async Task<bool> ActiveAccount(ActiveAccountDTO accountDTO)
         {
             var user = await _context.Users
@@ -261,6 +262,57 @@ namespace BackendAPI.Services
 
             return true;
         }
-             
+
+        public async Task<bool> SendEmailForForgetPassword(string email)
+        {
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user is null)
+                return false;
+
+            var token = Guid.NewGuid().ToString();
+
+            user.ResetToken = token;
+            user.ResetTokenExpiry = DateTime.UtcNow.AddMinutes(30);
+
+            await _context.SaveChangesAsync();
+
+            await SendEmail(
+                user.Email,
+                token,
+                "reset-password",
+                "Reset your password",
+                "Click the link to reset your password"
+            );
+
+            return true;
+
+        }
+
+        public async Task<string> ResetPassword(RestPasswordDTO restPassword)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == restPassword.Email);
+
+            if (user is null)
+                return "user not found";
+
+            if (user.ResetToken != restPassword.Token)
+                return "invalid token";
+
+            if (user.ResetTokenExpiry < DateTime.UtcNow)
+                return "token expired";
+
+            // Hash password manually
+            user.Password = BCrypt.Net.BCrypt.HashPassword(restPassword.Password);
+
+            // clear token after success
+            user.ResetToken = null;
+            user.ResetTokenExpiry = null;
+
+            await _context.SaveChangesAsync();
+
+            return "done";
+        }
+
     }
 }
