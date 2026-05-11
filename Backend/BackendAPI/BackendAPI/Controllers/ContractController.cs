@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BackendAPI.Controllers
 {
-    [Authorize(Roles = "Farmer")]
+    [Authorize(Roles = "Farmer,Investor,Admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class ContractController : ControllerBase
@@ -25,6 +25,25 @@ namespace BackendAPI.Controllers
             return Ok(data);
         }
 
+        // ================= GET MY CONTRACTS =================
+        // GET /api/Contract/my-contracts
+        [HttpGet("my-contracts")]
+        public async Task<IActionResult> GetMyContracts()
+        {
+            var data = await _service.GetMyContractsAsync();
+            return Ok(data);
+        }
+
+        // ================= GET BY PROJECT =================
+        // GET /api/Contract/by-project/{projectId}
+        [Authorize(Roles = "Farmer,Admin")]
+        [HttpGet("by-project/{projectId}")]
+        public async Task<IActionResult> GetByProject(int projectId)
+        {
+            var data = await _service.GetContractsByProjectAsync(projectId);
+            return Ok(data);
+        }
+
         // ================= GET BY ID =================
         // GET /api/Contract/{id}
         [HttpGet("{id}")]
@@ -40,6 +59,7 @@ namespace BackendAPI.Controllers
 
         // ================= UPDATE STATUS =================
         // PUT /api/Contract/{id}/status
+        [Authorize(Roles = "Farmer,Admin")]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateStatus(int id, [FromBody] string status)
         {
@@ -63,6 +83,7 @@ namespace BackendAPI.Controllers
 
         // ================= DISTRIBUTE PROFIT =================
         // POST /api/Contract/{investmentId}/distribute
+        [Authorize(Roles = "Farmer,Admin")]
         [HttpPost("{investmentId}/distribute")]
         public async Task<IActionResult> DistributeProfit(int investmentId)
         {

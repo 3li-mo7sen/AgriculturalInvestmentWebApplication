@@ -10,6 +10,12 @@ namespace BackendAPI.Interfaces
         // ================= GET BY ID =================
         Task<ProjectDto?> GetByIdAsync(int id);
 
+        // ================= GET BY STATUS =================
+        Task<List<ProjectDto>> GetByStatusAsync(string status);
+
+        // ================= PUBLIC PROJECTS =================
+        Task<List<ProjectDto>> GetPublishedProjectsAsync();
+
         // ================= CREATE =================
         Task<ProjectDto> CreateAsync(ProjectDto dto, int farmerId);
 
@@ -24,6 +30,12 @@ namespace BackendAPI.Interfaces
 
         // ================= PENDING PROJECTS =================
         Task<List<ProjectDto>> GetPendingProjectsAsync();
+
+        // ================= APPROVED PROJECTS =================
+        Task<List<ProjectDto>> GetApprovedProjectsAsync();
+
+        // ================= REJECTED PROJECTS =================
+        Task<List<ProjectDto>> GetRejectedProjectsAsync();
 
         // ================= APPROVE =================
         Task<bool> ApproveProjectAsync(int id);

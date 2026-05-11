@@ -2,8 +2,10 @@
 using BackendAPI.DTOs;
 using BackendAPI.Helpers;
 using BackendAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BackendAPI.Controllers
 {
@@ -27,10 +29,14 @@ namespace BackendAPI.Controllers
         {
             var result = await _auth.LoginAsync(dto);
 
-            if (result.StartsWith("please"))
+            if (string.IsNullOrWhiteSpace(result) ||
+                result.StartsWith("please", StringComparison.OrdinalIgnoreCase))
             {
                 return BadRequest(new ResponseAPI(400, result));
             }
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             Response.Cookies.Append("token", result, new CookieOptions
             {
@@ -43,7 +49,15 @@ namespace BackendAPI.Controllers
             return Ok(new
             {
                 statusCode = 200,
-                token = result
+                token = result,
+                user = user == null ? null : new
+                {
+                    user.Id,
+                    user.Name,
+                    user.Email,
+                    user.Role
+                },
+                role = user?.Role
             });
         }
 
@@ -110,6 +124,43 @@ namespace BackendAPI.Controllers
             await _context.SaveChangesAsync();
 
             return Ok("User deleted successfully");
+        }
+
+        //================Logout=======================
+        // POST /api/Auth/logout
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("token");
+
+            return Ok(new ResponseAPI(200, "Logged out successfully"));
+        }
+
+        //================Current user=======================
+        // GET /api/Auth/me
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> Me()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null)
+                return Unauthorized();
+
+            var userId = int.Parse(userIdClaim.Value);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(new
+            {
+                user.Id,
+                user.Name,
+                user.Email,
+                user.Role,
+                user.EmailConfirmed
+            });
         }
     }
 }

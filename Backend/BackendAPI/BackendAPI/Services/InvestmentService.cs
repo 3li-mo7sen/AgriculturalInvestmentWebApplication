@@ -1,10 +1,9 @@
-﻿using BackendAPI.Data;
+using BackendAPI.Data;
 using BackendAPI.DTOs;
+using BackendAPI.Interfaces;
 using BackendAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using BackendAPI.Interfaces;
 
 namespace BackendAPI.Services
 {
@@ -27,34 +26,43 @@ namespace BackendAPI.Services
                 return new ServiceResult { Success = false, Message = "Invalid amount" };
 
             // ================= GET USER FROM TOKEN =================
-            var userIdClaim = _http.HttpContext?.User
-                .FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var investorId = GetCurrentUserId();
 
-            if (userIdClaim == null)
+            if (investorId == null)
                 return new ServiceResult { Success = false, Message = "Unauthorized" };
-
-            var investorId = int.Parse(userIdClaim);
 
             // ================= GET INVESTOR =================
             var investor = await _context.Investors
-                .FirstOrDefaultAsync(i => i.Id == investorId);
+                .FirstOrDefaultAsync(i => i.Id == investorId.Value);
 
             if (investor == null)
                 return new ServiceResult { Success = false, Message = "Investor not found" };
 
             // ================= GET PROJECT =================
             var project = await _context.Projects
+                .Include(p => p.Investments)
                 .FirstOrDefaultAsync(p => p.Id == dto.ProjectId);
 
             if (project == null)
                 return new ServiceResult { Success = false, Message = "Project not found" };
 
             if (project.Status != ProjectStatus.Published)
+            {
                 return new ServiceResult
                 {
                     Success = false,
                     Message = "Project is not available for investment"
                 };
+            }
+
+            var raised = project.Investments?.Sum(i => i.Amount) ?? 0;
+            var remaining = project.Cost - raised;
+
+            if (remaining <= 0)
+                return new ServiceResult { Success = false, Message = "Project is fully funded" };
+
+            if (dto.Amount > remaining)
+                return new ServiceResult { Success = false, Message = $"Maximum available amount is {remaining}" };
 
             // ================= BALANCE CHECK =================
             if (investor.Balance < dto.Amount)
@@ -63,7 +71,7 @@ namespace BackendAPI.Services
             // ================= CREATE INVESTMENT =================
             var investment = new Investment
             {
-                InvestorId = investorId, // 👈 من التوكن
+                InvestorId = investorId.Value,
                 ProjectId = dto.ProjectId,
                 Amount = dto.Amount,
                 Date = DateTime.UtcNow
@@ -115,63 +123,43 @@ namespace BackendAPI.Services
         // ================= GET ALL =================
         public async Task<List<InvestmentViewDto>> GetAllAsync()
         {
-            return await _context.Investments
-                .Include(i => i.Investor)
-                .Include(i => i.Project)
-                .Select(i => new InvestmentViewDto
-                {
-                    Id = i.Id,
-                    Amount = i.Amount,
-                    Date = i.Date,
-                    InvestorName = i.Investor.Name,
-                    ProjectName = i.Project.Name
-                })
-                .ToListAsync();
+            var investments = await GetInvestmentQuery().ToListAsync();
+            return investments.Select(MapInvestment).ToList();
         }
 
         // ================= GET BY ID =================
         public async Task<InvestmentViewDto?> GetByIdAsync(int id)
         {
-            return await _context.Investments
-                .Include(i => i.Investor)
-                .Include(i => i.Project)
-                .Where(i => i.Id == id)
-                .Select(i => new InvestmentViewDto
-                {
-                    Id = i.Id,
-                    Amount = i.Amount,
-                    Date = i.Date,
-                    InvestorName = i.Investor.Name,
-                    ProjectName = i.Project.Name
-                })
-                .FirstOrDefaultAsync();
+            var investment = await GetInvestmentQuery()
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            return investment == null ? null : MapInvestment(investment);
         }
 
         // ================= GET MY INVESTMENTS =================
         public async Task<List<InvestmentViewDto>> GetByInvestorAsync(int investorId)
         {
-            // 👇 تجاهل الـ parameter وخد من التوكن
-            var userIdClaim = _http.HttpContext?.User
-                .FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var currentUserId = GetCurrentUserId();
+            var role = GetCurrentUserRole();
 
-            if (userIdClaim == null)
+            if (currentUserId == null && investorId <= 0)
                 return new List<InvestmentViewDto>();
 
-            var currentUserId = int.Parse(userIdClaim);
+            var targetInvestorId = role == "Admin" && investorId > 0
+                ? investorId
+                : currentUserId!.Value;
 
-            return await _context.Investments
-                .Include(i => i.Investor)
-                .Include(i => i.Project)
-                .Where(i => i.InvestorId == currentUserId)
-                .Select(i => new InvestmentViewDto
-                {
-                    Id = i.Id,
-                    Amount = i.Amount,
-                    Date = i.Date,
-                    InvestorName = i.Investor.Name,
-                    ProjectName = i.Project.Name
-                })
+            var investments = await GetInvestmentQuery()
+                .Where(i => i.InvestorId == targetInvestorId)
                 .ToListAsync();
+
+            return investments.Select(MapInvestment).ToList();
+        }
+
+        // ================= GET MY INVESTMENTS =================
+        public async Task<List<InvestmentViewDto>> GetMyInvestmentsAsync()
+        {
+            return await GetByInvestorAsync(0);
         }
 
         // ================= GET PROJECT INVESTORS =================
@@ -190,43 +178,75 @@ namespace BackendAPI.Services
                 .ToListAsync();
         }
 
-        // ================= CONTRACT =================
-
-        public async Task<List<ContractDto>> GetContractsAsync()
+        // ================= HISTORY =================
+        public async Task<List<WalletTransactionDto>> GetMyHistoryAsync()
         {
-            return await _context.Contracts
-                .Include(c => c.Investment).ThenInclude(i => i.Investor)
-                .Include(c => c.Investment).ThenInclude(i => i.Project)
-                .Select(c => new ContractDto
+            var currentUserId = GetCurrentUserId();
+
+            if (currentUserId == null)
+                return new List<WalletTransactionDto>();
+
+            return await GetInvestmentQuery()
+                .Where(i => i.InvestorId == currentUserId.Value)
+                .OrderByDescending(i => i.Date)
+                .Select(i => new WalletTransactionDto
                 {
-                    Id = c.Id,
-                    ProfitShare = c.ProfitShare,
-                    Status = c.Status.ToString(),
-                    CreatedAt = c.CreatedAt,
-                    InvestmentId = c.InvestmentId,
-                    InvestorName = c.Investment.Investor.Name,
-                    ProjectName = c.Investment.Project.Name
+                    Id = i.Id,
+                    Type = "investment",
+                    Description = $"Investment in {i.Project.Name}",
+                    Amount = -i.Amount,
+                    Date = i.Date,
+                    Status = i.Contract.Status.ToString(),
+                    ProjectName = i.Project.Name
                 })
                 .ToListAsync();
         }
 
+        // ================= CONTRACT =================
+        public async Task<List<ContractDto>> GetContractsAsync()
+        {
+            var contracts = await GetContractQuery().ToListAsync();
+            return contracts.Select(MapContract).ToList();
+        }
+
+        public async Task<List<ContractDto>> GetMyContractsAsync()
+        {
+            var currentUserId = GetCurrentUserId();
+            var role = GetCurrentUserRole();
+
+            if (currentUserId == null)
+                return new List<ContractDto>();
+
+            var query = GetContractQuery();
+
+            if (role == "Farmer")
+            {
+                query = query.Where(c => c.Investment.Project.FarmerId == currentUserId.Value);
+            }
+            else if (role == "Investor")
+            {
+                query = query.Where(c => c.Investment.InvestorId == currentUserId.Value);
+            }
+
+            var contracts = await query.ToListAsync();
+            return contracts.Select(MapContract).ToList();
+        }
+
+        public async Task<List<ContractDto>> GetContractsByProjectAsync(int projectId)
+        {
+            var contracts = await GetContractQuery()
+                .Where(c => c.Investment.ProjectId == projectId)
+                .ToListAsync();
+
+            return contracts.Select(MapContract).ToList();
+        }
+
         public async Task<ContractDto?> GetContractByIdAsync(int id)
         {
-            return await _context.Contracts
-                .Include(c => c.Investment).ThenInclude(i => i.Investor)
-                .Include(c => c.Investment).ThenInclude(i => i.Project)
-                .Where(c => c.Id == id)
-                .Select(c => new ContractDto
-                {
-                    Id = c.Id,
-                    ProfitShare = c.ProfitShare,
-                    Status = c.Status.ToString(),
-                    CreatedAt = c.CreatedAt,
-                    InvestmentId = c.InvestmentId,
-                    InvestorName = c.Investment.Investor.Name,
-                    ProjectName = c.Investment.Project.Name
-                })
-                .FirstOrDefaultAsync();
+            var contract = await GetContractQuery()
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            return contract == null ? null : MapContract(contract);
         }
 
         public async Task<ServiceResult> UpdateContractStatusAsync(int id, string status)
@@ -320,6 +340,90 @@ namespace BackendAPI.Services
                 Success = true,
                 Message = $"Profit distributed: {investorProfit}"
             };
+        }
+
+        private IQueryable<Investment> GetInvestmentQuery()
+        {
+            return _context.Investments
+                .Include(i => i.Investor)
+                .Include(i => i.Project)
+                .Include(i => i.Contract);
+        }
+
+        private IQueryable<Contract> GetContractQuery()
+        {
+            return _context.Contracts
+                .Include(c => c.Investment).ThenInclude(i => i.Investor)
+                .Include(c => c.Investment).ThenInclude(i => i.Project)
+                .Include(c => c.Investment).ThenInclude(i => i.Project)
+                    .ThenInclude(p => p.Investments)
+                    .ThenInclude(i => i.Investor);
+        }
+
+        private static InvestmentViewDto MapInvestment(Investment investment)
+        {
+            var expectedReturn = investment.Project.Cost > 0
+                ? investment.Amount * (investment.Project.ExpectedProfit / investment.Project.Cost)
+                : 0;
+
+            return new InvestmentViewDto
+            {
+                Id = investment.Id,
+                InvestorId = investment.InvestorId,
+                ProjectId = investment.ProjectId,
+                Amount = investment.Amount,
+                ExpectedReturn = expectedReturn,
+                Date = investment.Date,
+                Status = investment.Contract?.Status.ToString() ?? "Pending",
+                InvestorName = investment.Investor.Name,
+                ProjectName = investment.Project.Name
+            };
+        }
+
+        private static ContractDto MapContract(Contract contract)
+        {
+            var projectInvestments = contract.Investment.Project.Investments ?? new List<Investment>();
+
+            return new ContractDto
+            {
+                Id = contract.Id,
+                ContractNumber = $"AGR-{contract.CreatedAt:yyyy}-{contract.Id:D4}",
+                Terms = contract.Terms,
+                ProfitShare = contract.ProfitShare,
+                Status = contract.Status.ToString(),
+                CreatedAt = contract.CreatedAt,
+                ExpiresAt = contract.CreatedAt.AddMonths(Math.Max(contract.Investment.Project.Duration, 1)),
+                InvestmentId = contract.InvestmentId,
+                ProjectId = contract.Investment.ProjectId,
+                InvestorName = contract.Investment.Investor.Name,
+                ProjectName = contract.Investment.Project.Name,
+                Amount = contract.Investment.Amount,
+                TotalAmount = projectInvestments.Sum(i => i.Amount),
+                InvestorCount = projectInvestments.Select(i => i.InvestorId).Distinct().Count(),
+                Investors = projectInvestments
+                    .Select(i => new ProjectInvestorsDto
+                    {
+                        InvestorId = i.InvestorId,
+                        InvestorName = i.Investor?.Name ?? "",
+                        Amount = i.Amount,
+                        Date = i.Date
+                    })
+                    .ToList()
+            };
+        }
+
+        private int? GetCurrentUserId()
+        {
+            var userIdClaim = _http.HttpContext?.User
+                .FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            return int.TryParse(userIdClaim, out var userId) ? userId : null;
+        }
+
+        private string? GetCurrentUserRole()
+        {
+            return _http.HttpContext?.User
+                .FindFirst(ClaimTypes.Role)?.Value;
         }
     }
 }

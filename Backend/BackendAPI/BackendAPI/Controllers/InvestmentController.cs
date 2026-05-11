@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BackendAPI.Controllers
 {
-    [Authorize(Roles = "Investor")]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class InvestmentController : ControllerBase
@@ -18,6 +18,7 @@ namespace BackendAPI.Controllers
         }
 
         // POST /api/Investment
+        [Authorize(Roles = "Investor")]
         [HttpPost]
         public async Task<IActionResult> Invest([FromBody] InvestDto dto)
         {
@@ -27,7 +28,7 @@ namespace BackendAPI.Controllers
         }
 
         // GET /api/Investment
-        [Authorize]
+        [Authorize(Roles = "Admin,Investor")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -48,6 +49,7 @@ namespace BackendAPI.Controllers
         }
 
         // GET /api/Investment/by-investor/{investorId}
+        [Authorize(Roles = "Investor,Admin")]
         [HttpGet("by-investor/{investorId}")]
         public async Task<IActionResult> GetByInvestor(int investorId)
         {
@@ -55,7 +57,26 @@ namespace BackendAPI.Controllers
             return Ok(data);
         }
 
+        // GET /api/Investment/my-investments
+        [Authorize(Roles = "Investor")]
+        [HttpGet("my-investments")]
+        public async Task<IActionResult> GetMyInvestments()
+        {
+            var data = await _service.GetMyInvestmentsAsync();
+            return Ok(data);
+        }
+
+        // GET /api/Investment/history
+        [Authorize(Roles = "Investor")]
+        [HttpGet("history")]
+        public async Task<IActionResult> GetHistory()
+        {
+            var data = await _service.GetMyHistoryAsync();
+            return Ok(data);
+        }
+
         // GET /api/Investment/by-project/{projectId}
+        [Authorize(Roles = "Farmer,Expert,Admin")]
         [HttpGet("by-project/{projectId}")]
         public async Task<IActionResult> GetByProject(int projectId)
         {

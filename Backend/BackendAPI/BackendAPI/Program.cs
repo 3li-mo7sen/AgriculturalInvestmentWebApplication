@@ -29,10 +29,15 @@ builder.Services.AddScoped<IInvestorService, InvestorService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IFarmerService, FarmerService>();
+builder.Services.AddScoped<IExpertService, ExpertService>();
 
 builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddAuthorization();
 // ==========================================================
 
 
@@ -42,9 +47,15 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngular",
         policy =>
         {
-            policy.WithOrigins("http://localhost:50547")
+            policy.WithOrigins(
+                    "http://localhost:3000",
+                    "http://localhost:3001",
+                    "http://localhost:50547",
+                    "http://127.0.0.1:3000",
+                    "http://127.0.0.1:3001")
                   .AllowAnyHeader()
-                  .AllowAnyMethod();
+                  .AllowAnyMethod()
+                  .AllowCredentials();
         });
 });
 // ======================================================
@@ -109,6 +120,20 @@ builder.Services.AddAuthentication(options =>
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
         };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            if (string.IsNullOrWhiteSpace(context.Token) &&
+                context.Request.Cookies.ContainsKey("token"))
+            {
+                context.Token = context.Request.Cookies["token"];
+            }
+
+            return Task.CompletedTask;
+        }
+    };
 });
 // ===============================================================
 
