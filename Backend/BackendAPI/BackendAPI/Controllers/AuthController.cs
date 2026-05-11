@@ -101,12 +101,12 @@ namespace BackendAPI.Controllers
         }
 
         //================Active account=======================
-        // Get /api/Auth/active/account
-        [HttpGet("active/account")]
+        // Get /api/Auth/active
+        [HttpGet("active")]
         public async Task<ActionResult<ActiveAccountDTO>> active([FromQuery]ActiveAccountDTO accountDTO)
         {
             var result = await _auth.ActiveAccount(accountDTO);
-            return result ? Ok("Done, Email Activated Successfully") : BadRequest("Failed to activate email");
+            return result ? Ok(new{success = true, message = "Email activated successfully"}) : BadRequest(new{success = false, message = "Failed to activate email"});
         }
 
         //================Delete user by email=======================
@@ -126,40 +126,42 @@ namespace BackendAPI.Controllers
             return Ok("User deleted successfully");
         }
 
-        //================Logout=======================
-        // POST /api/Auth/logout
-        [HttpPost("logout")]
-        public IActionResult Logout()
+        //================Send email for forget password=======================
+        // GET /api/Auth/forget-password
+        [HttpGet("forget-password")]
+        public async Task<IActionResult> forget(string email)
         {
-            Response.Cookies.Delete("token");
-
-            return Ok(new ResponseAPI(200, "Logged out successfully"));
+            var result = await _auth.SendEmailForForgetPassword(email);
+            return result ? Ok(new ResponseAPI(200, "Email sent successfully")) : BadRequest(new ResponseAPI(404, "Failed to send email"));
         }
 
-        //================Current user=======================
+        //================Reset password=======================
+        // POST /api/Auth/reset-password
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> Reset([FromBody] RestPasswordDTO dto)
+        {
+            var result = await _auth.ResetPassword(dto);
+
+            if (result == "done") return Ok(new ResponseAPI(200, "Password reset successfully"));
+
+            return BadRequest(new ResponseAPI(400, result));
+        }
+
+        //=======================For return current user info=======================
         // GET /api/Auth/me
         [Authorize]
-        [HttpGet("me")]
-        public async Task<IActionResult> Me()
+        [HttpGet("User-Info")]
+        public IActionResult Me()
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            var userId = int.Parse(userIdClaim.Value);
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-            if (user == null)
-                return NotFound();
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var name = User.FindFirst(ClaimTypes.Name)?.Value;
 
             return Ok(new
             {
-                user.Id,
-                user.Name,
-                user.Email,
-                user.Role,
-                user.EmailConfirmed
+                name,
+                email,
+                role
             });
         }
     }

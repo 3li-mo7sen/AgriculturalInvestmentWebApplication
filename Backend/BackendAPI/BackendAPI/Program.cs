@@ -106,31 +106,23 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.TokenValidationParameters =
-        new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-
-            ValidIssuer = jwtSettings["Issuer"],
-            ValidAudience = jwtSettings["Audience"],
-
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
-        };
-
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(jwtSettings["Key"]))
+    };
+    // this for telling the JWT Authentication to read the token form the cookies not the header bearer 
     options.Events = new JwtBearerEvents
     {
         OnMessageReceived = context =>
         {
-            if (string.IsNullOrWhiteSpace(context.Token) &&
-                context.Request.Cookies.ContainsKey("token"))
-            {
-                context.Token = context.Request.Cookies["token"];
-            }
-
+            context.Token = context.Request.Cookies["token"];
             return Task.CompletedTask;
         }
     };

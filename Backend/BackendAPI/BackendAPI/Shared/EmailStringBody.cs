@@ -34,13 +34,30 @@ namespace BackendAPI.Shared
                                 <h1>{message}</h1>
                                         <hr>
                                      <br>
-                                    //<a class=""button"" href=""https://localhost:44388/api/Auth/active/account?email={email}&code={(token)}"">
-                                    //        {message}
-                                    //    </a>
-                                    <a class=""button"" href=""http://192.168.1.11:5000/api/Auth/active/account?Email={email}&Token={token}"">
+
+                                      <!-- this links appear in the button that the user clicks to perform the action in the message sent to their email -->
+
+                                       <a class=""button"" href=""https://localhost:44388/api/Auth/{component}?email={email}&code={token}"">
+
                                             {message}
-                                        </a>
-                            </body>
+                                       </a> 
+
+
+                                       <!-- <a class=""button"" href=""http://localhost:4200/account/{component}?email={email}&code={(token)}"">
+                                            {message}
+                                        </a>-->
+
+
+                                       <!-- <a class=""button"" href=""http://192.168.100.2:5000/api/Auth/{component}?email={email}&code={token}"">
+                                            {message}
+                                        </a> -->
+                                    
+                                     
+                                        <!--  <a class=""button"" href=""https://localhost:4200/reset-password?email={email}&token={token}"">
+                                               {message}
+                                        </a>   -->
+
+                                </body>
                         </html>
                     
                     ";
