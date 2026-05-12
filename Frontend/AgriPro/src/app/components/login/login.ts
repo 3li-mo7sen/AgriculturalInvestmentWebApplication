@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, JsonPipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [JsonPipe,ReactiveFormsModule,CommonModule],
+  imports: [JsonPipe,ReactiveFormsModule,CommonModule,RouterLink],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
@@ -34,25 +34,29 @@ export class Login {
 
   });
 
+  // login.ts
   login(): void {
-
     if (this.loginForm.valid) {
       this._AuthService.login(this.loginForm.value).subscribe({
-        next: (res:any) => {
-          this.serverError = null;
-          this._AuthService.saveToken(res.token);
+        next: (res: any) => {
+          if (res.statusCode === 200) {
+            this.serverError = null;
 
-          const role = this._AuthService.redirectUser();
+            // المتصفح خزن الكوكي اللي اسمها "token" تلقائياً هنا
 
-          
+            // بنسيف البيانات اللي هنحتاجها في الـ UI بس
+            this._AuthService.saveUserStatus(res);
+
+            // التوجيه للمكان الصح بناءً على الـ Role اللي راجع في الـ Response
+            this._AuthService.redirectUser();
+          }
         },
         error: (err) => {
-          console.log(err);
-
-          this.serverError = err.error  || 'something went wrong';
+          console.error(err);
+          // السيرفر بيرجع رسالة الخطأ في حقل الـ message
+          this.serverError = err.error?.message || 'Invalid email or password';
         }
       });
-
     }
   }
 

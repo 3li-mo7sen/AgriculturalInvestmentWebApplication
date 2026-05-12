@@ -3,16 +3,13 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 
 export const loginGuard: CanActivateFn = (route, state) => {
-
-  const authService = inject(AuthService);
   const router = inject(Router);
+  const auth = inject(AuthService);
 
-  if (authService.isLoggedIn() && !authService.isTokenExpired()) {
-
-    authService.decodeToken();
-    authService.redirectUser();
-
+  if (auth.isLoggedIn()) {
+    auth.redirectUser(); // يوديه لصفحته بناءً على الرول بتاعه
     return false;
   }
+
   return true;
 };
