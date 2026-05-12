@@ -18,6 +18,10 @@ import { MyProjects } from './components/farmer/components/my-projects/my-projec
 import { Contracts } from './components/farmer/components/contracts/contracts';
 import { Wallet } from './components/farmer/components/wallet/wallet';
 import { Settings } from './components/farmer/components/settings/settings';
+import { ProfileFarmer } from './components/farmer/components/settings/components/profile-farmer/profile-farmer';
+import { SecurityFarmer } from './components/farmer/components/settings/components/security-farmer/security-farmer';
+import { NotificationsFarmer } from './components/farmer/components/settings/components/notifications-farmer/notifications-farmer';
+import { PreferencesFarmer } from './components/farmer/components/settings/components/preferences-farmer/preferences-farmer';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -36,7 +40,16 @@ export const routes: Routes = [
       { path: 'my-projects', component: MyProjects },
       { path: 'contracts', component: Contracts },       
       { path: 'wallet', component: Wallet },           
-      { path: 'settings', component: Settings },         
+      {
+        path: 'settings', component: Settings,
+        children: [
+          { path: '', redirectTo: 'profile', pathMatch: 'full' }, // لو دخل سيتنجز بس يفتح بروفايل
+          { path: 'profile', component: ProfileFarmer},
+          { path: 'security', component: SecurityFarmer },
+          { path: 'notifications', component: NotificationsFarmer },
+          { path: 'preferences', component: PreferencesFarmer }
+        ]
+},         
     ]  },
   { path: 'investor', component: Investor /*, canActivate: [authGuard, roleGuard], data: { role: 'Investor' }*/ }
   
