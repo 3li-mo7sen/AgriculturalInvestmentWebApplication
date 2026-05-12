@@ -2,8 +2,10 @@
 using BackendAPI.DTOs;
 using BackendAPI.Helpers;
 using BackendAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BackendAPI.Controllers
 {
@@ -27,10 +29,14 @@ namespace BackendAPI.Controllers
         {
             var result = await _auth.LoginAsync(dto);
 
-            if (result.StartsWith("please"))
+            if (string.IsNullOrWhiteSpace(result) ||
+                result.StartsWith("please", StringComparison.OrdinalIgnoreCase))
             {
                 return BadRequest(new ResponseAPI(400, result));
             }
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             Response.Cookies.Append("token", result, new CookieOptions
             {
@@ -43,7 +49,15 @@ namespace BackendAPI.Controllers
             return Ok(new
             {
                 statusCode = 200,
-                token = result
+                token = result,
+                user = user == null ? null : new
+                {
+                    user.Id,
+                    user.Name,
+                    user.Email,
+                    user.Role
+                },
+                role = user?.Role
             });
         }
 
@@ -87,12 +101,15 @@ namespace BackendAPI.Controllers
         }
 
         //================Active account=======================
-        // Get /api/Auth/active/account
-        [HttpGet("active/account")]
-        public async Task<ActionResult<ActiveAccountDTO>> active([FromQuery]ActiveAccountDTO accountDTO)
+        // Get /api/Auth/active
+        [HttpGet("active")]
+        public async Task<IActionResult> Active([FromQuery] ActiveAccountDTO accountDTO)
         {
             var result = await _auth.ActiveAccount(accountDTO);
-            return result ? Ok("Done, Email Activated Successfully") : BadRequest("Failed to activate email");
+
+            if (!result.Success) return BadRequest(new { success = false, message = result.Message });
+
+            return Ok(new { success = true, message = result.Message });
         }
 
         //================Delete user by email=======================
@@ -111,5 +128,61 @@ namespace BackendAPI.Controllers
 
             return Ok("User deleted successfully");
         }
+
+        //================Send email for forget password=======================
+        // GET /api/Auth/forget-password
+        [HttpGet("forget-password")]
+        public async Task<IActionResult> forget(string email)
+        {
+            var result = await _auth.SendEmailForForgetPassword(email);
+            return result ? Ok(new ResponseAPI(200, "Email sent successfully")) : BadRequest(new ResponseAPI(404, "Failed to send email"));
+        }
+
+        //================Reset password=======================
+        // POST /api/Auth/reset-password
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> Reset([FromBody] RestPasswordDTO dto)
+        {
+            var result = await _auth.ResetPassword(dto);
+
+            if (result == "done") return Ok(new ResponseAPI(200, "Password reset successfully"));
+
+            return BadRequest(new ResponseAPI(400, result));
+        }
+
+        //=======================For return current user info=======================
+        // GET /api/Auth/me
+        [Authorize]
+        [HttpGet("User-Info")]
+        public Task<IActionResult> Me()
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var name = User.FindFirst(ClaimTypes.Name)?.Value;
+
+            var result = Ok(new
+            {
+                name,
+                email,
+                role
+            });
+
+            return Task.FromResult<IActionResult>(result);
+        }
+
+        //=======================Resend activation email=======================
+        // GET /api/Auth/resend-activation
+        [HttpGet("resend-activation")]
+        public async Task<IActionResult> ResendActivation([FromQuery] ResendEmailDto dto)
+        {
+            var result = await _auth.ResendActivationEmailAsync(dto.Email);
+
+            if (!result.Success) return BadRequest(new { success = false, message = result.Message });
+
+            return Ok(new { success = true, message = result.Message });
+        }
+
     }
+
+  
 }

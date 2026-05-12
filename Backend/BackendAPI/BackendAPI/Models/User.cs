@@ -15,5 +15,8 @@ namespace BackendAPI.Models
         public string Role { get; set; }
         public bool EmailConfirmed { get; set; }
         public string? EmailVerificationToken { get; set; }
+        public DateTime? EmailVerificationTokenExpiry { get; set; }
+        public string? ResetToken { get; set; }
+        public DateTime? ResetTokenExpiry { get; set; }
     }
 }

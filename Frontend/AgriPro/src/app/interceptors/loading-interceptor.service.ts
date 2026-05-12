@@ -8,7 +8,7 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
 
   const loadingService = inject(LoadingService);
 
-  if (req.url.includes('/Auth') && req.url.includes('login')) {
+  if ((req.url.includes('/Auth') && req.url.includes('login')) || req.url.includes('register')) {
     return next(req);
   }
 

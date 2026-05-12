@@ -7,6 +7,7 @@ import { ExpertDashboard } from './components/expert-dashboard/expert-dashboard'
 import { authGuard } from './guards/auth/auth-guard';
 import { roleGuard } from './guards/role/role-guard';
 import { loginGuard } from './guards/login/login-guard';
+import { ConfirmEmailComponent } from './components/confirm-email/confirm-email';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -14,7 +15,8 @@ export const routes: Routes = [
   { path: 'login', component: Login, canActivate: [loginGuard] },
   { path: 'register', component: Register },
   { path: 'admin', component: AdminDashboard,canActivate:[authGuard,roleGuard],data:{role:'Admin'} },
-  { path: 'expert', component: ExpertDashboard, canActivate: [authGuard, roleGuard],data:{role:'Expert'} }
+  { path: 'expert', component: ExpertDashboard, canActivate: [authGuard, roleGuard], data: { role: 'Expert' } },
+  {path: 'confirm-email',component: ConfirmEmailComponent}
   
 
 

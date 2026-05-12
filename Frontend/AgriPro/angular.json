@@ -20,10 +20,25 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+
+              //"src/favicon.ico",
+              // {
+              // "glob": "**/*",
+              // "input": "src/app/assets",
+              // "output": "/assets/"
+              //}
+
+              //{
+              //"glob": "**/*",
+              //"input": "public"
+
+
+
+
+              //}
+
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",

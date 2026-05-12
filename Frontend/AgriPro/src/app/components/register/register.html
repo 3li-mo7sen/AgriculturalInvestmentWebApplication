@@ -1,16 +1,151 @@
-<form>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+<div class="register-page-wrapper">
+  <div class="register-content-card">
+
+    <div class="info-sidebar">
+      <div class="logo-area">
+        <img src="../../../assets/images/logo-new.png" alt="Logo" class="mini-logo">
+        <span>Agri-Pro</span>
+      </div>
+      <div class="main-content-text">
+        <h1>Join Egypt's Leading Agricultural Investment Platform</h1>
+        <p>Whether you're a farmer looking for investment, an investor seeking returns, or an expert wanting to verify projects - there's a place for you here.</p>
+      </div>
+      <div class="sidebar-footer">
+        Your data is protected with bank-grade encryption.
+      </div>
+    </div>
+
+    <div class="form-section">
+
+      <div class="step-container">
+        <div class="step-indicator">
+          <div class="step" [class.active]="currentStep >= 1">
+            <span *ngIf="currentStep === 1">1</span>
+            <span *ngIf="currentStep > 1">✓</span>
+          </div>
+          <div class="line" [class.active]="currentStep >= 2"></div>
+          <div class="step" [class.active]="currentStep >= 2">2</div>
+        </div>
+      </div>
+
+      <div *ngIf="currentStep === 1" class="fade-in content-box">
+        <h2>Choose your role</h2>
+        <p class="subtitle">Select how you'd like to use Agri-Pro</p>
+
+        <div class="role-cards">
+          <div class="role-card" (click)="selectRole('farmer')" [class.selected]="selectedRole === 'farmer'">
+            <div class="role-icon-circle">🚜</div>
+            <div class="role-text">
+              <h3>Farmer</h3>
+              <p>Create agricultural projects and receive investments for your land.</p>
+            </div>
+          </div>
+
+          <div class="role-card" (click)="selectRole('investor')" [class.selected]="selectedRole === 'investor'">
+            <div class="role-icon-circle">📈</div>
+            <div class="role-text">
+              <h3>Investor</h3>
+              <p>Browse and invest in verified agricultural projects.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-action">
+          <button class="continue-btn" *ngIf="selectedRole" (click)="currentStep = 2">
+            Continue
+          </button>
+          <p class="signin-text">Already have an account? <a routerLink="/login">Sign in</a></p>
+        </div>
+      </div>
+
+      <div *ngIf="currentStep === 2" class="fade-in content-box">
+        <button type="button" class="back-link" (click)="goBack()">
+          <span class="arrow">←</span> Back to role selection
+        </button>
+
+        <h2>Create your {{ selectedRole }} account</h2>
+        <p class="subtitle">Fill in your details to get started</p>
+
+
+        @if(serverError){
+        <div class="alert alert-danger mt-2">
+          {{serverError}}
+        </div>
+        }
+
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="actual-form">
+
+          <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" formControlName="name" placeholder="Enter your full name"
+                   [class.invalid-input]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+            <div class="error-wrapper" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+              <small *ngIf="registerForm.get('name')?.errors?.['required']">Name is required</small>
+              <small *ngIf="registerForm.get('name')?.errors?.['minlength']">At least 3 characters required</small>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Email address</label>
+            <input type="email" formControlName="email" placeholder="you@example.com"
+                   [class.invalid-input]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            <div class="error-wrapper" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+              <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</small>
+              <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format</small>
+            </div>
+          </div>
+
+          <ng-container *ngIf="selectedRole === 'farmer'">
+            <div class="input-group">
+              <label>Phone Number</label>
+              <input type="text" formControlName="phoneNumber" placeholder="+20 1XX XXX XXXX">
+              <div class="error-wrapper" *ngIf="registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched">
+                <small *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">
+                  Phone number is required.
+                </small>
+                <small *ngIf="registerForm.get('phoneNumber')?.errors?.['pattern']">
+                  Please enter a valid Egyptian phone number (11 digits).
+                </small>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Land Details</label>
+              <input type="text" formControlName="landDetails" placeholder="Location or size"
+                     [class.invalid-input]="registerForm.get('landDetails')?.invalid && registerForm.get('landDetails')?.touched">
+              <div class="error-wrapper" *ngIf="registerForm.get('landDetails')?.invalid && registerForm.get('landDetails')?.touched">
+                <small>Please provide land details</small>
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" formControlName="password" placeholder="Create a strong password"
+                   [class.invalid-input]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            <div class="error-wrapper" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+              <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</small>
+              <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Min 6 characters</small>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Confirm Password</label>
+            <input type="password" formControlName="confirmPassword" placeholder="Confirm your password"
+                   [class.invalid-input]="(registerForm.get('confirmPassword')?.touched && registerForm.hasError('mismatch'))">
+            <div class="error-wrapper" *ngIf="registerForm.get('confirmPassword')?.touched">
+              <small *ngIf="registerForm.hasError('mismatch')">Passwords do not match</small>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn" [disabled]="registerForm.invalid">
+            Create Account
+          </button>
+        </form>
+      </div>
+
+    </div>
   </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div> 
+

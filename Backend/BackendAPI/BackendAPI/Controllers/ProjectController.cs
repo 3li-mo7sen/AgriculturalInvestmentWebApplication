@@ -20,6 +20,7 @@ namespace BackendAPI.Controllers
 
         // ================= GET ALL =================
         // GET /api/Project
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -30,6 +31,7 @@ namespace BackendAPI.Controllers
 
         // ================= GET BY ID =================
         // GET /api/Project/{id}
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -39,6 +41,27 @@ namespace BackendAPI.Controllers
                 return NotFound();
 
             return Ok(project);
+        }
+
+        // ================= PUBLISHED PROJECTS =================
+        // GET /api/Project/published
+        [AllowAnonymous]
+        [HttpGet("published")]
+        public async Task<IActionResult> GetPublishedProjects()
+        {
+            var projects = await _service.GetPublishedProjectsAsync();
+
+            return Ok(projects);
+        }
+
+        // ================= PROJECTS BY STATUS =================
+        // GET /api/Project/status/pending
+        [HttpGet("status/{status}")]
+        public async Task<IActionResult> GetByStatus(string status)
+        {
+            var projects = await _service.GetByStatusAsync(status);
+
+            return Ok(projects);
         }
 
         // ================= CREATE =================
@@ -125,7 +148,7 @@ namespace BackendAPI.Controllers
 
         // ================= PENDING PROJECTS =================
         // GET /api/Project/pending
-        [Authorize(Roles = "Expert")]
+        [Authorize(Roles = "Expert,Admin")]
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingProjects()
         {
@@ -134,9 +157,31 @@ namespace BackendAPI.Controllers
             return Ok(projects);
         }
 
+        // ================= APPROVED PROJECTS =================
+        // GET /api/Project/approved
+        [Authorize(Roles = "Expert,Admin")]
+        [HttpGet("approved")]
+        public async Task<IActionResult> GetApprovedProjects()
+        {
+            var projects = await _service.GetApprovedProjectsAsync();
+
+            return Ok(projects);
+        }
+
+        // ================= REJECTED PROJECTS =================
+        // GET /api/Project/rejected
+        [Authorize(Roles = "Expert,Admin")]
+        [HttpGet("rejected")]
+        public async Task<IActionResult> GetRejectedProjects()
+        {
+            var projects = await _service.GetRejectedProjectsAsync();
+
+            return Ok(projects);
+        }
+
         // ================= APPROVE =================
         // PUT /api/Project/approve/{id}
-        [Authorize(Roles = "Expert")]
+        [Authorize(Roles = "Expert,Admin")]
         [HttpPut("approve/{id}")]
         public async Task<IActionResult> Approve(int id)
         {
@@ -150,7 +195,7 @@ namespace BackendAPI.Controllers
 
         // ================= REJECT =================
         // PUT /api/Project/reject/{id}
-        [Authorize(Roles = "Expert")]
+        [Authorize(Roles = "Expert,Admin")]
         [HttpPut("reject/{id}")]
         public async Task<IActionResult> Reject(int id)
         {

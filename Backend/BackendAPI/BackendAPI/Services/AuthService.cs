@@ -246,21 +246,111 @@ namespace BackendAPI.Services
 
             await emailService.SendEmail(result);
         }
-        public async Task<bool> ActiveAccount(ActiveAccountDTO accountDTO)
+
+        public async Task<(bool Success, string Message)> ActiveAccount(ActiveAccountDTO accountDTO)
         {
             var user = await _context.Users
-            .FirstOrDefaultAsync(x =>x.Email == accountDTO.Email && x.EmailVerificationToken == accountDTO.Token);
+                .FirstOrDefaultAsync(x =>
+                    x.Email == accountDTO.Email &&
+                    x.EmailVerificationToken == accountDTO.Token);
 
             if (user == null)
-                return false;
+                return (false, "Invalid email or token");
+
+            if (user.EmailConfirmed)
+                return (true, "Account already verified");
+
+            if (user.EmailVerificationTokenExpiry < DateTime.UtcNow)
+                return (false, "Token expired");
 
             user.EmailConfirmed = true;
             user.EmailVerificationToken = null;
+            user.EmailVerificationTokenExpiry = null;
 
             await _context.SaveChangesAsync();
 
-            return true;
+            return (true, "Account activated successfully");
         }
-             
+
+        public async Task<bool> SendEmailForForgetPassword(string email)
+        {
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user is null)
+                return false;
+
+            var token = Guid.NewGuid().ToString();
+
+            user.ResetToken = token;
+            user.ResetTokenExpiry = DateTime.UtcNow.AddMinutes(30);
+
+            await _context.SaveChangesAsync();
+
+            await SendEmail(
+                user.Email,
+                token,
+                "reset-password",
+                "Reset your password",
+                "Click the link to reset your password"
+            );
+
+            return true;
+
+        }
+
+        public async Task<string> ResetPassword(RestPasswordDTO restPassword)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == restPassword.Email);
+
+            if (user is null)
+                return "user not found";
+
+            if (user.ResetToken != restPassword.Token)
+                return "invalid token";
+
+            if (user.ResetTokenExpiry < DateTime.UtcNow)
+                return "token expired";
+
+            // Hash password manually
+            user.Password = BCrypt.Net.BCrypt.HashPassword(restPassword.Password);
+
+            // clear token after success
+            user.ResetToken = null;
+            user.ResetTokenExpiry = null;
+
+            await _context.SaveChangesAsync();
+
+            return "done";
+        }
+
+        public async Task<(bool Success, string Message)> ResendActivationEmailAsync(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (user == null)
+                return (false, "User not found");
+
+            if (user.EmailConfirmed)
+                return (false, "Account already activated");
+
+            // 1. Generate new token
+            var token = Guid.NewGuid().ToString();
+            user.EmailVerificationToken = token;
+            user.EmailVerificationTokenExpiry = DateTime.UtcNow.AddHours(1);
+
+            await _context.SaveChangesAsync();
+
+            // 2. Send email again
+            await SendEmail(
+                user.Email,
+                token,
+                "active",
+                "Activate your account",
+                "Please verify your email again"
+            );
+
+            return (true, "Activation email sent successfully");
+        }
+
     }
 }

@@ -35,6 +35,36 @@ namespace BackendAPI.Services
             return dto;
         }
 
+        // ================= GET ALL =================
+        public async Task<List<ReportDto>> GetAllAsync()
+        {
+            return await _context.Reports
+                .OrderByDescending(r => r.Date)
+                .Select(r => new ReportDto
+                {
+                    Id = r.Id,
+                    Content = r.Content,
+                    Date = r.Date,
+                    ProjectId = r.ProjectId
+                })
+                .ToListAsync();
+        }
+
+        // ================= GET BY ID =================
+        public async Task<ReportDto?> GetByIdAsync(int id)
+        {
+            return await _context.Reports
+                .Where(r => r.Id == id)
+                .Select(r => new ReportDto
+                {
+                    Id = r.Id,
+                    Content = r.Content,
+                    Date = r.Date,
+                    ProjectId = r.ProjectId
+                })
+                .FirstOrDefaultAsync();
+        }
+
         // ================= GET BY PROJECT =================
         public async Task<List<ReportDto>> GetByProjectAsync(int projectId)
         {
@@ -48,6 +78,20 @@ namespace BackendAPI.Services
                     ProjectId = r.ProjectId
                 })
                 .ToListAsync();
+        }
+
+        // ================= DELETE =================
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var report = await _context.Reports.FindAsync(id);
+
+            if (report == null)
+                return false;
+
+            _context.Reports.Remove(report);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }
