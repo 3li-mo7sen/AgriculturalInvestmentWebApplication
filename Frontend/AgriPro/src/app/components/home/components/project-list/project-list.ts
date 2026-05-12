@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-project-list',
   imports: [],
   templateUrl: './project-list.html',
-  styleUrl: './project-list.css',
+  styleUrls: ['./project-list.css'],
 })
 export class ProjectList {
 
 }
+
+
+

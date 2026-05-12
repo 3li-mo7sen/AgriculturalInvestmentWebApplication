@@ -1,0 +1,22 @@
+.testimonials-section {
+  background: #f5faf5;
+}
+.testimonial-card {
+  border-radius: 28px;
+  background: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.testimonial-card:hover {
+  transform: translateY(-4px);
+}
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+.testimonial-card p {
+  color: #5f6f60;
+}
