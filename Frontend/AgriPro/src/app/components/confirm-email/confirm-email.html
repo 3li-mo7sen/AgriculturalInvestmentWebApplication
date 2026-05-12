@@ -1,0 +1,24 @@
+<div class="confirm-container">
+
+  <div *ngIf="isLoading">
+    Verifying your email...
+  </div>
+
+  <div *ngIf="!isLoading && isSuccess">
+
+    <h2 style="color: green;">{{ message }}</h2>
+    <p>You will be redirected to login page...</p>
+
+  </div>
+
+  <div *ngIf="!isLoading && !isSuccess">
+
+    <h2 style="color: red;">{{ message }}</h2>
+
+    <button *ngIf="canResend" (click)="resendEmail()">
+      Resend Activation Email
+    </button>
+
+  </div>
+
+</div>

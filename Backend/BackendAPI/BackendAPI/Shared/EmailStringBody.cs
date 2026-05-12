@@ -37,7 +37,9 @@ namespace BackendAPI.Shared
 
                                       <!-- this links appear in the button that the user clicks to perform the action in the message sent to their email -->
 
-                                       <a class=""button"" href=""https://localhost:44388/api/Auth/{component}?email={email}&code={token}"">
+                                      <!-- ---<a class=""button"" href=""https://localhost:44388/api/Auth/{component}?email={email}&code={token}""> -- -->
+                                       <a class=""button"" href=""http://localhost:4200/confirm-email?email={email}&code={token}"">
+
 
                                             {message}
                                        </a> 
