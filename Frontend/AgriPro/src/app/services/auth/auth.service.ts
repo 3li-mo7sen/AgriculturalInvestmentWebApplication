@@ -15,7 +15,7 @@ export class AuthService {
   ) { }
 
   login(data: object) {
-    return this._HttpClient.post(`${environment.apiUrl}/api/Auth/login`, data);
+    return this._HttpClient.post(`${environment.baseUrl}/api/Auth/login`, data);
   }
 
   saveToken(token:string){
