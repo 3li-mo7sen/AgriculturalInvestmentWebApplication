@@ -84,8 +84,11 @@ export class AuthService {
     else if (role == 'Expert') {
       this._Router.navigate(['/expert']);
     }
-    else if (role == 'Farmer' || role == 'Investor') {
-      this._Router.navigate(['/home'])
+    else if (role == 'Farmer') {
+      this._Router.navigate(['/farmer']);
+    }
+    else if (role == 'Investor') {
+      this._Router.navigate(['/investor']);
     }
   }
 }

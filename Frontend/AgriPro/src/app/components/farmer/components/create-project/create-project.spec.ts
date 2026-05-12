@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExpertDashboard } from './expert-dashboard';
+import { CreateProject } from './create-project';
 
-describe('ExpertDashboard', () => {
-  let component: ExpertDashboard;
-  let fixture: ComponentFixture<ExpertDashboard>;
+describe('CreateProject', () => {
+  let component: CreateProject;
+  let fixture: ComponentFixture<CreateProject>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ExpertDashboard]
+      imports: [CreateProject]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ExpertDashboard);
+    fixture = TestBed.createComponent(CreateProject);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
