@@ -5,10 +5,11 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-login',
   imports: [JsonPipe,ReactiveFormsModule,CommonModule],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrls: ['./login.css'],
 })
 export class Login {
 
@@ -56,3 +57,6 @@ export class Login {
   }
 
 }
+
+
+

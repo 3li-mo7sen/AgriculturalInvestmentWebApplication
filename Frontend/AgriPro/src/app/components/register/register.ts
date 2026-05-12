@@ -7,10 +7,11 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment.development';
 
 @Component({
+  standalone: true,
   selector: 'app-register',
   imports: [ReactiveFormsModule,CommonModule,Login,RouterLink,RouterLinkActive],
   templateUrl: './register.html',
-  styleUrl: './register.css',
+  styleUrls: ['./register.css'],
 })
 export class Register implements OnInit{
   registerForm!: FormGroup;
@@ -124,3 +125,6 @@ export class Register implements OnInit{
     
   }
 }
+
+
+

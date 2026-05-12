@@ -10,10 +10,11 @@ import { ProjectList } from './components/project-list/project-list';
 
 
 @Component({
+  standalone: true,
   selector: 'app-home',
   imports: [Navbar,Hero,HowItWorks,Features,ProjectList,Testimonals,Footer],
   templateUrl: './home.html',
-  styleUrl: './home.css',
+  styleUrls: ['./home.css'],
 })
 export class Home {
   constructor(
@@ -24,3 +25,7 @@ export class Home {
     this._authService.logout();
   }
 }
+
+
+
+

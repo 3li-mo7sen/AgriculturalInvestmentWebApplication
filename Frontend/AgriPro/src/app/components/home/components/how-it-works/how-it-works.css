@@ -1,0 +1,30 @@
+.how-it-works-section {
+  background: #f5f8f3;
+}
+.workflow-card {
+  border-radius: 24px;
+  background: #ffffff;
+}
+.workflow-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 18px;
+  background: #0f5132;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 1.65rem;
+  margin: 0 auto;
+}
+.step-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f5132;
+  color: #ffffff;
+  font-weight: 700;
+  margin: 0 auto;
+}

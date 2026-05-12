@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { LoadingService } from '../../services/loading/loading.service';
 
 @Component({
+  standalone: true,
   selector: 'app-global-loader',
   imports: [CommonModule],
   templateUrl: './global-loader.html',
-  styleUrl: './global-loader.css',
+  styleUrls: ['./global-loader.css'],
 })
 export class GlobalLoader {
 
@@ -25,3 +26,6 @@ export class GlobalLoader {
 
 
 }
+
+
+
