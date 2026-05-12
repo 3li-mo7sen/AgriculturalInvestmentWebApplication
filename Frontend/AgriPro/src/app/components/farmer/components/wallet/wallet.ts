@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
+import { Earnings } from './components/earnings/earnings';
+import { LinkedBank } from './components/linked-bank/linked-bank';
+import { QuickActions } from './components/quick-actions/quick-actions';
+import { TransactionHistory } from './components/transaction-history/transaction-history';
+import { WalletCards } from './components/wallet-cards/wallet-cards';
 
 @Component({
   selector: 'app-wallet',
-  imports: [],
+  imports: [Earnings,LinkedBank,QuickActions,TransactionHistory,WalletCards],
   templateUrl: './wallet.html',
   styleUrl: './wallet.css',
 })
