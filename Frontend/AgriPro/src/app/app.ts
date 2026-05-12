@@ -4,10 +4,11 @@ import { AuthService } from './services/auth/auth.service';
 import { GlobalLoader } from './components/global-loader/global-loader';
 
 @Component({
+  standalone: true,
   selector: 'app-root',
   imports: [RouterOutlet,GlobalLoader],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
 export class App implements OnInit {
   protected readonly title = signal('AgriPro');
@@ -19,3 +20,6 @@ export class App implements OnInit {
     this._authService.decodeToken();
   }
 }
+
+
+

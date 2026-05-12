@@ -1,0 +1,58 @@
+.features-section {
+  background: #ffffff;
+}
+.highlight-card {
+  border-radius: 28px;
+  background: #f6faf2;
+}
+.highlight-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: #0f5132;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: 1.35rem;
+}
+.feature-card {
+  border-radius: 24px;
+  background: #ffffff;
+}
+.feature-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: rgba(16, 121, 58, 0.12);
+  color: #12703d;
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+}
+.features-section h2 {
+  max-width: 560px;
+}
+.features-section .badge {
+  font-size: 0.82rem;
+  padding: 0.55rem 0.9rem;
+}
+.placeholder-line {
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.08);
+}
+.placeholder-line.w-100 {
+  min-width: 100%;
+}
+.placeholder-line.w-75 {
+  min-width: 75%;
+}
+.placeholder-block {
+  min-height: 68px;
+}
+.placeholder-badge {
+  min-width: 110px;
+  min-height: 30px;
+  padding: 0;
+  background: rgba(15, 23, 42, 0.06);
+}
