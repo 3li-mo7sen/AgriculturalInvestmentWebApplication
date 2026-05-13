@@ -53,7 +53,8 @@ export class AuthService {
         this.userData = null;
         sessionStorage.clear();
         this._Router.navigate(['/login']);
-      }
+      },
+      error: (err) => {console.log("error: ",err) }
     });
   }
 
