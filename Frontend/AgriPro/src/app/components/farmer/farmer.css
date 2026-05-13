@@ -1,16 +1,24 @@
 .dashboard-wrapper {
   display: flex;
-  height: 100vh; 
+  height: 100vh;
+}
+
+main.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 0 1.25rem 0;
+  background: #edf2ec;
+  overflow-y: auto;
 }
 
 .sidebar {
   width: 260px;
-  background-color: #06402B; 
+  background-color: #06402B;
   color: white;
   display: flex;
   flex-direction: column;
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-  padding: 20px 15px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px 22px;
   position: relative;
 }
 
@@ -53,7 +61,7 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 12px 15px;
+  padding: 12px 18px;
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   margin-bottom: 10px;

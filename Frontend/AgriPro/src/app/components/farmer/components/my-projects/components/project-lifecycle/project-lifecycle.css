@@ -1,0 +1,103 @@
+.lifecycle-card {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  margin-top: 1.75rem;
+}
+
+.lifecycle-header h2 {
+  margin: 0 0 0.9rem;
+  font-size: 1.1rem;
+  color: #111b17;
+}
+
+.lifecycle-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.lifecycle-stage {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #4f5a52;
+}
+
+.lifecycle-stage span:last-child {
+  color: inherit;
+}
+
+.step-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: block;
+}
+
+.lifecycle-stage.draft .step-dot {
+  background: #e7e5dd;
+}
+
+.lifecycle-stage.verification .step-dot {
+  background: #d4a93f;
+}
+
+.lifecycle-stage.approved .step-dot {
+  background: #12733e;
+}
+
+.lifecycle-stage.open .step-dot {
+  background: #1970b7;
+}
+
+.lifecycle-stage.funded .step-dot,
+.lifecycle-stage.active .step-dot,
+.lifecycle-stage.completed .step-dot {
+  background: #0f5132;
+}
+
+.lifecycle-stage.draft {
+  color: #7a7e76;
+}
+
+.lifecycle-stage.verification {
+  color: #8c7a24;
+}
+
+.lifecycle-stage.approved,
+.lifecycle-stage.funded,
+.lifecycle-stage.active,
+.lifecycle-stage.completed {
+  color: #0f5132;
+}
+
+.lifecycle-stage.open {
+  color: #16528d;
+}
+
+.lifecycle-arrow {
+  color: #9ea79a;
+  font-weight: 700;
+  min-width: 16px;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 991px) {
+  .lifecycle-flow {
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .lifecycle-flow {
+    padding-bottom: 0.5rem;
+  }
+}

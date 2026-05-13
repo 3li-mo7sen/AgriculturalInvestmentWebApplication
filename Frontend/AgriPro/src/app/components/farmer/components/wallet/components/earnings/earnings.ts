@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-earnings',
   imports: [],
   templateUrl: './earnings.html',
-  styleUrl: './earnings.css',
+  styleUrls: ['./earnings.css'],
 })
 export class Earnings {
 

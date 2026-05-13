@@ -1,1 +1,89 @@
-<p>security-farmer works!</p>
+<div class="security-page">
+  <section class="settings-card">
+    <div class="settings-card-header">
+      <div class="settings-card-title">
+        <span class="settings-card-icon green-icon">
+          <i class="fa-solid fa-lock"></i>
+        </span>
+        <div>
+          <h2>Change Password</h2>
+          <p>Update your password regularly for better security</p>
+        </div>
+      </div>
+    </div>
+
+    <form class="settings-form">
+      <div class="field-group">
+        <label>Current Password</label>
+        <div class="input-with-icon">
+          <input type="password" placeholder="Enter current password" />
+          <button type="button" class="field-icon" aria-label="Show password">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>New Password</label>
+        <div class="input-with-icon">
+          <input type="password" placeholder="Enter new password" />
+          <button type="button" class="field-icon" aria-label="Show password">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Confirm New Password</label>
+        <div class="input-with-icon">
+          <input type="password" placeholder="Confirm new password" />
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button type="submit" class="btn-primary btn-action">
+          <i class="fa-solid fa-lock"></i>
+          Update Password
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="settings-card compact-card">
+    <div class="settings-card-header">
+      <div class="settings-card-title">
+        <span class="settings-card-icon dark-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </span>
+        <div>
+          <h2>Security Options</h2>
+          <p>Add an extra layer of security to your account</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-list">
+      <div class="settings-row">
+        <div>
+          <p class="row-title">Two-Factor Authentication</p>
+          <p class="row-subtitle">Add an extra layer of security to your account</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <p class="row-title">Login Alerts</p>
+          <p class="row-subtitle">Get notified when someone logs into your account</p>
+        </div>
+        <label class="switch switch-on">
+          <input type="checkbox" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </section>
+</div>

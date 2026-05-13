@@ -1,9 +1,10 @@
 .navbar-custom {
-  background: #f8faf6;
+  background: #ffffff;
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  padding-top: 0.9rem;
-  padding-bottom: 0.9rem;
+  padding: 0.55rem 0.8rem;
   position: relative;
+  border-radius: 0;
+  width: 100%;
 }
 
 .navbar-custom .navbar-brand {
@@ -12,11 +13,9 @@
 }
 
 .brand-icon {
- 
-  height: 50px;
+  height: 38px;
   display: inline-grid;
   place-items: center;
- 
 }
 
 .brand-name {
@@ -80,7 +79,7 @@
 .navbar-custom .nav-link {
   color: #1e2f26;
   font-weight: 500;
-  padding: 0.5rem 0.75rem;
+  padding: 0.35rem 0.6rem;
 }
 
 .navbar-custom .nav-link:hover,
@@ -94,13 +93,14 @@
 }
 
 .btn-start {
-  min-width: 152px;
-  padding: 0.78rem 1.35rem;
+  min-width: 130px;
+  padding: 0.55rem 1.1rem;
   border-radius: 999px;
   background-color: #0f5132;
   border: none;
   color: #ffffff;
   font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .btn-start:hover,
@@ -111,8 +111,12 @@
 
 @media (max-width: 991px) {
   .navbar-custom {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+  .navbar-custom .container-fluid {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
   }
   .nav-actions {
     margin-top: 1rem;

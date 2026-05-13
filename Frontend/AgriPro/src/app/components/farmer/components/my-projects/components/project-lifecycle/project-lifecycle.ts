@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-project-lifecycle',
   imports: [],
   templateUrl: './project-lifecycle.html',
-  styleUrl: './project-lifecycle.css',
+  styleUrls: ['./project-lifecycle.css'],
 })
 export class ProjectLifecycle {
 

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-quick-actions',
   imports: [],
   templateUrl: './quick-actions.html',
-  styleUrl: './quick-actions.css',
+  styleUrls: ['./quick-actions.css'],
 })
 export class QuickActions {
 

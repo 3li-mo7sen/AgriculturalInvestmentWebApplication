@@ -1,0 +1,18 @@
+.tip-card {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 1.75rem;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+}
+
+.tip-card-header h2 {
+  margin: 0 0 1rem;
+  font-size: 1.35rem;
+  color: #152c1f;
+}
+
+.tip-card p {
+  margin: 0;
+  color: #5d6962;
+  line-height: 1.8;
+}

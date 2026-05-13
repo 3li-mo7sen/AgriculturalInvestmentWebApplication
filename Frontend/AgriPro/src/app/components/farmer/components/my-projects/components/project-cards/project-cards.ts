@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-project-cards',
   imports: [],
   templateUrl: './project-cards.html',
-  styleUrl: './project-cards.css',
+  styleUrls: ['./project-cards.css'],
 })
 export class ProjectCards {
 

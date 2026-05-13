@@ -1,1 +1,46 @@
-<p>add-project-form works!</p>
+<section class="form-card">
+  <div class="form-header">
+    <div>
+      <h2>Basic Project Information</h2>
+      <p>Provide the basic details about your agricultural project.</p>
+    </div>
+  </div>
+
+  <form class="project-form">
+    <div class="field-group">
+      <label>Project Title</label>
+      <input type="text" placeholder="e.g., Wheat Farm Investment - Beheira" />
+    </div>
+
+    <div class="field-group">
+      <label>Short Description</label>
+      <textarea rows="2" placeholder="Brief overview of your project (max 150 characters)"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label>Full Description</label>
+      <textarea rows="4" placeholder="Detailed description of your agricultural project, including history, methods, and expected outcomes..."></textarea>
+    </div>
+
+    <div class="field-group">
+      <label>Crop Type</label>
+      <div class="select-wrap">
+        <select>
+          <option>Select crop type</option>
+          <option>Wheat</option>
+          <option>Mango</option>
+          <option>Vegetables</option>
+          <option>Cotton</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary">Previous</button>
+      <div class="action-group">
+        <button type="button" class="btn btn-save">Save Draft</button>
+        <button type="submit" class="btn btn-primary">Continue</button>
+      </div>
+    </div>
+  </form>
+</section>

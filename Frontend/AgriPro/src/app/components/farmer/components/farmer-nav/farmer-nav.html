@@ -1,1 +1,29 @@
-<p>farmer-nav works!</p>
+<section class="farmer-header bg-white rounded-3 p-2 shadow-sm mb-4">
+  <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+    <div class="header-copy">
+      <h1 class="header-title mb-1">{{ pageTitle }}</h1>
+      <p class="header-subtitle text-muted mb-0">{{ pageSubtitle }}</p>
+    </div>
+
+    <div class="header-actions d-flex flex-column flex-sm-row align-items-center gap-3">
+      <div class="search-box w-100 w-sm-auto">
+        <div class="input-group search-input-group rounded-pill overflow-hidden bg-light border">
+          <span class="input-group-text bg-transparent border-0 text-secondary">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+          <input type="search" class="form-control border-0 bg-transparent px-2" placeholder="Search..." aria-label="Search" />
+        </div>
+      </div>
+
+      <button class="btn btn-light btn-notification position-relative">
+        <i class="fa-solid fa-bell"></i>
+        <span class="notification-badge">2</span>
+      </button>
+
+      <button class="btn btn-user d-flex align-items-center gap-2">
+        <span class="user-avatar"><i class="fa-solid fa-user"></i></span>
+        <span class="user-name">Ahmed Hassan</span>
+      </button>
+    </div>
+  </div>
+</section>
