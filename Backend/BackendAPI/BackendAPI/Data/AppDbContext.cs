@@ -10,7 +10,8 @@ namespace BackendAPI.Data
         public DbSet<Investor> Investors { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<ExpertTeam> ExpertTeams { get; set; }
-
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<UserChatPreference> UserChatPreferences { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Investment> Investments { get; set; }
         public DbSet<Contract> Contracts { get; set; }
