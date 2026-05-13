@@ -3,13 +3,10 @@ using BackendAPI.Interfaces;
 using BackendAPI.Middleware;
 using BackendAPI.Models;
 using BackendAPI.Services;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-
-
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // ==========================================================
 
 
-// ======================== Services ========================
+// ======================= Services =======================
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IInvestmentService, InvestmentService>();
@@ -105,6 +102,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme =
         JwtBearerDefaults.AuthenticationScheme;
 })
+
 .AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -161,6 +159,7 @@ app.UseAuthorization();
 
 
 app.MapControllers();
+
 
 
 app.Run();
