@@ -22,6 +22,16 @@ import { ProfileFarmer } from './components/farmer/components/settings/component
 import { SecurityFarmer } from './components/farmer/components/settings/components/security-farmer/security-farmer';
 import { NotificationsFarmer } from './components/farmer/components/settings/components/notifications-farmer/notifications-farmer';
 import { PreferencesFarmer } from './components/farmer/components/settings/components/preferences-farmer/preferences-farmer';
+import { InvestorDashboard } from './components/investor/components/investor-dashboard/investor-dashboard';
+import { InvestorProjects } from './components/investor/components/investor-projects/investor-projects';
+import { InvestorInvestments } from './components/investor/components/investor-investments/investor-investments';
+import { InvestorWallet } from './components/investor/components/investor-wallet/investor-wallet';
+import { InvestorSettings } from './components/investor/components/investor-settings/investor-settings';
+import { InvestorHistory } from './components/investor/components/investor-history/investor-history';
+import { ProfileInvestor } from './components/investor/components/investor-settings/components/profile-investor/profile-investor';
+import { SecurityInvestor } from './components/investor/components/investor-settings/components/security-investor/security-investor';
+import { NotificationsInvestor } from './components/investor/components/investor-settings/components/notifications-investor/notifications-investor';
+import { PreferencesInvestor } from './components/investor/components/investor-settings/components/preferences-investor/preferences-investor';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -51,7 +61,27 @@ export const routes: Routes = [
         ]
 },         
     ]  },
-  { path: 'investor', component: Investor , canActivate: [authGuard, roleGuard], data: { role: 'Investor' } }
+  {
+    path: 'investor', component: Investor, canActivate: [authGuard, roleGuard], data: { role: 'Investor' },
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: InvestorDashboard },
+      { path: 'available-projects', component:InvestorProjects  },
+      { path: 'my-investments', component: InvestorInvestments },
+      { path: 'investment-history', component: InvestorHistory },
+      { path: 'wallet', component: InvestorWallet },
+      {
+        path: 'settings', component: InvestorSettings,
+        children: [
+          { path: '', redirectTo: 'profile', pathMatch: 'full' }, // لو دخل سيتنجز بس يفتح بروفايل
+          { path: 'profile', component:  ProfileInvestor},
+          { path: 'security', component: SecurityInvestor },
+          { path: 'notifications', component: NotificationsInvestor },
+          { path: 'preferences', component: PreferencesInvestor }
+        ]
+      }
+      ]
+  }
   
 
 
