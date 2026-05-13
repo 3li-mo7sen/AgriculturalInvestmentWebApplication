@@ -1,0 +1,125 @@
+.recent-projects-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 1.45rem 1.6rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+}
+
+.recent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.3rem;
+}
+
+.recent-header h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  color: #0f2f1b;
+}
+
+.view-all-link {
+  color: #0f5132;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.view-all-link i {
+  margin-left: 0.35rem;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.projects-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.projects-table th,
+.projects-table td {
+  padding: 1rem 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.projects-table thead th {
+  font-weight: 700;
+  color: #24323d;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.projects-table tbody tr {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.projects-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.87rem;
+}
+
+.status-active {
+  background: #d8f3dd;
+  color: #0f5132;
+}
+
+.status-review {
+  background: #fff4d2;
+  color: #b38600;
+}
+
+.status-funded {
+  background: #dceffb;
+  color: #17527c;
+}
+
+.status-draft {
+  background: #f3f3ef;
+  color: #64665f;
+}
+
+.progress-wrap {
+  width: 180px;
+  height: 10px;
+  background: #ececec;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-right: 0.75rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0;
+  background: #e9ecec;
+}
+
+.progress-bar.filled {
+  background: #0f5132;
+}
+
+.projects-table td:last-child {
+  color: #9ca5ab;
+}
+
+@media (max-width: 991px) {
+  .recent-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .projects-table {
+    min-width: 100%;
+  }
+}

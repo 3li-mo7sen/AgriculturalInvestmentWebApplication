@@ -1,0 +1,45 @@
+.action-card {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 1.75rem;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+}
+
+.action-card-header h2 {
+  margin: 0 0 1.3rem;
+  font-size: 1.35rem;
+  color: #152c1f;
+}
+
+.action-buttons {
+  display: grid;
+  gap: 1rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 0.95rem 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #0f5132;
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background: #f6f6ef;
+  color: #1f3428;
+}
+
+.btn-secondary i,
+.btn-primary i {
+  font-size: 0.95rem;
+}

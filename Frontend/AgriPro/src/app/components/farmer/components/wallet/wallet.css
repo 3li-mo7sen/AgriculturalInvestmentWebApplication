@@ -1,0 +1,27 @@
+.wallet-page {
+  display: grid;
+  gap: 1.75rem;
+  padding-inline-start: 1.75rem;
+}
+
+.wallet-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.3fr) minmax(300px, 1fr);
+  gap: 2rem;
+}
+
+.wallet-main {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.wallet-sidebar {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (max-width: 991px) {
+  .wallet-layout {
+    grid-template-columns: 1fr;
+  }
+}

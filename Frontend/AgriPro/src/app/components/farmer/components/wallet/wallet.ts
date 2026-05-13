@@ -6,10 +6,11 @@ import { TransactionHistory } from './components/transaction-history/transaction
 import { WalletCards } from './components/wallet-cards/wallet-cards';
 
 @Component({
+  standalone: true,
   selector: 'app-wallet',
-  imports: [Earnings,LinkedBank,QuickActions,TransactionHistory,WalletCards],
+  imports: [Earnings, LinkedBank, QuickActions, TransactionHistory, WalletCards],
   templateUrl: './wallet.html',
-  styleUrl: './wallet.css',
+  styleUrls: ['./wallet.css'],
 })
 export class Wallet {
 

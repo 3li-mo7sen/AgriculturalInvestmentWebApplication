@@ -1,5 +1,14 @@
-<app-wallet-cards></app-wallet-cards>
-<app-transaction-history></app-transaction-history>
-<app-quick-actions></app-quick-actions>
-<app-linked-bank></app-linked-bank>
-<app-earnings></app-earnings>
+<section class="wallet-page">
+  <app-wallet-cards></app-wallet-cards>
+
+  <div class="wallet-layout">
+    <div class="wallet-main">
+      <app-transaction-history></app-transaction-history>
+    </div>
+    <aside class="wallet-sidebar">
+      <app-quick-actions></app-quick-actions>
+      <app-linked-bank></app-linked-bank>
+      <app-earnings></app-earnings>
+    </aside>
+  </div>
+</section>

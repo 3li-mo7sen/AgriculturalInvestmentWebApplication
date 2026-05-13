@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-linked-bank',
   imports: [],
   templateUrl: './linked-bank.html',
-  styleUrl: './linked-bank.css',
+  styleUrls: ['./linked-bank.css'],
 })
 export class LinkedBank {
 

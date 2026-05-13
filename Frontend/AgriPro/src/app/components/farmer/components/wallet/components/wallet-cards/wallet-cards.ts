@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-wallet-cards',
   imports: [],
   templateUrl: './wallet-cards.html',
-  styleUrl: './wallet-cards.css',
+  styleUrls: ['./wallet-cards.css'],
 })
 export class WalletCards {
 
