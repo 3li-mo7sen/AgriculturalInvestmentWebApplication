@@ -17,7 +17,7 @@ export class App implements OnInit {
     private _authService:AuthService
   ) { }
   ngOnInit() {
-    this._authService.decodeToken();
+ 
   }
 }
 

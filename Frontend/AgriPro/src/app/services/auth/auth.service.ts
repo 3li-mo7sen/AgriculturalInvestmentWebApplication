@@ -8,87 +8,60 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  userData: any=null;
+  userData: any = null;
+
   constructor(
     private _HttpClient: HttpClient,
-    private _Router:Router
-  ) { }
+    private _Router: Router
+  ) {
+    // استرجاع الحالة عند عمل Refresh
+    this.loadUserFromStorage();
+  }
 
   login(data: object) {
-    return this._HttpClient.post(`${environment.baseUrl}/api/Auth/login`, data);
+    return this._HttpClient.post(`${environment.baseUrl}/api/Auth/login`, data, {
+      withCredentials: true // مهم جداً للكوكيز
+    });
   }
 
-  saveToken(token:string){
-    localStorage.setItem('token', token);
-    this.decodeToken();
+  saveUserStatus(res: any) {
+    this.userData = res.user;
+    sessionStorage.setItem('userRole', res.role);
   }
 
-  decodeToken() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.userData = jwtDecode(token);
+  private loadUserFromStorage() {
+    const savedRole = sessionStorage.getItem('userRole');
+    if (savedRole) {
+      this.userData = { role: savedRole };
     }
   }
 
   getRole(): string | null {
-    if (!this.userData) return null;
-
-
-    return this.userData['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-  }
-
-  logout(): void {
-    localStorage.removeItem('token');
-    this.userData = null;
-    this._Router.navigate(['/login']);
+    if (this.userData && this.userData.role) {
+      return this.userData.role;
+    }
+    return sessionStorage.getItem('userRole');
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return !!sessionStorage.getItem('userRole');
   }
 
-  isTokenExpired(): boolean {
-    const token = localStorage.getItem('token');
-    if (!token) return true;
-
-    const decoded: any = jwtDecode(token);
-
-    return decoded.exp * 1000 < Date.now();
-  }
-
-  startAutoLogout() {
-    const token = localStorage.getItem('token');
-    if (!token) return;
-
-    const decoded: any = jwtDecode(token);
-
-    const expiryTime = decoded.exp * 1000;
-    const currentTime = Date.now();
-
-    const timeout = expiryTime - currentTime;
-
-    if (timeout > 0) {
-      setTimeout(() => { this.logout(); }, timeout);
-    }
-    else {
-      this.logout();
-    }
+  logout(): void {
+    this._HttpClient.post(`${environment.baseUrl}/api/Auth/logout`, {}, { withCredentials: true }).subscribe({
+      next: () => {
+        this.userData = null;
+        sessionStorage.clear();
+        this._Router.navigate(['/login']);
+      }
+    });
   }
 
   redirectUser() {
     const role = this.getRole();
-
-    if (role == 'Admin') {
-      this._Router.navigate(['/admin']);
-    }
-    else if (role == 'Expert') {
-      this._Router.navigate(['/expert']);
-    }
-    else if (role == 'Farmer') {
-      this._Router.navigate(['/farmer']);
-    }
-    else if (role == 'Investor') {
-      this._Router.navigate(['/investor']);
-    }
+    if (role === 'Admin') this._Router.navigate(['/admin']);
+    else if (role === 'Expert') this._Router.navigate(['/expert']);
+    else if (role === 'Farmer') this._Router.navigate(['/farmer']);
+    else if (role === 'Investor') this._Router.navigate(['/investor']);
   }
 }

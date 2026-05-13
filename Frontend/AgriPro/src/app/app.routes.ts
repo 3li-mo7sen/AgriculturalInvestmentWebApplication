@@ -28,11 +28,11 @@ export const routes: Routes = [
   { path: 'home', component: Home ,/*canActivate:[authGuard]*/},
   { path: 'login', component: Login, canActivate: [loginGuard] },
   { path: 'register', component: Register },
-  { path: 'admin', component: Admin /* ,canActivate:[authGuard,roleGuard],data:{role:'Admin'}*/ },
-  { path: 'expert', component: Expert /*, canActivate: [authGuard, roleGuard], data: { role: 'Expert' }*/ },
+  { path: 'admin', component: Admin  ,canActivate:[authGuard,roleGuard],data:{role:'Admin'} },
+  { path: 'expert', component: Expert , canActivate: [authGuard, roleGuard], data: { role: 'Expert' }},
   { path: 'confirm-email', component: ConfirmEmailComponent },
   {
-    path: 'farmer', component: Farmer/*, canActivate: [authGuard, roleGuard], data: { role: 'Farmer' }*/,
+    path: 'farmer', component: Farmer, canActivate: [authGuard, roleGuard], data: { role: 'Farmer' },
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: FarmerDashboard },
@@ -51,7 +51,7 @@ export const routes: Routes = [
         ]
 },         
     ]  },
-  { path: 'investor', component: Investor /*, canActivate: [authGuard, roleGuard], data: { role: 'Investor' }*/ }
+  { path: 'investor', component: Investor , canActivate: [authGuard, roleGuard], data: { role: 'Investor' } }
   
 
 

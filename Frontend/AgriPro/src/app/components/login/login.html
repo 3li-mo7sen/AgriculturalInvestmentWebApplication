@@ -1,43 +1,80 @@
-<h1>{{loginForm.value|json}}</h1>
-<h2>{{loginForm.errors|json}}</h2>
-<form [formGroup]="loginForm" (ngSubmit)="login()">
-  @if(serverError){
-  <div class="alert alert-danger mt-2">
-    {{serverError}}
-  </div>
-  }
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" formControlName="email">
-    @if(loginForm.get('email')?.touched&&loginForm.get('email')?.invalid){
-    <div class="alert alert-danger mt-2">
-      @if(loginForm.get('email')?.errors?.['required']){
-      <small>Email is required</small>
-      }
-      @if(loginForm.get('email')?.errors?.['email']){
-      <small>Invalid email</small>
-      }
+<div class="register-page-wrapper">
+  <div class="register-content-card">
+    <div class="info-sidebar">
+      <div class="logo-area">
+        <img src="../../../assets/images/logo-new.png" alt="Logo" class="mini-logo">
+        <span>Agri-Pro</span>
+      </div>
+      <div class="main-content-text">
+        <h1>Join Egypt's Leading Agricultural Investment Platform</h1>
+        <p>Whether you're a farmer looking for investment, an investor seeking returns, or an expert wanting to verify projects - there's a place for you here.</p>
+      </div>
+      <div class="sidebar-footer">
+        Your data is protected with bank-grade encryption.
+      </div>
     </div>
 
-    }
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="password" formControlName="password">
-    @if(loginForm.get('password')?.touched&&loginForm.get('password')?.invalid){
-    <div class="alert alert-danger mt-2">
-      @if(loginForm.get('password')?.errors?.['required']){
-      <small>Password is required</small>
-      }
-      @if(loginForm.get('password')?.errors?.['minlength']){
-      <small>Password must be at least 6 chars</small>
-      }
-    </div>
+    <div class="form-section">
+     
+        <div class="form-wrapper">
+          <!-- العناوين العلوية -->
+          <div class="auth-header mb-5">
+            <h2>Sign in to your account</h2>
+            <p>Don't have an account? <a href="#" class="create-link" routerLink="/register">Create one now</a></p>
+          </div>
+          <form [formGroup]="loginForm" (ngSubmit)="login()">
+            @if(serverError){
+            <div class="alert alert-danger mt-2">
+              {{serverError}}
+            </div>
+            }
+            <div class="mb-4">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="custom-input w-100" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="you@example.com" formControlName="email">
 
-    }
-  </div>
+              <div class="error-wrapper">
+                @if(loginForm.get('email')?.touched && loginForm.get('email')?.invalid){
+                @if(loginForm.get('email')?.errors?.['required']){
+                <small>Email is required</small>
+                }
+                @if(loginForm.get('email')?.errors?.['email']){
+                <small>Invalid email format</small>
+                }
+                }
+              </div>
 
-  <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+              
+            </div>
+            <div class="mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-2">
 
 
-</form>
+
+                <label for="exampleInputPassword1" class="form-label mb-0">Password</label>
+                <a href="#" class="forgot-link">Forgot password?</a>
+              </div>
+              <div class="password-wrapper">
+                <input type="password" class="custom-input w-100" placeholder="Enter your password" id="exampleInputPassword1" name="password" formControlName="password">
+                <i class="fa-regular fa-eye password-icon"></i>
+
+
+              </div>
+              <div class="error-wrapper">
+                @if(loginForm.get('password')?.touched && loginForm.get('password')?.invalid){
+                @if(loginForm.get('password')?.errors?.['required']){
+                <small>Password is required</small>
+                }
+                }
+              </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-submit w-100" [disabled]="loginForm.invalid">Login</button>
+
+
+          </form>
+        </div>
+      
+       </div>
+     </div>
+</div>
