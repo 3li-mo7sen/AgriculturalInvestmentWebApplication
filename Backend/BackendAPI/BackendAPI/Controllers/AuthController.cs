@@ -182,7 +182,42 @@ namespace BackendAPI.Controllers
             return Ok(new { success = true, message = result.Message });
         }
 
-    }
+        //=======================Resend reset password email=======================
+        // GET /api/Auth/resend-reset-password
+        [HttpGet("resend-reset-password")]
+        public async Task<IActionResult> ResendResetPassword([FromQuery] ResendEmailDto dto)
+        {
+            var result = await _auth.ResendForgetPasswordEmailAsync(dto.Email);
 
+            if (!result.Success)
+                return BadRequest(new
+                {
+                    success = false,
+                    message = result.Message
+                });
+
+            return Ok(new
+            {
+                success = true,
+                message = result.Message
+            });
+        }
+
+        //=======================Logout=======================
+        // POST /api/Auth/logout
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("token");
+
+            return Ok(new
+            {
+                success = true,
+                message = "Logged out successfully"
+            });
+        }
+
+
+    }
   
 }

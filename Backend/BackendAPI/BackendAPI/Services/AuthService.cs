@@ -352,5 +352,33 @@ namespace BackendAPI.Services
             return (true, "Activation email sent successfully");
         }
 
+        public async Task<(bool Success, string Message)> ResendForgetPasswordEmailAsync(string email)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(x => x.Email == email);
+
+            if (user == null)
+                return (false, "User not found");
+
+            // Generate new reset token
+            var token = Guid.NewGuid().ToString();
+
+            user.ResetToken = token;
+            user.ResetTokenExpiry = DateTime.UtcNow.AddMinutes(30);
+
+            await _context.SaveChangesAsync();
+
+            // Send reset password email again
+            await SendEmail(
+                user.Email,
+                token,
+                "reset-password",
+                "Reset your password",
+                "Click the link to reset your password"
+            );
+
+            return (true, "Reset password email sent successfully");
+        }
+
     }
 }
