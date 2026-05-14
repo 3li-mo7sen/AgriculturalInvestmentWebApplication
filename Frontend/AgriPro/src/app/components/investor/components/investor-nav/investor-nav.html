@@ -1,1 +1,72 @@
-<p>investor-nav works!</p>
+<section class="investor-header bg-white rounded-3 p-2 shadow-sm mb-4">
+  <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+    <div class="header-copy">
+      <h1 class="header-title mb-1">{{ pageTitle }}</h1>
+      <p class="header-subtitle text-muted mb-0">{{ pageSubtitle }}</p>
+    </div>
+
+    <div class="header-actions d-flex flex-column flex-sm-row align-items-center gap-3">
+      <div class="search-box w-100 w-sm-auto">
+        <div class="input-group search-input-group rounded-pill overflow-hidden bg-light border">
+          <span class="input-group-text bg-transparent border-0 text-secondary">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+          <input type="search" class="form-control border-0 bg-transparent px-2" placeholder="Search..." aria-label="Search" />
+        </div>
+      </div>
+
+      <div class="dropdown-wrapper">
+        <button class="btn btn-light btn-notification position-relative" type="button" (click)="toggleNotifications($event)">
+          <i class="fa-solid fa-bell"></i>
+          <span class="notification-badge">2</span>
+        </button>
+
+        <div class="dropdown-card notifications-menu shadow-sm" *ngIf="showNotificationsMenu">
+          <div class="dropdown-card-header d-flex align-items-center justify-content-between">
+            <span>Notifications</span>
+            <button type="button" class="btn-clear" (click)="markAllRead($event)">Mark all as read</button>
+          </div>
+          <div class="dropdown-item">
+            <div class="item-icon success-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="item-body">
+              <strong>Project Approved</strong>
+              <p>Your Wheat Farm project has been verified and approved.</p>
+              <span class="item-time">2 hours ago</span>
+            </div>
+          </div>
+          <div class="dropdown-item">
+            <div class="item-icon info-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+            <div class="item-body">
+              <strong>New Investment</strong>
+              <p>You received a new investment of EGP 25,000.</p>
+              <span class="item-time">5 hours ago</span>
+            </div>
+          </div>
+          <div class="dropdown-item">
+            <div class="item-icon success-icon"><i class="fa-solid fa-file-check"></i></div>
+            <div class="item-body">
+              <strong>Document Verified</strong>
+              <p>Your land ownership document has been verified.</p>
+              <span class="item-time">1 day ago</span>
+            </div>
+          </div>
+          <button type="button" class="dropdown-link" (click)="goToNotifications()">View all notifications</button>
+        </div>
+      </div>
+
+      <div class="dropdown-wrapper">
+        <button class="btn btn-user d-flex align-items-center gap-2" type="button" (click)="toggleAccount($event)">
+          <span class="user-avatar"><i class="fa-solid fa-user"></i></span>
+          <span class="user-name">Ahmed Hassan</span>
+        </button>
+        <div class="dropdown-card account-menu shadow-sm" *ngIf="showAccountMenu">
+          <button type="button" class="dropdown-link" (click)="goToProfile()">My Profile</button>
+          <button type="button" class="dropdown-link" (click)="goToSettings()">Settings</button>
+          <button type="button" class="dropdown-link" (click)="goToHelpCenter()">Help Center</button>
+          <div class="dropdown-divider"></div>
+          <button type="button" class="dropdown-link text-danger" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

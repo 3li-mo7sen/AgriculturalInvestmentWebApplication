@@ -1,1 +1,15 @@
-<p>invest-wallet-quick works!</p>
+<section class="action-card">
+  <div class="action-card-header">
+    <h2>Quick Actions</h2>
+  </div>
+  <div class="action-buttons">
+    <button class="btn-primary" type="button" (click)="addFunds.emit()">
+      <span class="action-icon">+</span>
+      Add Funds
+    </button>
+    <button class="btn-secondary" type="button" (click)="withdrawEarnings.emit()">
+      <span class="action-icon">↗</span>
+      Withdraw Earnings
+    </button>
+  </div>
+</section>

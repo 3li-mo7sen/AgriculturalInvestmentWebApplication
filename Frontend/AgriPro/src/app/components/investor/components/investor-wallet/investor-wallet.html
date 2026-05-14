@@ -1,5 +1,60 @@
-<app-invest-wallet-cards></app-invest-wallet-cards>
-<app-invest-wallet-transactions></app-invest-wallet-transactions>
-<app-invest-wallet-quick></app-invest-wallet-quick>
-<app-invest-wallet-bank></app-invest-wallet-bank>
-<app-invest-wallet-tip></app-invest-wallet-tip>
+<div class="investor-wallet-page">
+  <section class="wallet-section">
+    <app-invest-wallet-cards></app-invest-wallet-cards>
+  </section>
+
+  <section class="wallet-section wallet-actions-section">
+    <div class="wallet-small-grid">
+      <app-invest-wallet-quick
+        (addFunds)="openAddFunds()"
+        (withdrawEarnings)="openWithdraw()"
+      ></app-invest-wallet-quick>
+      <app-invest-wallet-bank></app-invest-wallet-bank>
+    </div>
+  </section>
+
+  <section class="wallet-section">
+    <app-invest-wallet-transactions></app-invest-wallet-transactions>
+  </section>
+
+  <section class="wallet-section wallet-tip-section">
+    <app-invest-wallet-tip></app-invest-wallet-tip>
+  </section>
+
+  <div class="wallet-modal-backdrop" *ngIf="showAddFundsModal || showWithdrawModal" (click)="closeModal()">
+    <div class="wallet-modal" (click)="$event.stopPropagation()">
+      <button class="modal-close" aria-label="Close" (click)="closeModal()">×</button>
+      <h2>{{ showAddFundsModal ? 'Add Funds' : 'Withdraw Earnings' }}</h2>
+      <p class="modal-subtitle">
+        {{ showAddFundsModal ? 'Transfer funds to your investment wallet' : 'Transfer funds to your bank account' }}
+      </p>
+
+      <div *ngIf="showWithdrawModal" class="balance-card">
+        <p>Available Balance</p>
+        <strong>EGP 75,000</strong>
+      </div>
+
+      <label class="field-label" for="amount">Amount (EGP)</label>
+      <input id="amount" type="number" placeholder="Enter amount" class="modal-input" />
+
+      <label class="field-label" for="account">
+        {{ showAddFundsModal ? 'From Account' : 'To Account' }}
+      </label>
+      <button id="account" class="account-select" type="button">
+        CIB - ****7823
+        <span class="select-arrow">▾</span>
+      </button>
+
+      <div class="modal-note">
+        {{ showAddFundsModal ? 'Funds will be available immediately after bank confirmation' : 'Processing time: 2-3 business days' }}
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn modal-cancel" type="button" (click)="closeModal()">Cancel</button>
+        <button class="modal-btn modal-submit" type="button">
+          {{ showAddFundsModal ? 'Add Funds' : 'Withdraw' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

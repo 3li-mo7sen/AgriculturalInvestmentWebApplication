@@ -5,9 +5,9 @@ import { InvestorNav } from './components/investor-nav/investor-nav';
 
 @Component({
   selector: 'app-investor',
-  imports: [CommonModule,RouterLink,RouterOutlet,RouterLinkActive,InvestorNav],
+  imports: [CommonModule, RouterLink, RouterOutlet, RouterLinkActive, InvestorNav],
   templateUrl: './investor.html',
-  styleUrl: './investor.css',
+  styleUrls: ['./investor.css'],
 })
 export class Investor {
   isCollapsed: boolean = false;
@@ -17,8 +17,6 @@ export class Investor {
   }
 
   logout() {
-    // كود الخروج هنا (مثلاً نمسح الـ Token ونرجع لصفحة Login)
     console.log('User logged out');
   }
-
 }
