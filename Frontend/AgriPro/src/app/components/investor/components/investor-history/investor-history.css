@@ -1,0 +1,13 @@
+.history-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 16px 12px 24px;
+}
+
+.history-page > * {
+  margin-bottom: 24px;
+}
+
+.history-page > *:last-child {
+  margin-bottom: 0;
+}

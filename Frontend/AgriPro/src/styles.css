@@ -1,7 +1,77 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
 body, html {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Ensure all text elements have consistent font */
+p, span, div, a, button, label, input, select, textarea {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Global investor card style normalization */
+.main-content .card,
+.main-content .stat-card,
+.main-content .wallet-card,
+.main-content .summary-card,
+.main-content .investment-card,
+.main-content .project-card,
+.main-content .linked-card,
+.main-content .tip-card,
+.main-content .settings-card,
+.main-content .history-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  color: #152c1b;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.main-content .card-title,
+.main-content .card-label,
+.main-content .wallet-card-label,
+.main-content .summary-label,
+.main-content .project-info h3,
+.main-content .investment-card h3,
+.main-content .section-header h2,
+.main-content .dashboard-number {
+  color: #4f5d4f;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.main-content .card-value,
+.main-content .wallet-card h3,
+.main-content .summary-card h3,
+.main-content .investment-card .roi,
+.main-content .roi-value,
+.main-content .dashboard-number,
+.main-content .project-card .project-info h3 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #000000;
+  line-height: 1.05;
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  gap: 0.35rem;
+}
+
+.main-content .card-detail,
+.main-content .wallet-card-note,
+.main-content .summary-label,
+.main-content .location,
+.main-content .farmer-name,
+.main-content .detail-group .label,
+.main-content .roi-label,
+.main-content .due-date {
+  color: #4f5d4f;
 }

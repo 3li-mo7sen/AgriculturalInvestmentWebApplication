@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-invest-wallet-quick',
   imports: [],
   templateUrl: './invest-wallet-quick.html',
-  styleUrl: './invest-wallet-quick.css',
+  styleUrls: ['./invest-wallet-quick.css'],
 })
 export class InvestWalletQuick {
-
+  @Output() addFunds = new EventEmitter<void>();
+  @Output() withdrawEarnings = new EventEmitter<void>();
 }

@@ -1,0 +1,176 @@
+.transactions-table-container {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header {
+  background: #f8f8f8;
+  border-bottom: 2px solid #e5e5e5;
+}
+
+.table-header th {
+  padding: 16px 20px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table-row {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s;
+}
+
+.table-row:hover {
+  background: #fafafa;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-row td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.project-cell {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.project-name {
+  display: block;
+}
+
+.amount-cell {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.amount-value {
+  display: block;
+}
+
+.roi-value {
+  display: block;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Type Badges */
+.type-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.type-badge.investment {
+  background: #d4edda;
+  color: #155724;
+}
+
+.type-badge.return {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-badge.active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-badge.active::before {
+  content: '↗';
+  font-size: 14px;
+}
+
+.status-badge.completed {
+  background: #cfe2ff;
+  color: #084298;
+}
+
+.status-badge.completed::before {
+  content: '✓';
+  font-size: 12px;
+}
+
+.status-badge.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.pending::before {
+  content: '⏱';
+  font-size: 12px;
+}
+
+/* Payment Badges */
+.payment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.payment-badge.verified {
+  background: #d4edda;
+  color: #155724;
+}
+
+.payment-badge.verified::before {
+  content: '✓';
+  font-size: 12px;
+}
+
+.payment-badge.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.payment-badge.pending::before {
+  content: '⏱';
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .table-header th,
+  .table-row td {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .table-header th {
+    font-size: 11px;
+  }
+}

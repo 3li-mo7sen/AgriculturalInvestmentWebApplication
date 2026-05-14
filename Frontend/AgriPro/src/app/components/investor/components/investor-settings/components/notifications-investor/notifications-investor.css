@@ -1,0 +1,94 @@
+.settings-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.settings-header h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.45rem;
+  color: #152c1f;
+}
+
+.settings-header p {
+  margin: 0 0 1.5rem;
+  color: #5f6d64;
+  font-size: 0.98rem;
+}
+
+.notification-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #ebefe7;
+}
+
+.notification-row:last-child {
+  border-bottom: none;
+}
+
+.notification-row h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  color: #152c1f;
+}
+
+.notification-row p {
+  margin: 0;
+  color: #5f6d64;
+  font-size: 0.94rem;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch span {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #dfe6dd;
+  border-radius: 999px;
+  transition: 0.25s ease;
+}
+
+.toggle-switch span::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: 0.25s ease;
+}
+
+.toggle-switch input:checked + span {
+  background: #0f5132;
+}
+
+.toggle-switch input:checked + span::before {
+  transform: translateX(22px);
+}
+
+@media (max-width: 680px) {
+  .notification-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

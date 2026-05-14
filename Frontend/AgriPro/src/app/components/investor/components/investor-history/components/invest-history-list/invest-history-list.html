@@ -1,1 +1,44 @@
-<p>invest-history-list works!</p>
+<div class="transactions-table-container">
+  <table class="transactions-table">
+    <thead>
+      <tr class="table-header">
+        <th>Project</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>ROI</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Payment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transaction of transactions" class="table-row">
+        <td class="project-cell">
+          <span class="project-name">{{ transaction.project }}</span>
+        </td>
+        <td>
+          <span class="type-badge" [ngClass]="transaction.typeClass">
+            {{ transaction.type }}
+          </span>
+        </td>
+        <td class="amount-cell">
+          <span class="amount-value">{{ transaction.amount }}</span>
+        </td>
+        <td>
+          <span class="roi-value">{{ transaction.roi }}</span>
+        </td>
+        <td>{{ transaction.date }}</td>
+        <td>
+          <span class="status-badge" [ngClass]="transaction.statusClass">
+            {{ transaction.status }}
+          </span>
+        </td>
+        <td>
+          <span class="payment-badge" [ngClass]="transaction.paymentClass">
+            {{ transaction.payment }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

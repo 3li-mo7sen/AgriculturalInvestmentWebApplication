@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-preferences-investor',
   imports: [],
   templateUrl: './preferences-investor.html',
-  styleUrl: './preferences-investor.css',
+  styleUrls: ['./preferences-investor.css'],
 })
 export class PreferencesInvestor {
 
