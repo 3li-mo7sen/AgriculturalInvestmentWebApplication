@@ -439,6 +439,254 @@ Failed to activate email
 
 ---
 
+### Endpoint: Forget Password
+
+**Purpose:** Send password reset email to user
+
+**HTTP Method:** `GET`  
+**Route:** `/api/Auth/forget-password`  
+**Authentication:** Not required  
+**Authorization:** None
+
+#### Query Parameters
+```
+email: string (required) - User's registered email address
+```
+
+#### Request Example
+```bash
+curl "http://localhost:5000/api/Auth/forget-password?email=user@example.com"
+```
+
+#### Success Response (200)
+```json
+{
+  "statusCode": 200,
+  "message": "Email sent successfully"
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "statusCode": 404,
+  "message": "Failed to send email"
+}
+```
+
+#### Status Codes
+| Code | Meaning |
+|------|---------|
+| 200 | Reset email sent successfully |
+| 400 | Email not found or failed to send |
+
+#### Frontend Usage
+- **Pages/Components:** Forgot password page
+- **Next Step:** Redirect user to check email and use reset link
+
+#### Business Logic
+1. Looks up user by email address
+2. Generates a unique reset token (GUID)
+3. Stores token with 30-minute expiry on user record
+4. Sends reset email with link containing the token
+5. Returns false if user not found (no account enumeration detail exposed to caller)
+
+#### Edge Cases
+- Email not registered in system
+- Token expires after 30 minutes; user must request again
+
+---
+
+### Endpoint: Reset Password
+
+**Purpose:** Reset user password using token received via email
+
+**HTTP Method:** `POST`  
+**Route:** `/api/Auth/reset-password`  
+**Authentication:** Not required  
+**Authorization:** None
+
+#### Request Headers
+```
+Content-Type: application/json
+```
+
+#### Request Body Schema
+```json
+{
+  "email": "string (required) - User's email address",
+  "token": "string (required) - Reset token received via email",
+  "password": "string (required) - New password"
+}
+```
+
+#### Request Example
+```bash
+curl -X POST http://localhost:5000/api/Auth/reset-password \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "token": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "password": "newSecurePassword123"
+  }'
+```
+
+#### Success Response (200)
+```json
+{
+  "statusCode": 200,
+  "message": "Password reset successfully"
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "statusCode": 400,
+  "message": "invalid token"
+}
+```
+
+#### Status Codes
+| Code | Meaning |
+|------|---------|
+| 200 | Password reset successfully |
+| 400 | User not found, invalid token, or token expired |
+
+#### Frontend Usage
+- **Pages/Components:** Reset password page (accessed via email link)
+- **Next Step:** Redirect to login after successful reset
+
+#### Business Logic
+1. Looks up user by email
+2. Validates the provided token matches stored reset token
+3. Checks token has not expired (30-minute window)
+4. Hashes new password using BCrypt
+5. Clears reset token and expiry from user record
+6. Saves updated password
+
+#### Edge Cases
+- Token expired (must request a new forget-password email)
+- Invalid or mismatched token
+- User not found
+
+---
+
+### Endpoint: Resend Activation Email
+
+**Purpose:** Resend account activation/verification email to user
+
+**HTTP Method:** `GET`  
+**Route:** `/api/Auth/resend-activation`  
+**Authentication:** Not required  
+**Authorization:** None
+
+#### Query Parameters
+```
+email: string (required) - User's registered email address
+```
+
+#### Request Example
+```bash
+curl "http://localhost:5000/api/Auth/resend-activation?email=user@example.com"
+```
+
+#### Success Response (200)
+```json
+{
+  "success": true,
+  "message": "Activation email sent successfully"
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "success": false,
+  "message": "User not found"
+}
+```
+
+#### Status Codes
+| Code | Meaning |
+|------|---------|
+| 200 | Activation email resent successfully |
+| 400 | User not found or account already activated |
+
+#### Frontend Usage
+- **Pages/Components:** Email verification page, resend button
+- **Use Case:** User did not receive or the original verification link expired
+
+#### Business Logic
+1. Looks up user by email
+2. Returns error if user not found
+3. Returns error if account is already activated
+4. Generates a new verification token (GUID) with 1-hour expiry
+5. Saves new token and sends activation email
+
+#### Edge Cases
+- Account already verified
+- User not found in system
+
+---
+
+### Endpoint: Resend Reset Password Email
+
+**Purpose:** Resend password reset email with a new token
+
+**HTTP Method:** `GET`  
+**Route:** `/api/Auth/resend-reset-password`  
+**Authentication:** Not required  
+**Authorization:** None
+
+#### Query Parameters
+```
+email: string (required) - User's registered email address
+```
+
+#### Request Example
+```bash
+curl "http://localhost:5000/api/Auth/resend-reset-password?email=user@example.com"
+```
+
+#### Success Response (200)
+```json
+{
+  "success": true,
+  "message": "Reset password email sent successfully"
+}
+```
+
+#### Error Response (400)
+```json
+{
+  "success": false,
+  "message": "User not found"
+}
+```
+
+#### Status Codes
+| Code | Meaning |
+|------|---------|
+| 200 | Reset password email resent successfully |
+| 400 | User not found |
+
+#### Frontend Usage
+- **Pages/Components:** Forgot password page, resend button
+- **Use Case:** Previous reset token expired or email was not received
+
+#### Business Logic
+1. Looks up user by email
+2. Returns error if user not found
+3. Generates a new reset token (GUID) with 30-minute expiry
+4. Saves new token and sends reset password email
+
+#### Edge Cases
+- User not found in system
+- New token replaces old one; previous reset links become invalid
+
+---
+
 ### Endpoint: Logout
 
 **Purpose:** Invalidate JWT token and clear session
