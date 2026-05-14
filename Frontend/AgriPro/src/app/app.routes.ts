@@ -32,6 +32,17 @@ import { ProfileInvestor } from './components/investor/components/investor-setti
 import { SecurityInvestor } from './components/investor/components/investor-settings/components/security-investor/security-investor';
 import { NotificationsInvestor } from './components/investor/components/investor-settings/components/notifications-investor/notifications-investor';
 import { PreferencesInvestor } from './components/investor/components/investor-settings/components/preferences-investor/preferences-investor';
+import { ForgetPassword } from './components/forget-password/forget-password';
+import { ResetPassword } from './components/reset-password/reset-password';
+import { ExpertDashboard } from './components/expert/components/expert-dashboard/expert-dashboard';
+import { ExpertReviews } from './components/expert/components/expert-reviews/expert-reviews';
+import { ExpertVerified } from './components/expert/components/expert-verified/expert-verified';
+import { ExpertRejected } from './components/expert/components/expert-rejected/expert-rejected';
+import { ExpertSettings } from './components/expert/components/expert-settings/expert-settings';
+import { ExpertSettingsProfile } from './components/expert/components/expert-settings/components/expert-settings-profile/expert-settings-profile';
+import { ExpertSettingsSecurity } from './components/expert/components/expert-settings/components/expert-settings-security/expert-settings-security';
+import { ExpertSettingsNotifications } from './components/expert/components/expert-settings/components/expert-settings-notifications/expert-settings-notifications';
+import { ExpertSettingsPreferences } from './components/expert/components/expert-settings/components/expert-settings-preferences/expert-settings-preferences';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -39,7 +50,27 @@ export const routes: Routes = [
   { path: 'login', component: Login, canActivate: [loginGuard] },
   { path: 'register', component: Register },
   { path: 'admin', component: Admin  ,canActivate:[authGuard,roleGuard],data:{role:'Admin'} },
-  { path: 'expert', component: Expert , canActivate: [authGuard, roleGuard], data: { role: 'Expert' }},
+  {
+    path: 'expert', component: Expert, canActivate: [authGuard, roleGuard], data: { role: 'Expert' },
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: ExpertDashboard },
+      { path: 'pending-reviews', component: ExpertReviews },
+      { path: 'verified-projects', component: ExpertVerified },
+      { path: 'rejected-projects', component: ExpertRejected },
+      
+      {
+        path: 'settings', component: ExpertSettings,
+        children: [
+          { path: '', redirectTo: 'profile', pathMatch: 'full' }, // لو دخل سيتنجز بس يفتح بروفايل
+          { path: 'profile', component:  ExpertSettingsProfile},
+          { path: 'security', component: ExpertSettingsSecurity },
+          { path: 'notifications', component: ExpertSettingsNotifications },
+          { path: 'preferences', component: ExpertSettingsPreferences }
+        ]
+      }
+    ]
+  },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   {
     path: 'farmer', component: Farmer, canActivate: [authGuard, roleGuard], data: { role: 'Farmer' },
@@ -82,6 +113,9 @@ export const routes: Routes = [
       }
       ]
   }
+  ,
+  { path: 'forget-password', component: ForgetPassword },
+  {path:'reset-password',component:ResetPassword}
   
 
 

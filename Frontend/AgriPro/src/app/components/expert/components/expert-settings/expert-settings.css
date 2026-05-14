@@ -1,0 +1,36 @@
+.tabs-header {
+  display: flex;
+  gap: 10px;
+  background-color: #f0f0f0; /* خلفية الشريط خفيفة */
+  padding: 8px;
+  border-radius: 12px;
+  width: fit-content;
+  margin-bottom: 25px;
+}
+
+  .tabs-header a {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #666;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+  }
+
+/* التبويب المختار (Active) */
+.active-tab {
+  background-color: white !important;
+  color: black !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* ظل خفيف للزرار المختار */
+  font-weight: 500;
+}
+
+/* كارت المحتوى اللي تحت */
+.tab-content-card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid #eee;
+}
