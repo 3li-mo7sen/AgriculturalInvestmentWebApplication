@@ -1,0 +1,20 @@
+<app-admin-reports-cards></app-admin-reports-cards>
+<app-admin-reports-growth></app-admin-reports-growth>
+<app-admin-reports-volume></app-admin-reports-volume>
+<div class="settings-container">
+  <nav class="settings-tabs">
+    <a routerLink="reports" routerLinkActive="active-tab" [routerLinkActiveOptions]="{ exact: true }">
+      <i class="fa-solid fa-file-lines"></i>
+      Reports
+    </a>
+    <a routerLink="alerts" routerLinkActive="active-tab">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      Alerts
+    </a>
+    
+  </nav>
+
+  <section class="settings-panel">
+    <router-outlet></router-outlet>
+  </section>
+</div>

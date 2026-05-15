@@ -99,7 +99,12 @@
   color: #aaa;
   cursor: pointer;
   z-index: 10;
+  transition: color 0.3s;
 }
+
+  .password-icon:hover {
+    color: #28a745; 
+  }
 
 /* زرار تسجيل الدخول الأخضر */
 .btn-submit {

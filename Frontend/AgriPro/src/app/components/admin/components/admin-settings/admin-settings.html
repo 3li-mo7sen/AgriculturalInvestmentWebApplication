@@ -1,0 +1,24 @@
+<div class="settings-container">
+  <nav class="settings-tabs">
+    <a routerLink="general" routerLinkActive="active-tab" [routerLinkActiveOptions]="{ exact: true }">
+      <i class="fa-solid fa-gear"></i>
+      General
+    </a>
+    <a routerLink="notifications" routerLinkActive="active-tab">
+      <i class="fa-solid fa-bell"></i>
+      Notifications
+    </a>
+    <a routerLink="security" routerLinkActive="active-tab">
+      <i class="fa-solid fa-shield-halved"></i>
+      Security
+    </a>
+    <a routerLink="payments" routerLinkActive="active-tab">
+      <i class="fa-regular fa-credit-card"></i>
+      Payments
+    </a>
+  </nav>
+
+  <section class="settings-panel">
+    <router-outlet></router-outlet>
+  </section>
+</div>

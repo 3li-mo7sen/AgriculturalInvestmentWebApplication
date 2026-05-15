@@ -1,1 +1,55 @@
-<p>admin works!</p>
+
+<div class="dashboard-wrapper">
+  <aside class="sidebar" [class.collapsed]="isCollapsed">
+
+    <div class="sidebar-header">
+      <div class="logo-box" *ngIf="!isCollapsed" routerLink="/home" style="cursor: pointer;">
+        <img src="../../../assets/images/logo-new.png" alt="Agri-Pro">
+        <span>Agri-Pro</span>
+      </div>
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <i class="fa-solid" [ngClass]="isCollapsed ? 'fa-chevron-right' : 'fa-chevron-left'"></i>
+      </button>
+    </div>
+
+    <nav class="menu-items">
+      <a routerLink="dashboard" routerLinkActive="active-link">
+        <i class="fa-solid fa-grid-horizontal"></i>
+        <span *ngIf="!isCollapsed">Dashboard</span>
+      </a>
+
+      <a routerLink="manage-accounts" routerLinkActive="active-link">
+        <i class="fa-solid fa-users-gear"></i>
+        <span *ngIf="!isCollapsed">Manage Accounts</span>
+      </a>
+
+      <a routerLink="approve-documents" routerLinkActive="active-link">
+        <i class="fa-solid fa-file-circle-check"></i>
+        <span *ngIf="!isCollapsed">Approve Documents</span>
+      </a>
+
+      <a routerLink="reports" routerLinkActive="active-link">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span *ngIf="!isCollapsed">Reports</span>
+      </a>
+
+
+      <a routerLink="settings" routerLinkActive="active-link">
+        <i class="fa-solid fa-gear"></i>
+        <span *ngIf="!isCollapsed">Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a (click)="logout()" class="logout-link">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <span *ngIf="!isCollapsed">Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <app-admin-nav></app-admin-nav>
+    <router-outlet></router-outlet>
+  </main>
+</div>

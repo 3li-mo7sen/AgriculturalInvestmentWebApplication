@@ -14,6 +14,7 @@ import { Router, RouterLink } from '@angular/router';
 export class Login {
 
   serverError: any = null;
+  isPasswordVisible: boolean = false;
 
   constructor(
     private _AuthService: AuthService,
@@ -34,7 +35,7 @@ export class Login {
 
   });
 
-  // login.ts
+ 
   login(): void {
     if (this.loginForm.valid) {
       this._AuthService.login(this.loginForm.value).subscribe({
@@ -42,24 +43,25 @@ export class Login {
           if (res.statusCode === 200) {
             this.serverError = null;
 
-            // المتصفح خزن الكوكي اللي اسمها "token" تلقائياً هنا
-
-            // بنسيف البيانات اللي هنحتاجها في الـ UI بس
+            
             this._AuthService.saveUserStatus(res);
 
-            // التوجيه للمكان الصح بناءً على الـ Role اللي راجع في الـ Response
+           
             this._AuthService.redirectUser();
           }
         },
         error: (err) => {
           console.error(err);
-          // السيرفر بيرجع رسالة الخطأ في حقل الـ message
+     
           this.serverError = err.error?.message || 'Invalid email or password';
         }
       });
     }
   }
 
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
 }
 
 

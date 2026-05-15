@@ -43,13 +43,51 @@ import { ExpertSettingsProfile } from './components/expert/components/expert-set
 import { ExpertSettingsSecurity } from './components/expert/components/expert-settings/components/expert-settings-security/expert-settings-security';
 import { ExpertSettingsNotifications } from './components/expert/components/expert-settings/components/expert-settings-notifications/expert-settings-notifications';
 import { ExpertSettingsPreferences } from './components/expert/components/expert-settings/components/expert-settings-preferences/expert-settings-preferences';
+import { AdminDashboard } from './components/admin/components/admin-dashboard/admin-dashboard';
+import { AdminAccounts } from './components/admin/components/admin-accounts/admin-accounts';
+import { AdminDocuments } from './components/admin/components/admin-documents/admin-documents';
+import { AdminReports } from './components/admin/components/admin-reports/admin-reports';
+import { AdminSettings } from './components/admin/components/admin-settings/admin-settings';
+import { AdminSettingsPayments } from './components/admin/components/admin-settings/components/admin-settings-payments/admin-settings-payments';
+import { AdminSettingsSecurity } from './components/admin/components/admin-settings/components/admin-settings-security/admin-settings-security';
+import { AdminSettingsNotification } from './components/admin/components/admin-settings/components/admin-settings-notification/admin-settings-notification';
+import { AdminSettingsGeneral } from './components/admin/components/admin-settings/components/admin-settings-general/admin-settings-general';
+import { AdminReportsAlerts } from './components/admin/components/admin-reports/components/admin-reports-alerts/admin-reports-alerts';
+import { AdminReportsReports } from './components/admin/components/admin-reports/components/admin-reports-reports/admin-reports-reports';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
   { path: 'home', component: Home ,/*canActivate:[authGuard]*/},
   { path: 'login', component: Login, canActivate: [loginGuard] },
   { path: 'register', component: Register },
-  { path: 'admin', component: Admin  ,canActivate:[authGuard,roleGuard],data:{role:'Admin'} },
+  {
+    path: 'admin', component: Admin, canActivate: [authGuard, roleGuard], data: { role: 'Admin' },
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: AdminDashboard },
+      { path: 'manage-accounts', component:  AdminAccounts},
+      { path: 'approve-documents', component: AdminDocuments },
+      {
+        path: 'reports', component: AdminReports,
+        children: [
+          { path: '', redirectTo: 'reports', pathMatch: 'full' }, // لو دخل سيتنجز بس يفتح بروفايل
+          { path: 'reports', component: AdminReportsReports },
+          { path: 'alerts', component: AdminReportsAlerts },
+        ]
+      },
+      
+      {
+        path: 'settings', component: AdminSettings,
+        children: [
+          { path: '', redirectTo: 'general', pathMatch: 'full' }, // لو دخل سيتنجز بس يفتح بروفايل
+          { path: 'general', component: AdminSettingsGeneral },
+          { path: 'notifications', component: AdminSettingsNotification },
+          { path: 'security', component: AdminSettingsSecurity },
+          { path: 'payments', component: AdminSettingsPayments }
+        ]
+      }
+    ]
+  },
   {
     path: 'expert', component: Expert, canActivate: [authGuard, roleGuard], data: { role: 'Expert' },
     children: [
