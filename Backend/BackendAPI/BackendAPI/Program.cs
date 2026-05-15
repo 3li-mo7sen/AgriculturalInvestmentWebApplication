@@ -131,6 +131,34 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+// ======================== Seed Admin User ========================
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await dbContext.Database.MigrateAsync();
+
+    var adminEmail = "admin@agripro.com";
+    var adminPassword = "123456";
+
+    var existingAdmin = await dbContext.Users
+        .FirstOrDefaultAsync(u => u.Email == adminEmail);
+
+    if (existingAdmin == null)
+    {
+        var admin = new Admin
+        {
+            Name = "Administrator",
+            Email = adminEmail,
+            Password = BCrypt.Net.BCrypt.HashPassword(adminPassword),
+            Role = "Admin",
+            EmailConfirmed = true
+        };
+
+        dbContext.Users.Add(admin);
+        await dbContext.SaveChangesAsync();
+    }
+}
+// ===================================================================
 
 // ======================== Pipeline ========================
 if (app.Environment.IsDevelopment())

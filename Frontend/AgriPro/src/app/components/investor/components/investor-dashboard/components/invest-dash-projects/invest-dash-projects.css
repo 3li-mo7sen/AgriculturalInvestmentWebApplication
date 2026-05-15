@@ -1,0 +1,135 @@
+.projects-section {
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f2f1b;
+  margin: 0;
+}
+
+.view-all {
+  color: #0f5132;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.view-all:hover {
+  text-decoration: underline;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+}
+
+.project-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: #f0f0f0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.project-image.empty {
+  background: #f8fafc;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.05);
+}
+
+.project-info {
+  padding: 1.25rem;
+}
+
+.project-info h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f2f1b;
+  margin: 0 0 0.5rem 0;
+}
+
+.location {
+  font-size: 0.85rem;
+  color: #7c8690;
+  margin: 0 0 0.75rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.roi-range {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f5132;
+  margin-bottom: 0.75rem;
+}
+
+.roi-range .label {
+  font-size: 0.8rem;
+  color: #7c8690;
+  font-weight: 500;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #0f5132;
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}

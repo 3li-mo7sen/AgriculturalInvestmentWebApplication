@@ -6,9 +6,9 @@ import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-investor',
-  imports: [CommonModule,RouterLink,RouterOutlet,RouterLinkActive,InvestorNav],
+  imports: [CommonModule, RouterLink, RouterOutlet, RouterLinkActive, InvestorNav],
   templateUrl: './investor.html',
-  styleUrl: './investor.css',
+  styleUrls: ['./investor.css'],
 })
 export class Investor {
   isCollapsed: boolean = false;
@@ -22,5 +22,4 @@ export class Investor {
     this._AuthService.logout();
     console.log('User logged out');
   }
-
 }

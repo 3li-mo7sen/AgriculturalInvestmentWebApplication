@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-expert-settings-security',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './expert-settings-security.html',
-  styleUrl: './expert-settings-security.css',
+  styleUrls: ['./expert-settings-security.css'],
 })
 export class ExpertSettingsSecurity {
 

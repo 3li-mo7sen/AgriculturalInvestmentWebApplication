@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-expert-settings-preferences',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './expert-settings-preferences.html',
-  styleUrl: './expert-settings-preferences.css',
+  styleUrls: ['./expert-settings-preferences.css'],
 })
 export class ExpertSettingsPreferences {
 

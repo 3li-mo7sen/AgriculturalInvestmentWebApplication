@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./quick-actions.css'],
 })
 export class QuickActions {
-
+  @Output() withdrawFunds = new EventEmitter<void>();
 }

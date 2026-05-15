@@ -1,0 +1,160 @@
+.settings-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+  max-width: 920px;
+  margin: 0 auto 1.5rem;
+}
+
+.settings-header h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.45rem;
+  color: #152c1f;
+}
+
+.settings-header p {
+  margin: 0 0 1.5rem;
+  color: #5f6d64;
+  font-size: 0.98rem;
+}
+
+.form-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-group {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.form-group.full-width {
+  width: 100%;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  color: #34423b;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  border-radius: 24px;
+  border: 1px solid #dfe5dc;
+  padding: 0.95rem 1rem;
+  font-size: 0.98rem;
+  color: #172c23;
+  outline: none;
+  background: #fbfbf8;
+}
+
+.password-field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.password-field input {
+  flex: 1;
+}
+
+.eye-btn {
+  border: none;
+  background: transparent;
+  color: #4b5a4d;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.5rem;
+}
+
+.save-btn {
+  margin-top: 1.5rem;
+  border: none;
+  background: #0f5132;
+  color: #ffffff;
+  padding: 0.95rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.notification-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 20px;
+  background: #f7f8f3;
+  margin-bottom: 1rem;
+}
+
+.notification-row:last-child {
+  margin-bottom: 0;
+}
+
+.notification-row h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  color: #152c1f;
+}
+
+.notification-row p {
+  margin: 0;
+  color: #5f6d64;
+  font-size: 0.94rem;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch span {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #dfe6dd;
+  border-radius: 999px;
+  transition: 0.25s ease;
+}
+
+.toggle-switch span::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: 0.25s ease;
+}
+
+.toggle-switch input:checked + span {
+  background: #0f5132;
+}
+
+.toggle-switch input:checked + span::before {
+  transform: translateX(22px);
+}
+
+@media (max-width: 860px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

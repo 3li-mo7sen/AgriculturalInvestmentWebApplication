@@ -1,0 +1,160 @@
+.investments-section {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f2f1b;
+  margin: 0;
+}
+
+.view-all {
+  color: #0f5132;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.view-all:hover {
+  text-decoration: underline;
+}
+
+.investments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.investment-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.investment-card:hover {
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
+}
+
+.card-content {
+  flex: 1;
+}
+
+.project-info {
+  margin-bottom: 0.75rem;
+}
+
+.project-info h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f2f1b;
+  margin: 0 0 0.35rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-badge.active {
+  background: #d1f2e8;
+  color: #0f5132;
+}
+
+.status-badge.pending {
+  background: #fef08a;
+  color: #a16207;
+}
+
+.farmer-name {
+  font-size: 0.85rem;
+  color: #7c8690;
+  margin: 0.4rem 0 0;
+}
+
+.investment-details {
+  display: flex;
+  gap: 2rem;
+}
+
+.detail-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.detail-group .label {
+  font-size: 0.85rem;
+  color: #7c8690;
+}
+
+.detail-group .value {
+  font-size: 0.9rem;
+  color: #0f2f1b;
+}
+
+.detail-group .value.success {
+  color: #0f5132;
+}
+
+.card-stats {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  text-align: right;
+}
+
+.roi {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f5132;
+}
+
+.roi-label {
+  font-size: 0.75rem;
+  color: #7c8690;
+  font-weight: 500;
+}
+
+.due-date {
+  font-size: 0.8rem;
+  color: #7c8690;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .investment-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-stats {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 1rem;
+    text-align: left;
+  }
+}

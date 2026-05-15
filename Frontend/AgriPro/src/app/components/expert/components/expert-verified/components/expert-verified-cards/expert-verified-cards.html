@@ -1,1 +1,9 @@
-<p>expert-verified-cards works!</p>
+<div class="verified-summary-grid">
+  <div class="summary-card" *ngFor="let card of cards">
+    <div class="summary-card-header">
+      <span class="summary-title">{{ card.label }}</span>
+      <span class="summary-badge"><i [class]="card.icon"></i></span>
+    </div>
+    <div class="summary-value">{{ card.value }}</div>
+  </div>
+</div>

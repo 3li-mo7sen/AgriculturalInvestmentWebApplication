@@ -4,10 +4,11 @@ import { InvestDashInvestments } from './components/invest-dash-investments/inve
 import { InvestDashProjects } from './components/invest-dash-projects/invest-dash-projects';
 
 @Component({
+  standalone: true,
   selector: 'app-investor-dashboard',
-  imports: [InvestDashCards,InvestDashInvestments,InvestDashProjects],
+  imports: [InvestDashCards, InvestDashInvestments, InvestDashProjects],
   templateUrl: './investor-dashboard.html',
-  styleUrl: './investor-dashboard.css',
+  styleUrls: ['./investor-dashboard.css'],
 })
 export class InvestorDashboard {
 

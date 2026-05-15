@@ -5,9 +5,10 @@ import { InvestHistorySearch } from './components/invest-history-search/invest-h
 
 @Component({
   selector: 'app-investor-history',
-  imports: [InvestHistoryCards,InvestHistoryList,InvestHistorySearch],
+  standalone: true,
+  imports: [InvestHistoryCards, InvestHistoryList, InvestHistorySearch],
   templateUrl: './investor-history.html',
-  styleUrl: './investor-history.css',
+  styleUrls: ['./investor-history.css'],
 })
 export class InvestorHistory {
 

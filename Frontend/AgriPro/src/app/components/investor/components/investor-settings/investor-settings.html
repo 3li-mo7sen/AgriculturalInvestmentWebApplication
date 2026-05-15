@@ -1,20 +1,24 @@
 <div class="settings-container">
-  <div class="tabs-header">
-    <a routerLink="profile" routerLinkActive="active-tab">
-      <i class="fa-regular fa-user"></i> Profile
+  <nav class="settings-tabs">
+    <a routerLink="profile" routerLinkActive="active-tab" [routerLinkActiveOptions]="{ exact: true }">
+      <i class="fa-regular fa-user"></i>
+      Profile
     </a>
     <a routerLink="security" routerLinkActive="active-tab">
-      <i class="fa-regular fa-lock"></i> Security
+      <i class="fa-regular fa-lock"></i>
+      Security
     </a>
     <a routerLink="notifications" routerLinkActive="active-tab">
-      <i class="fa-regular fa-bell"></i> Notifications
+      <i class="fa-regular fa-bell"></i>
+      Notifications
     </a>
     <a routerLink="preferences" routerLinkActive="active-tab">
-      <i class="fa-solid fa-globe"></i> Preferences
+      <i class="fa-solid fa-globe"></i>
+      Preferences
     </a>
-  </div>
+  </nav>
 
-  <div class="tab-content-card">
+  <section class="settings-panel">
     <router-outlet></router-outlet>
-  </div>
+  </section>
 </div>

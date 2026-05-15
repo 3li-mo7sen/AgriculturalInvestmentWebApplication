@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-invest-dash-investments',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './invest-dash-investments.html',
-  styleUrl: './invest-dash-investments.css',
+  styleUrls: ['./invest-dash-investments.css'],
 })
 export class InvestDashInvestments {
 

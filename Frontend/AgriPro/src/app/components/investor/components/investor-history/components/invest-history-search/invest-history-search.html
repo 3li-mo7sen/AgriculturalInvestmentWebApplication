@@ -1,1 +1,65 @@
-<p>invest-history-search works!</p>
+<div class="search-container">
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input 
+      type="text" 
+      placeholder="Search transactions..." 
+      [(ngModel)]="searchText"
+      class="search-input"
+    />
+  </div>
+
+  <div class="filters-container">
+    <!-- Status Dropdown -->
+    <div class="status-dropdown">
+      <button 
+        class="dropdown-button"
+        (click)="toggleStatusDropdown(); $event.stopPropagation()"
+        type="button"
+      >
+        {{ selectedStatus }}
+        <i class="fa-solid fa-chevron-down dropdown-icon" [class.open]="showStatusDropdown"></i>
+      </button>
+      <div class="dropdown-menu" *ngIf="showStatusDropdown" (click)="$event.stopPropagation()">
+        <div 
+          *ngFor="let status of statuses"
+          class="dropdown-item"
+          (click)="selectStatus(status); $event.stopPropagation()"
+          [class.active]="selectedStatus === status"
+        >
+          {{ status }}
+          <i *ngIf="selectedStatus === status" class="fa-solid fa-check checkmark"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Types Dropdown -->
+    <div class="types-dropdown">
+      <button 
+        class="dropdown-button"
+        (click)="toggleTypesDropdown(); $event.stopPropagation()"
+        type="button"
+      >
+        {{ selectedType }}
+        <i class="fa-solid fa-chevron-down dropdown-icon" [class.open]="showTypesDropdown"></i>
+      </button>
+      <div class="dropdown-menu" *ngIf="showTypesDropdown" (click)="$event.stopPropagation()">
+        <div 
+          *ngFor="let type of types"
+          class="dropdown-item"
+          (click)="selectType(type); $event.stopPropagation()"
+          [class.active]="selectedType === type"
+        >
+          {{ type }}
+          <i *ngIf="selectedType === type" class="fa-solid fa-check checkmark"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export Button -->
+    <button class="export-button" (click)="exportData()" type="button">
+      <i class="fa-solid fa-download export-icon"></i>
+      Export
+    </button>
+  </div>
+</div>

@@ -1,1 +1,19 @@
-<p>expert-dash-activity works!</p>
+<div class="activity-container">
+  <h2 class="activity-title">Recent Activity</h2>
+
+  <div class="activity-list">
+    <div class="activity-item" *ngFor="let activity of activities">
+      <div [ngClass]="['activity-icon', getStatusClass(activity.status)]">
+        <i [ngClass]="['fa-regular', activity.icon]"></i>
+      </div>
+
+      <div class="activity-content">
+        <h3 class="activity-project">{{ activity.projectName }}</h3>
+        <p class="activity-submitter">{{ activity.submittedBy }}</p>
+        <p class="activity-status" [ngClass]="activity.status === 'verified' ? 'text-success' : 'text-danger'">
+          {{ activity.statusMessage }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

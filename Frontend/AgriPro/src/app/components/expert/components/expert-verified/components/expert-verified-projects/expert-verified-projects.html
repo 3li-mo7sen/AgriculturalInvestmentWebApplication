@@ -1,1 +1,32 @@
-<p>expert-verified-projects works!</p>
+<div class="verified-project-grid">
+  <article class="verified-card" *ngFor="let project of projects">
+    <div class="project-card-image">
+      <div class="image-badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified</div>
+      <div class="image-badge badge-category">{{ project.category }}</div>
+    </div>
+
+    <div class="card-body">
+      <h3>{{ project.title }}</h3>
+      <div class="meta-row">
+        <span><i class="fa-solid fa-location-dot"></i> {{ project.location }}</span>
+      </div>
+      <div class="meta-row farmer-name">Farmer: {{ project.farmer }}</div>
+      <div class="meta-row verified-date"><i class="fa-regular fa-calendar-days"></i> Verified: {{ project.verifiedDate }}</div>
+
+      <div class="progress-label">
+        <span>Funding Progress</span>
+        <span>{{ project.progress }}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="project.progress"></div>
+      </div>
+
+      <div class="footer-row">
+        <span class="investors"><i class="fa-solid fa-user-group"></i> {{ project.investors }} investors</span>
+        <span class="roi">{{ project.roi }}</span>
+      </div>
+
+      <button class="btn-view"><i class="fa-regular fa-eye"></i> View Details</button>
+    </div>
+  </article>
+</div>

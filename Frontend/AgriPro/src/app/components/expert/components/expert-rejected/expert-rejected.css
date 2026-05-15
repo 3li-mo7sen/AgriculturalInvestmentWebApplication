@@ -1,0 +1,14 @@
+.expert-rejected-page {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem 1.5rem 0;
+  max-width: 1320px;
+  margin: 1.5rem auto 0;
+}
+
+@media (max-width: 1280px) {
+  .expert-rejected-page {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

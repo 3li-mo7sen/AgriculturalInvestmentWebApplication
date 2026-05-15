@@ -1,16 +1,19 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-farmer-nav',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './farmer-nav.html',
   styleUrls: ['./farmer-nav.css'],
 })
 export class FarmerNav {
   pageTitle = 'Dashboard';
   pageSubtitle = "Welcome back, Ahmed! Here's your farming overview.";
+  showNotificationsMenu = false;
+  showAccountMenu = false;
 
   private router = inject(Router);
 
@@ -42,5 +45,56 @@ export class FarmerNav {
 
     this.pageTitle = config?.title ?? 'Dashboard';
     this.pageSubtitle = config?.subtitle ?? '';
+  }
+
+  toggleNotifications(event: MouseEvent) {
+    event.stopPropagation();
+    this.showNotificationsMenu = !this.showNotificationsMenu;
+    if (this.showNotificationsMenu) {
+      this.showAccountMenu = false;
+    }
+  }
+
+  toggleAccount(event: MouseEvent) {
+    event.stopPropagation();
+    this.showAccountMenu = !this.showAccountMenu;
+    if (this.showAccountMenu) {
+      this.showNotificationsMenu = false;
+    }
+  }
+
+  @HostListener('document:click')
+  closeMenus() {
+    this.showNotificationsMenu = false;
+    this.showAccountMenu = false;
+  }
+
+  markAllRead(event: MouseEvent) {
+    event.stopPropagation();
+    this.showNotificationsMenu = false;
+  }
+
+  goToNotifications() {
+    this.showNotificationsMenu = false;
+    this.router.navigate(['/farmer/settings/notifications']);
+  }
+
+  goToProfile() {
+    this.showAccountMenu = false;
+    this.router.navigate(['/farmer/settings/profile']);
+  }
+
+  goToSettings() {
+    this.showAccountMenu = false;
+    this.router.navigate(['/farmer/settings']);
+  }
+
+  goToHelpCenter() {
+    this.showAccountMenu = false;
+  }
+
+  logout() {
+    this.showAccountMenu = false;
+    this.router.navigate(['/login']);
   }
 }

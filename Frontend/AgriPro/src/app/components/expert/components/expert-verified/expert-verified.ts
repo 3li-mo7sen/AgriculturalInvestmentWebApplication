@@ -4,11 +4,10 @@ import { ExpertVerifiedSearch } from './components/expert-verified-search/expert
 import { ExpertVerifiedCards } from './components/expert-verified-cards/expert-verified-cards';
 
 @Component({
+  standalone: true,
   selector: 'app-expert-verified',
-  imports: [ExpertVerifiedCards,ExpertVerifiedProjects,ExpertVerifiedSearch],
+  imports: [ExpertVerifiedCards, ExpertVerifiedProjects, ExpertVerifiedSearch],
   templateUrl: './expert-verified.html',
-  styleUrl: './expert-verified.css',
+  styleUrls: ['./expert-verified.css'],
 })
-export class ExpertVerified {
-
-}
+export class ExpertVerified {}

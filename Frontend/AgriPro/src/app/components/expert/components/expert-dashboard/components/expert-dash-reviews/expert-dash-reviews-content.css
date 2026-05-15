@@ -16,7 +16,7 @@
 .reviews-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #000000;
+  color: #111827;
   margin: 0;
 }
 
@@ -24,7 +24,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #000000;
+  color: #6b7280;
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 500;
@@ -32,7 +32,7 @@
 }
 
 .view-all-link:hover {
-  color: #333333;
+  color: #111827;
 }
 
 .view-all-link i {
@@ -67,52 +67,53 @@
 
 .review-top {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 12px;
   margin-bottom: 8px;
 }
 
-.project-header {
+.project-info {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .project-name {
   font-size: 1rem;
   font-weight: 600;
-  color: #000000;
+  color: #111827;
   margin: 0;
 }
 
 .project-location {
   font-size: 0.9rem;
-  color: #333333;
+  color: #6b7280;
+  margin-left: 4px;
 }
 
 .priority-badge {
   display: inline-block;
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.8rem;
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .priority-high {
   background: #fee2e2;
-  color: #991b1b;
+  color: #b91c1c;
 }
 
 .priority-medium {
   background: #fef3c7;
-  color: #92400e;
+  color: #d97706;
 }
 
 .priority-low {
   background: #d1fae5;
-  color: #065f46;
+  color: #047857;
 }
 
 .review-meta {
@@ -124,18 +125,18 @@
 }
 
 .meta-text {
-  color: #333333;
+  color: #6b7280;
 }
 
 .meta-separator {
-  color: #999999;
+  color: #d1d5db;
 }
 
 .review-details {
   display: flex;
   gap: 16px;
   font-size: 0.85rem;
-  color: #333333;
+  color: #6b7280;
 }
 
 .detail-item {
