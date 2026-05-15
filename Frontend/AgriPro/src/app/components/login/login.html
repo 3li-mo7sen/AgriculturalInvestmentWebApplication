@@ -54,8 +54,8 @@
                 <a href="#" class="forgot-link" routerLink="/forget-password">Forgot password?</a>
               </div>
               <div class="password-wrapper">
-                <input type="password" class="custom-input w-100" placeholder="Enter your password" id="exampleInputPassword1" name="password" formControlName="password">
-                <i class="fa-regular fa-eye password-icon"></i>
+                <input [type]="isPasswordVisible ? 'text' : 'password'"  class="custom-input w-100" placeholder="Enter your password" id="exampleInputPassword1" name="password" formControlName="password">
+                <i class="fa-regular fa-eye password-icon" [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()" style="cursor: pointer;"></i>
 
 
               </div>

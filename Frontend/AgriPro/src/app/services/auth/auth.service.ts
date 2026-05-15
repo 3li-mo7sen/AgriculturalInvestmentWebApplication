@@ -65,4 +65,24 @@ export class AuthService {
     else if (role === 'Farmer') this._Router.navigate(['/farmer']);
     else if (role === 'Investor') this._Router.navigate(['/investor']);
   }
+
+  
+  forgetPassword(email: string): Observable<any> {
+    return this._HttpClient.get(`${environment.baseUrl}/api/Auth/forget-password`, {
+      params: { email }
+    });
+  }
+
+  
+  resendResetPassword(email: string): Observable<any> {
+    return this._HttpClient.get(`${environment.baseUrl}/api/Auth/resend-reset-password`, {
+      params: { email }
+    });
+  }
+
+ 
+  resetPassword(data: object): Observable<any> {
+    return this._HttpClient.post(`${environment.baseUrl}/api/Auth/reset-password`, data);
+  }
+
 }

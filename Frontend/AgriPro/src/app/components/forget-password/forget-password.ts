@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { email } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-forget-password',
@@ -24,12 +25,19 @@ export class ForgetPassword {
     ])
   });
 
-  onSubmitForget() {
-       if(this.forgetPasswordForm.valid){
-         console.log(this.forgetPasswordForm.value);
-         // استدعاء خدمة الـ auth هنا
-       }
-     }
+  sendEmail() {
+    if (this.forgetPasswordForm.valid) {
+      this._AuthService.forgetPassword(this.forgetPasswordForm.get('email')?.value).subscribe({
+        next: (res) => {
+          // إظهار رسالة نجاح: "Check your inbox"
+          alert("Email sent! Please check your inbox.");
+        },
+        error: (err) => {
+          this.serverError = err.error?.message || "Failed to send email";
+        }
+      });
+    }
+  }
 
  
 

@@ -1,0 +1,115 @@
+.dashboard-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+main.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 0 1.25rem 0;
+  background: #edf2ec;
+  overflow-y: auto;
+}
+
+.sidebar {
+  width: 260px;
+  background-color: #06402B;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px 22px;
+  position: relative;
+}
+
+
+  .sidebar.collapsed {
+    width: 80px;
+  }
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+  .logo-box img {
+    width: 35px;
+  }
+
+
+.toggle-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+/* تنسيق اللينكات */
+.menu-items a, .logout-link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 18px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+  .menu-items a i {
+    font-size: 1.2rem;
+    width: 25px;
+    text-align: center;
+  }
+
+
+
+.active-link {
+  background-color: #10B981;
+  color: white !important;
+}
+
+.menu-items a:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px;
+}
+
+
+
+.logo-box img {
+  width: 55px;
+  height: auto;
+  transition: all 0.3s ease;
+}
+
+
+
+.sidebar.collapsed .logo-box img {
+  width: 40px;
+  margin-left: -5px;
+}
+
+.logo-box:hover img {
+  transform: scale(1.05);
+  transition: 0.2s;
+}
