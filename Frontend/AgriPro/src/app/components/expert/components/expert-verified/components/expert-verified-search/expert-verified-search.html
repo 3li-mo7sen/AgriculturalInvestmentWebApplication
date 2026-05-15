@@ -1,1 +1,11 @@
-<p>expert-verified-search works!</p>
+<div class="verified-search-panel">
+  <div class="search-input-group">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" placeholder="Search verified projects..." />
+  </div>
+  <div class="filter-dropdown">
+    <select aria-label="Filter by crop">
+      <option *ngFor="let crop of crops" [value]="crop">{{ crop }}</option>
+    </select>
+  </div>
+</div>

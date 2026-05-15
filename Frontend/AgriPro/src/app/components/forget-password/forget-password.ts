@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-forget-password',
-  imports: [ReactiveFormsModule, CommonModule,RouterLink,RouterLinkActive],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './forget-password.html',
   styleUrl: './forget-password.css',
 })

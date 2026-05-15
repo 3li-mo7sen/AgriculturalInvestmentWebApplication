@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-expert-settings-notifications',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './expert-settings-notifications.html',
-  styleUrl: './expert-settings-notifications.css',
+  styleUrls: ['./expert-settings-notifications.css'],
 })
 export class ExpertSettingsNotifications {
 

@@ -1,1 +1,13 @@
-<p>expert-dash-performance works!</p>
+<div class="performance-container">
+  <h2 class="performance-title">Your Performance</h2>
+
+  <div class="metrics-grid">
+    <div class="metric-item" *ngFor="let metric of metrics">
+      <p class="metric-label">{{ metric.label }}</p>
+      <div class="metric-value">
+        <span class="value">{{ metric.value }}</span>
+        <span class="unit" *ngIf="metric.unit">{{ metric.unit }}</span>
+      </div>
+    </div>
+  </div>
+</div>

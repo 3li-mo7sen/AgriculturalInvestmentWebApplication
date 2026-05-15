@@ -1,1 +1,43 @@
-<p>expert-dash-reviews works!</p>
+<div class="reviews-container">
+  <div class="reviews-header">
+    <h2 class="reviews-title">Pending Reviews</h2>
+    <a href="#" class="view-all-link">
+      View All
+      <i class="fa-solid fa-arrow-up-right"></i>
+    </a>
+  </div>
+
+  <div class="reviews-list">
+    <div class="review-item" *ngFor="let review of reviews">
+      <div class="review-content">
+        <div class="review-top">
+          <div class="project-header">
+            <h3 class="project-name">{{ review.projectName }}</h3>
+            <span class="project-location">{{ review.location }}</span>
+            <span [ngClass]="['priority-badge', getPriorityClass(review.priority)]">
+              {{ review.priority }}
+            </span>
+          </div>
+        </div>
+
+        <div class="review-meta">
+          <span class="meta-text">By: {{ review.submittedBy }}</span>
+          <span class="meta-separator">•</span>
+          <span class="meta-text">{{ review.submittedTime }}</span>
+        </div>
+
+        <div class="review-details">
+          <span class="detail-item">{{ review.feddan }} Feddan</span>
+          <span class="detail-item">{{ review.cropType }}</span>
+          <span class="detail-item">{{ review.docs }} docs</span>
+          <span class="detail-item">{{ review.images }} images</span>
+        </div>
+      </div>
+
+      <button class="review-btn">
+        <i class="fa-solid fa-eye"></i>
+        Review
+      </button>
+    </div>
+  </div>
+</div>

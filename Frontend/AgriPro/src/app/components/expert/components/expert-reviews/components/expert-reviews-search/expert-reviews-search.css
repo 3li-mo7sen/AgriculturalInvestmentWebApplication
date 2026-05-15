@@ -1,0 +1,54 @@
+.reviews-search {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.search-bar {
+  width: 100%;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 999px;
+  background: #fff;
+  color: #1f2937;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.filters {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.filter-item label {
+  color: #4b5563;
+  font-size: 0.85rem;
+}
+
+.filter-item select {
+  width: 100%;
+  padding: 0.95rem 0.9rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
+  background: #fff;
+  color: #111827;
+  font-size: 0.95rem;
+  appearance: none;
+}
+
+@media (max-width: 640px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}

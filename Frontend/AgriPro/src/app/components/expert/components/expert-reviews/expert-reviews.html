@@ -1,2 +1,14 @@
-<app-expert-reviews-search></app-expert-reviews-search>
-<app-expert-reviews-list></app-expert-reviews-list>
+<section class="expert-reviews-page">
+  <app-expert-reviews-search
+    [searchQuery]="searchQuery"
+    [selectedUrgency]="urgencyFilter"
+    [selectedCrop]="cropFilter"
+    [urgencyOptions]="['All Urgency', 'High', 'Medium', 'Low']"
+    [cropOptions]="['All Crops', 'Wheat', 'Fruits', 'Rice']"
+    (searchChange)="onSearch($event)"
+    (urgencyChange)="onUrgency($event)"
+    (cropChange)="onCrop($event)"
+  ></app-expert-reviews-search>
+
+  <app-expert-reviews-list [reviews]="filteredReviews"></app-expert-reviews-list>
+</section>

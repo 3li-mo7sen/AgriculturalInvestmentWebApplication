@@ -1,0 +1,11 @@
+.expert-reviews-page {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+@media (max-width: 640px) {
+  .expert-reviews-page {
+    padding: 0.75rem 0;
+  }
+}

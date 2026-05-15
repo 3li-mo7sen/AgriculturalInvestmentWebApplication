@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Earnings } from './components/earnings/earnings';
 import { LinkedBank } from './components/linked-bank/linked-bank';
 import { QuickActions } from './components/quick-actions/quick-actions';
@@ -8,10 +9,18 @@ import { WalletCards } from './components/wallet-cards/wallet-cards';
 @Component({
   standalone: true,
   selector: 'app-wallet',
-  imports: [Earnings, LinkedBank, QuickActions, TransactionHistory, WalletCards],
+  imports: [CommonModule, Earnings, LinkedBank, QuickActions, TransactionHistory, WalletCards],
   templateUrl: './wallet.html',
   styleUrls: ['./wallet.css'],
 })
 export class Wallet {
+  showWithdrawModal = false;
 
+  openWithdraw() {
+    this.showWithdrawModal = true;
+  }
+
+  closeModal() {
+    this.showWithdrawModal = false;
+  }
 }

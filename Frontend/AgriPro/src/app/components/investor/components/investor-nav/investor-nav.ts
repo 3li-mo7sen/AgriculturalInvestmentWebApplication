@@ -38,7 +38,10 @@ export class InvestorNav {
   private updateHeader(url: string) {
     const segments = url.split('/').filter(Boolean);
     const pageKey = segments.length ? segments[segments.length - 1] : 'dashboard';
-    const config = this.pageMap.get(pageKey) ?? this.pageMap.get('dashboard');
+    const effectiveKey = ['profile', 'security', 'notifications', 'preferences'].includes(pageKey)
+      ? 'settings'
+      : pageKey;
+    const config = this.pageMap.get(effectiveKey) ?? this.pageMap.get('dashboard');
     this.pageTitle = config?.title ?? 'Dashboard';
     this.pageSubtitle = config?.subtitle ?? '';
   }

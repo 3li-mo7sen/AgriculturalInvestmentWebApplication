@@ -20,6 +20,140 @@
   gap: 1.5rem;
 }
 
+.wallet-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.35);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 50;
+}
+
+.wallet-modal {
+  width: min(560px, 100%);
+  background: #f7f8f3;
+  border-radius: 24px;
+  padding: 1.2rem 1.3rem 1.4rem;
+  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.18);
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  border: none;
+  background: transparent;
+  font-size: 1.35rem;
+  color: #4f5d4f;
+  cursor: pointer;
+}
+
+.wallet-modal h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.35rem;
+  color: #152c1f;
+}
+
+.modal-subtitle {
+  margin: 0 0 1rem;
+  color: #5f6d64;
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.balance-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 0.95rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.balance-card p {
+  margin: 0 0 0.35rem;
+  color: #5f6d64;
+  font-size: 0.88rem;
+}
+
+.balance-card strong {
+  display: block;
+  font-size: 1.5rem;
+  color: #111b17;
+}
+
+.field-label {
+  display: block;
+  margin: 0.95rem 0 0.4rem;
+  color: #475843;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.modal-input,
+.account-select {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid #92b389;
+  padding: 0.85rem 1rem;
+  background: #ffffff;
+  font-size: 0.98rem;
+  color: #172c23;
+}
+
+.modal-input {
+  outline: none;
+}
+
+.account-select {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.select-arrow {
+  color: #172c23;
+  font-size: 0.95rem;
+}
+
+.modal-note {
+  margin: 1rem 0 1.1rem;
+  background: #ffffff;
+  padding: 0.9rem 1rem;
+  border-radius: 18px;
+  color: #5f6d64;
+  font-size: 0.92rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.modal-btn {
+  border-radius: 999px;
+  padding: 0.8rem 1.1rem;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 110px;
+}
+
+.modal-cancel {
+  background: #ffffff;
+  color: #4f5d4f;
+  border: 1px solid #dfe4dd;
+}
+
+.modal-submit {
+  background: #8d9f78;
+  color: #ffffff;
+}
+
 @media (max-width: 991px) {
   .wallet-layout {
     grid-template-columns: 1fr;

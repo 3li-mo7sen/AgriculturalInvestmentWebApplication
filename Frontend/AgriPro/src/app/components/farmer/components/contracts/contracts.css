@@ -1,0 +1,13 @@
+.contracts-page {
+  margin-top: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1320px;
+  padding-inline: 0.25rem;
+}
+
+@media (max-width: 1024px) {
+  .contracts-page {
+    padding-inline: 0;
+  }
+}
