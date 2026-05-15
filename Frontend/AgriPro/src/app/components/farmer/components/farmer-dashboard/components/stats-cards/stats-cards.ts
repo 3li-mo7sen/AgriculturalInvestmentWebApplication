@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./stats-cards.css'],
 })
 export class StatsCards {
+  @Input() stats: any;
 
 }
