@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -28,7 +29,7 @@ export class ResetPassword {
    
     this._ActivatedRoute.queryParams.subscribe(params => {
       this.email = params['email'];
-      this.token = params['token'];
+      this.token = params['code'];
     });
   }
 
@@ -41,11 +42,13 @@ export class ResetPassword {
 
   submitReset() {
     if (this.resetPasswordForm.valid) {
+      
       const model = {
         email: this.email,
         token: this.token,
         password: this.resetPasswordForm.value.password
       };
+      console.log("Data to be sent:", model);
 
       this._AuthService.resetPassword(model).subscribe({
         next: (res) => {
@@ -53,7 +56,7 @@ export class ResetPassword {
           this._Router.navigate(['/login']);
         },
         error: (err) => {
-          
+          console.log("Full Error Object:", err);
           this.serverError = err.error?.message || "Invalid or expired token";
         }
       });
