@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-expert-verified-search',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './expert-verified-search.html',
-  styleUrl: './expert-verified-search.css',
+  styleUrls: ['./expert-verified-search.css'],
 })
 export class ExpertVerifiedSearch {
-
+  crops = ['All Crops', 'Wheat', 'Vegetables', 'Rice', 'Fruits', 'Cotton', 'Sugarcane'];
 }

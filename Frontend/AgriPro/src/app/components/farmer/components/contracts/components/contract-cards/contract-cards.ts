@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-contract-cards',
   imports: [],
   templateUrl: './contract-cards.html',

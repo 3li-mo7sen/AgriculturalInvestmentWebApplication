@@ -1,0 +1,76 @@
+.expert-dash-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 20px 24px 30px 24px;
+}
+
+.dash-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: auto;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card-title {
+  color: #4f5d4f;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.card-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+}
+
+.icon-warning {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.icon-success {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.icon-danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.icon-info {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.card-value {
+  color: #111827;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.card-meta {
+  color: #6b7280;
+  font-size: 0.7rem;
+}
+
+.dash-card i {
+  font-size: 0.8rem;
+}

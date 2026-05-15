@@ -1,1 +1,12 @@
-<p>expert-dash-cards works!</p>
+<section class="expert-dash-cards">
+  <div class="dash-card" *ngFor="let card of cards">
+    <div class="card-top">
+      <div class="card-title">{{ card.title }}</div>
+      <div class="card-icon" [ngClass]="card.iconClass">
+        <i [ngClass]="card.icon"></i>
+      </div>
+    </div>
+    <div class="card-value">{{ card.value }}</div>
+    <div class="card-meta">{{ card.meta }}</div>
+  </div>
+</section>

@@ -1,0 +1,113 @@
+.contract-list-card {
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem 1.2rem;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
+}
+
+.contracts-table-wrapper {
+  overflow-x: auto;
+}
+
+.contracts-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 860px;
+}
+
+.contracts-table th,
+.contracts-table td {
+  padding: 1rem 1rem;
+  text-align: left;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.contracts-table thead {
+  background: #f8fafc;
+}
+
+.contracts-table th {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #0f172a;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.contracts-table tbody tr {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.contracts-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.contract-contract-cell,
+.contract-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.contract-id {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.contract-date {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.status-badge.active {
+  background: #16a34a;
+}
+
+.status-badge.completed {
+  background: #2563eb;
+}
+
+.status-badge.pending {
+  background: #ca8a04;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 1rem;
+  font-size: 1.05rem;
+  color: #334155;
+}
+
+.actions-cell i {
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .contracts-table th,
+  .contracts-table td {
+    padding: 0.9rem 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contract-list-card {
+    padding: 1rem;
+  }
+
+  .contracts-table {
+    min-width: 740px;
+  }
+}

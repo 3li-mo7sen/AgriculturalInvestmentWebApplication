@@ -1,1 +1,15 @@
-<p>con-search works!</p>
+<div class="contracts-search-wrapper">
+  <div class="search-input">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" placeholder="Search contracts..." />
+  </div>
+  <div class="status-dropdown">
+    <button type="button" class="status-button" (click)="toggleStatus()">
+      {{ selectedStatus }}
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <ul *ngIf="openStatus" class="status-menu">
+      <li *ngFor="let option of statusOptions" (click)="selectStatus(option)">{{ option }}</li>
+    </ul>
+  </div>
+</div>

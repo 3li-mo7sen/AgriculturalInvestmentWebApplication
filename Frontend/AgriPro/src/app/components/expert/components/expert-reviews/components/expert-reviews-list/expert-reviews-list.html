@@ -1,1 +1,48 @@
-<p>expert-reviews-list works!</p>
+<section class="reviews-list-card">
+  <div class="reviews-list-header">
+    <div>
+      <h2>Pending Reviews</h2>
+      <p>Review requests waiting for expert validation.</p>
+    </div>
+  </div>
+
+  <div class="reviews-table-wrapper">
+    <div class="reviews-table-header">
+      <span>Project</span>
+      <span>Farmer</span>
+      <span>Land Details</span>
+      <span>Documents</span>
+      <span>Urgency</span>
+      <span>Actions</span>
+    </div>
+
+    <div class="reviews-row" *ngFor="let review of reviews">
+      <div class="project-cell">
+        <strong>{{ review.project }}</strong>
+        <span>{{ review.location }}</span>
+      </div>
+      <div class="farmer-cell">
+        <strong>{{ review.farmer }}</strong>
+        <span>{{ review.submitted }}</span>
+      </div>
+      <div class="details-cell">
+        <strong>{{ review.landDetails }}</strong>
+        <span>{{ review.soilType }}</span>
+      </div>
+      <div class="documents-cell">
+        <span class="doc-item">📄 {{ review.documents.pdf }}</span>
+        <span class="doc-item">🖼️ {{ review.documents.images }}</span>
+      </div>
+      <div class="urgency-cell">
+        <span class="urgency-badge" [class.urgency-high]="review.urgency === 'High'" [class.urgency-medium]="review.urgency === 'Medium'" [class.urgency-low]="review.urgency === 'Low'">
+          {{ review.urgency }}
+        </span>
+      </div>
+      <div class="actions-cell">
+        <button type="button">Review</button>
+      </div>
+    </div>
+
+    <div *ngIf="reviews.length === 0" class="no-results">No reviews match the selected filters.</div>
+  </div>
+</section>

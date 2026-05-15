@@ -1,0 +1,92 @@
+.settings-card {
+  background: #ffffff;
+  border-radius: 28px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  padding: 2rem;
+}
+
+.settings-card-header {
+  margin-bottom: 1.8rem;
+}
+
+.settings-card-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.settings-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+}
+
+.green-icon { background: #0f5132; }
+
+.settings-card-title h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.5rem;
+  color: #152c1f;
+}
+
+.settings-card-title p {
+  margin: 0;
+  color: #5e6a5f;
+}
+
+.preferences-form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.field-row {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.field-group {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.field-group label {
+  font-weight: 700;
+  color: #24332d;
+}
+
+.field-group select {
+  width: 100%;
+  border: 1px solid #e5e5de;
+  border-radius: 22px;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  background: #fbfbf9;
+  color: #1d2c21;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: #0f5132;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.95rem 1.6rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+}

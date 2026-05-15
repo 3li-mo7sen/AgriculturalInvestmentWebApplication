@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
-  imports: [ReactiveFormsModule,CommonModule,RouterLink,RouterLinkActive],
+  imports: [ReactiveFormsModule,CommonModule,RouterLink],
   templateUrl: './reset-password.html',
   styleUrl: './reset-password.css'
 })

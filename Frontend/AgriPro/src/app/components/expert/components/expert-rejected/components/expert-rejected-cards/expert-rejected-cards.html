@@ -1,1 +1,7 @@
-<p>expert-rejected-cards works!</p>
+<section class="summary-cards">
+  <div class="card" *ngFor="let card of cards">
+    <div class="card-value">{{ card.value }}</div>
+    <div class="card-title">{{ card.title }}</div>
+    <div class="card-description">{{ card.description }}</div>
+  </div>
+</section>

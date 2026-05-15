@@ -5,10 +5,11 @@ import { ExpertNav } from './components/expert-nav/expert-nav';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
+  standalone: true,
   selector: 'app-expert',
-  imports: [CommonModule, RouterLink, RouterOutlet, RouterLinkActive,ExpertNav],
+  imports: [CommonModule, RouterLink, RouterOutlet, RouterLinkActive, ExpertNav],
   templateUrl: './expert.html',
-  styleUrl: './expert.css',
+  styleUrls: ['./expert.css'],
 })
 export class Expert {
   isCollapsed: boolean = false;
