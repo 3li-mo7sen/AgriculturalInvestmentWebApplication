@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-doc-cards',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './admin-doc-cards.html',
-  styleUrl: './admin-doc-cards.css',
+  styleUrls: ['./admin-doc-cards.css'],
+  standalone: true,
 })
 export class AdminDocCards {
 

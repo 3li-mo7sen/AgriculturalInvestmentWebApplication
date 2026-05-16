@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-admin-reports-volume',
   imports: [],
   templateUrl: './admin-reports-volume.html',
-  styleUrl: './admin-reports-volume.css',
+  styleUrls: ['./admin-reports-volume.css'],
 })
 export class AdminReportsVolume {
 

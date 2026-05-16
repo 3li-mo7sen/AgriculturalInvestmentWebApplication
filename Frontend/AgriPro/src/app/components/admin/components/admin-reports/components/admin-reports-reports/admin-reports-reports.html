@@ -1,1 +1,52 @@
-<p>admin-reports-reports works!</p>
+<section class="reports-page">
+  <div class="reports-heading">
+    <h2>Recent Reports</h2>
+  </div>
+
+  <div class="reports-toolbar">
+    <div class="reports-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search reports..." />
+    </div>
+
+    <div class="filter-group">
+      <div class="dropdown-filter">
+        <button class="dropdown-button" type="button" (click)="toggleTypeMenu()">
+          <span class="filter-icon"><i class="fa-solid fa-filter"></i></span>
+          <span>{{ selectedType.label }}</span>
+          <span class="dropdown-icon">▾</span>
+        </button>
+
+        <div class="dropdown-menu" *ngIf="isTypeMenuOpen">
+          <div
+            class="dropdown-item"
+            *ngFor="let option of typeOptions"
+            (click)="selectType(option)"
+            [class.selected]="selectedType.value === option.value"
+          >
+            <span>{{ option.label }}</span>
+            <span class="checkmark" *ngIf="selectedType.value === option.value">✔</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-export" type="button">⬇ Export All</button>
+    </div>
+  </div>
+
+  <div class="reports-list">
+    <article class="report-card" *ngFor="let report of filteredReports()">
+      <div class="report-card-left">
+        <div class="report-icon">📄</div>
+      </div>
+      <div class="report-card-body">
+        <h3>{{ report.title }}</h3>
+        <p>{{ report.category }} · Generated {{ report.generated }}</p>
+      </div>
+      <div class="report-card-right">
+        <span class="status-tag {{ report.statusClass }}">{{ report.status }}</span>
+        <button class="view-button" type="button">View</button>
+      </div>
+    </article>
+  </div>
+</section>

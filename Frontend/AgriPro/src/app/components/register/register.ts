@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Login } from '../login/login';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment.development';
@@ -9,7 +8,7 @@ import { environment } from '../../../environment/environment.development';
 @Component({
   standalone: true,
   selector: 'app-register',
-  imports: [ReactiveFormsModule,CommonModule,Login,RouterLink],
+  imports: [ReactiveFormsModule,CommonModule,RouterLink],
   templateUrl: './register.html',
   styleUrls: ['./register.css'],
 })

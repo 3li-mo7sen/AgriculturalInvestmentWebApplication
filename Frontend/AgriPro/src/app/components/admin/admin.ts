@@ -8,7 +8,7 @@ import { AdminNav } from './components/admin-nav/admin-nav';
   selector: 'app-admin',
   imports: [CommonModule, RouterLink, RouterOutlet, RouterLinkActive,AdminNav],
   templateUrl: './admin.html',
-  styleUrl: './admin.css',
+  styleUrls: ['./admin.css'],
 })
 export class Admin {
   isCollapsed: boolean = false;

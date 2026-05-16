@@ -1,1 +1,69 @@
-<p>admin-settings-general works!</p>
+<section class="general-settings-page">
+  <article class="settings-card">
+    <div class="settings-card-header">
+      <div>
+        <h2>Platform Information</h2>
+        <p>Basic platform configuration settings</p>
+      </div>
+      <div class="settings-icon">🌐</div>
+    </div>
+
+    <div class="settings-grid">
+      <div class="settings-field">
+        <label>Platform Name</label>
+        <input type="text" value="Agri-Pro" />
+      </div>
+      <div class="settings-field">
+        <label>Support Email</label>
+        <input type="email" value="support@agri-pro.com" />
+      </div>
+      <div class="settings-field full-width">
+        <label>Platform Description</label>
+        <textarea>Connecting farmers and investors for agricultural growth</textarea>
+      </div>
+    </div>
+  </article>
+
+  <article class="settings-card">
+    <div class="settings-card-header">
+      <div>
+        <h2>Investment Settings</h2>
+        <p>Configure investment limits and fees</p>
+      </div>
+      <div class="settings-icon">📈</div>
+    </div>
+
+    <div class="settings-grid investment-grid">
+      <div class="settings-field">
+        <label>Default Currency</label>
+        <div class="select-control">
+          <select>
+            <option>Egyptian Pound (EGP)</option>
+            <option>US Dollar (USD)</option>
+            <option>Euro (EUR)</option>
+          </select>
+          <span class="select-arrow">▾</span>
+        </div>
+      </div>
+      <div class="settings-field">
+        <label>Minimum Investment (EGP)</label>
+        <input type="number" value="10000" />
+      </div>
+      <div class="settings-field">
+        <label>Maximum Investment (EGP)</label>
+        <input type="number" value="5000000" />
+      </div>
+      <div class="settings-field">
+        <label>Platform Fee (%)</label>
+        <input type="number" value="2.5" step="0.1" />
+      </div>
+      <div class="settings-note full-width">
+        Fee charged on successful investments
+      </div>
+    </div>
+
+    <div class="actions-row">
+      <button class="btn-save" type="button">Save Changes</button>
+    </div>
+  </article>
+</section>

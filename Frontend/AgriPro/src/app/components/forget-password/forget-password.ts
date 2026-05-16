@@ -9,7 +9,7 @@ import { email } from '@angular/forms/signals';
   selector: 'app-forget-password',
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './forget-password.html',
-  styleUrl: './forget-password.css',
+  styleUrls: ['./forget-password.css'],
 })
 export class ForgetPassword {
   serverError: any = null;

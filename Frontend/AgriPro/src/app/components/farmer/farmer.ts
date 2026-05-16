@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth/auth.service';
   selector: 'app-farmer',
   imports: [CommonModule,RouterLink,RouterOutlet,RouterLinkActive,FarmerNav],
   templateUrl: './farmer.html',
-  styleUrl: './farmer.css',
+  styleUrls: ['./farmer.css'],
 })
 export class Farmer {
   isCollapsed: boolean = false;

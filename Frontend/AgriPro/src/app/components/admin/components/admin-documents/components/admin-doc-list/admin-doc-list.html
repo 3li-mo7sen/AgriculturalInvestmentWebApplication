@@ -1,1 +1,105 @@
-<p>admin-doc-list works!</p>
+<section class="projects-table-card">
+  <div class="projects-toolbar">
+    <div class="search-field">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search projects..." />
+    </div>
+
+    <div class="filter-group" (click)="$event.stopPropagation()">
+      <div class="dropdown-filter">
+        <button class="dropdown-button" type="button" (click)="toggleStatusMenu($event)">
+          <span>{{ selectedStatus.label }}</span>
+          <span class="dropdown-icon" [class.open]="isStatusMenuOpen">▾</span>
+        </button>
+
+        <div class="dropdown-menu" *ngIf="isStatusMenuOpen">
+          <div
+            class="dropdown-item"
+            *ngFor="let option of statusOptions"
+            (click)="selectStatus(option)"
+            [class.selected]="selectedStatus.value === option.value"
+          >
+            <span>{{ option.label }}</span>
+            <span class="checkmark" *ngIf="selectedStatus.value === option.value">✔</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dropdown-filter">
+        <button class="dropdown-button" type="button" (click)="toggleCropMenu($event)">
+          <span>{{ selectedCrop.label }}</span>
+          <span class="dropdown-icon" [class.open]="isCropMenuOpen">▾</span>
+        </button>
+
+        <div class="dropdown-menu" *ngIf="isCropMenuOpen">
+          <div
+            class="dropdown-item"
+            *ngFor="let option of cropOptions"
+            (click)="selectCrop(option)"
+            [class.selected]="selectedCrop.value === option.value"
+          >
+            <span>{{ option.label }}</span>
+            <span class="checkmark" *ngIf="selectedCrop.value === option.value">✔</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-export">
+        <span>⬇</span> Export
+      </button>
+    </div>
+  </div>
+
+  <table class="projects-table">
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Farmer</th>
+        <th>Status</th>
+        <th>Funding Progress</th>
+        <th>Investors</th>
+        <th>ROI</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of getFilteredProjects()">
+        <td>
+          <div class="project-cell">
+            <div class="project-name">{{ project.name }}</div>
+            <div class="project-location">📍 {{ project.location }}</div>
+          </div>
+        </td>
+        <td>
+          <div class="farmer-cell">
+            <div class="farmer-avatar">👤</div>
+            <span>{{ project.farmer }}</span>
+          </div>
+        </td>
+        <td>
+          <span class="badge" [ngClass]="getStatusBadgeClass(project.status)">
+            {{ getDisplayStatus(project.status) }}
+          </span>
+        </td>
+        <td>
+          <div class="funding-cell">
+            <div class="funding-amount">{{ project.fundingAmount }}</div>
+            <div class="progress-bar-container">
+              <div class="progress-bar" [style.width.%]="project.fundingPercent"></div>
+            </div>
+            <div class="progress-percent">{{ project.fundingPercent }}%</div>
+          </div>
+        </td>
+        <td>
+          <span class="investors-count">{{ project.investors }}</span>
+        </td>
+        <td>
+          <span class="roi-value" [style.color]="project.roi !== '0%' ? '#10b981' : 'inherit'">
+            {{ project.roi }}
+          </span>
+        </td>
+        <td class="actions-cell">...</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

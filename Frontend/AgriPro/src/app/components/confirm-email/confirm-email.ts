@@ -8,7 +8,7 @@ import { environment } from '../../../environment/environment.development';
   selector: 'app-confirm-email',
   imports: [CommonModule],
   templateUrl: './confirm-email.html',
-  styleUrl: './confirm-email.css'
+  styleUrls: ['./confirm-email.css']
 })
 export class ConfirmEmailComponent implements OnInit {
 

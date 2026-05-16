@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-admin-settings-notification',
   imports: [],
   templateUrl: './admin-settings-notification.html',
-  styleUrl: './admin-settings-notification.css',
+  styleUrls: ['./admin-settings-notification.css'],
 })
 export class AdminSettingsNotification {
 

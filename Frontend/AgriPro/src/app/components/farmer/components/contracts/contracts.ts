@@ -7,7 +7,7 @@ import { ConSearch } from './components/con-search/con-search';
   selector: 'app-contracts',
   imports: [ContractCards,ContractList,ConSearch],
   templateUrl: './contracts.html',
-  styleUrl: './contracts.css',
+  styleUrls: ['./contracts.css'],
 })
 export class Contracts {
 

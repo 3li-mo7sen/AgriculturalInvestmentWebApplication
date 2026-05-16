@@ -7,7 +7,7 @@ import { InvestInvestmentsSearch } from './components/invest-investments-search/
   selector: 'app-investor-investments',
   imports: [InvestInvestmentsCards,InvestInvestmentsProjects,InvestInvestmentsSearch],
   templateUrl: './investor-investments.html',
-  styleUrl: './investor-investments.css',
+  styleUrls: ['./investor-investments.css'],
 })
 export class InvestorInvestments {
 

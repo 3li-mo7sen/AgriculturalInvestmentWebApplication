@@ -5,7 +5,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   selector: 'app-admin-settings',
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './admin-settings.html',
-  styleUrl: './admin-settings.css',
+  styleUrls: ['./admin-settings.css'],
 })
 export class AdminSettings {
 

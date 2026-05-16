@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-expert-reviews-search',
   imports: [CommonModule],
   templateUrl: './expert-reviews-search.html',
-  styleUrl: './expert-reviews-search.css',
+  styleUrls: ['./expert-reviews-search.css'],
 })
 export class ExpertReviewsSearch {
   @Input() searchQuery = '';

@@ -1,0 +1,14 @@
+/* Layout for approvals + distribution row and activity */
+.dashboard-row {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	gap: 1.25rem;
+	margin: 1.25rem 0;
+}
+.col-left { }
+.col-right { }
+
+@media (max-width: 991px) {
+	.dashboard-row { grid-template-columns: 1fr; }
+}
+

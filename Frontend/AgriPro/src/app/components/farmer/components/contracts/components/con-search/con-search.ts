@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-con-search',
   imports: [CommonModule],
   templateUrl: './con-search.html',
-  styleUrl: './con-search.css',
+  styleUrls: ['./con-search.css'],
 })
 export class ConSearch {
   openStatus = false;

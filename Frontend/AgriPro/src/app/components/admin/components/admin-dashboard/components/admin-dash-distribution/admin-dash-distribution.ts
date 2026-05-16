@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-admin-dash-distribution',
-  imports: [],
+  standalone: true,
   templateUrl: './admin-dash-distribution.html',
-  styleUrl: './admin-dash-distribution.css',
+  styleUrls: ['./admin-dash-distribution.css']
 })
-export class AdminDashDistribution {
-
-}
+export class AdminDashDistribution {}

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-invest-history-list',
   imports: [CommonModule],
   templateUrl: './invest-history-list.html',
-  styleUrl: './invest-history-list.css',
+  styleUrls: ['./invest-history-list.css'],
   standalone: true
 })
 export class InvestHistoryList {

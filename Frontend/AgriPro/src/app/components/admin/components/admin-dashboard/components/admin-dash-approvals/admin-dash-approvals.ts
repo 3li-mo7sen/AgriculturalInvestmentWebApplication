@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-admin-dash-approvals',
-  imports: [],
+  standalone: true,
   templateUrl: './admin-dash-approvals.html',
-  styleUrl: './admin-dash-approvals.css',
+  styleUrls: ['./admin-dash-approvals.css']
 })
-export class AdminDashApprovals {
-
-}
+export class AdminDashApprovals {}

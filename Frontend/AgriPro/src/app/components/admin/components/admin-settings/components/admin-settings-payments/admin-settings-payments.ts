@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-admin-settings-payments',
   imports: [],
   templateUrl: './admin-settings-payments.html',
-  styleUrl: './admin-settings-payments.css',
+  styleUrls: ['./admin-settings-payments.css'],
 })
 export class AdminSettingsPayments {
 

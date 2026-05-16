@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './invest-projects-search.html',
-  styleUrl: './invest-projects-search.css',
+  styleUrls: ['./invest-projects-search.css'],
 })
 export class InvestProjectsSearch {
   openFilter: 'crop' | 'location' | 'risk' | null = null;

@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-admin-dash-alerts',
   imports: [],
   templateUrl: './admin-dash-alerts.html',
-  styleUrl: './admin-dash-alerts.css',
+  styleUrls: ['./admin-dash-alerts.css'],
 })
 export class AdminDashAlerts {
 
