@@ -6,7 +6,7 @@ import { AdminAccountsList } from './components/admin-accounts-list/admin-accoun
   selector: 'app-admin-accounts',
   imports: [AdminAccountsCards,AdminAccountsList],
   templateUrl: './admin-accounts.html',
-  styleUrl: './admin-accounts.css',
+  styleUrls: ['./admin-accounts.css'],
 })
 export class AdminAccounts {
 

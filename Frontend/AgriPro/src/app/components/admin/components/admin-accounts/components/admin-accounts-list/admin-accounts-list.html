@@ -1,1 +1,104 @@
-<p>admin-accounts-list works!</p>
+<section class="accounts-table-card">
+  <div class="accounts-toolbar">
+    <div class="search-field">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search users..." />
+    </div>
+
+    <div class="filter-group">
+      <details class="dropdown-filter">
+        <summary>
+          <span>{{ getDisplayRole() }}</span>
+          <span class="dropdown-icon">▾</span>
+        </summary>
+        <div class="dropdown-menu">
+          <div class="dropdown-item" (click)="selectRole('All Roles')" [class.selected]="selectedRole === 'All Roles'">
+            <span>All Roles</span>
+            <span class="checkmark" *ngIf="selectedRole === 'All Roles'">✔</span>
+          </div>
+          <div class="dropdown-item" (click)="selectRole('farmer')" [class.selected]="selectedRole === 'farmer'">
+            <span>Farmers</span>
+            <span class="checkmark" *ngIf="selectedRole === 'farmer'">✔</span>
+          </div>
+          <div class="dropdown-item" (click)="selectRole('investor')" [class.selected]="selectedRole === 'investor'">
+            <span>Investors</span>
+            <span class="checkmark" *ngIf="selectedRole === 'investor'">✔</span>
+          </div>
+          <div class="dropdown-item" (click)="selectRole('expert')" [class.selected]="selectedRole === 'expert'">
+            <span>Experts</span>
+            <span class="checkmark" *ngIf="selectedRole === 'expert'">✔</span>
+          </div>
+          <div class="dropdown-item" (click)="selectRole('admin')" [class.selected]="selectedRole === 'admin'">
+            <span>Admins</span>
+            <span class="checkmark" *ngIf="selectedRole === 'admin'">✔</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="dropdown-filter">
+        <summary>
+          <span>{{ selectedStatus }}</span>
+          <span class="dropdown-icon">▾</span>
+        </summary>
+        <div class="dropdown-menu">
+          <div class="dropdown-item" (click)="selectStatus('All Status')" [class.selected]="selectedStatus === 'All Status'">
+            <span>All Status</span>
+            <span class="checkmark" *ngIf="selectedStatus === 'All Status'">✔</span>
+          </div>
+          <div class="dropdown-item" (click)="selectStatus('Active')" [class.selected]="selectedStatus === 'Active'">
+            <span>Active</span>
+            <span class="checkmark" *ngIf="selectedStatus === 'Active'">✔</span>
+          </div>
+          <div class="dropdown-item" (click)="selectStatus('Pending')" [class.selected]="selectedStatus === 'Pending'">
+            <span>Pending</span>
+            <span class="checkmark" *ngIf="selectedStatus === 'Pending'">✔</span>
+          </div>
+          <div class="dropdown-item" (click)="selectStatus('Suspended')" [class.selected]="selectedStatus === 'Suspended'">
+            <span>Suspended</span>
+            <span class="checkmark" *ngIf="selectedStatus === 'Suspended'">✔</span>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn-export" type="button">Export</button>
+      <button class="btn-add" type="button">Add User</button>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="accounts-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>KYC</th>
+          <th>Location</th>
+          <th>Join Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of getFilteredUsers()">
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar">{{ user.avatar }}</div>
+              <div>
+                <div class="user-name">{{ user.name }}</div>
+                <div class="user-email">{{ user.email }}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="badge" [ngClass]="getRoleBadgeClass(user.role)">{{ user.role }}</span></td>
+          <td><span class="badge" [ngClass]="getStatusBadgeClass(user.status)">{{ user.status }}</span></td>
+          <td><span class="badge" [ngClass]="getStatusBadgeClass(user.kyc)">{{ user.kyc }}</span></td>
+          <td>{{ user.location }}</td>
+          <td>{{ user.joinDate }}</td>
+          <td class="actions-cell">...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

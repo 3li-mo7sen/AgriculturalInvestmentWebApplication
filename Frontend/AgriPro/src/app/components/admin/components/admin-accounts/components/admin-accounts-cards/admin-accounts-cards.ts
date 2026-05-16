@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-admin-accounts-cards',
   imports: [],
   templateUrl: './admin-accounts-cards.html',
-  styleUrl: './admin-accounts-cards.css',
+  styleUrls: ['./admin-accounts-cards.css'],
 })
 export class AdminAccountsCards {
 

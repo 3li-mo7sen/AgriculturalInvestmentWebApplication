@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './invest-investments-search.html',
-  styleUrl: './invest-investments-search.css',
+  styleUrls: ['./invest-investments-search.css'],
 })
 export class InvestInvestmentsSearch {
   openStatus = false;

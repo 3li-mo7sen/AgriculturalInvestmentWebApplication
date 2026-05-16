@@ -16,7 +16,7 @@ interface Activity {
   selector: 'app-expert-dash-activity',
   imports: [CommonModule],
   templateUrl: './expert-dash-activity.html',
-  styleUrl: './expert-dash-activity.css',
+  styleUrls: ['./expert-dash-activity.css'],
 })
 export class ExpertDashActivity {
   activities: Activity[] = [

@@ -1,1 +1,18 @@
-<p>admin-reports-cards works!</p>
+<section class="admin-report-cards">
+  <article class="report-card" *ngFor="let card of cards">
+    <div class="card-header">
+      <div class="card-icon" [ngClass]="card.iconClass">
+        <i [ngClass]="card.icon"></i>
+      </div>
+      <span class="card-badge" [ngClass]="card.badgeClass">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        {{ card.badge }}
+      </span>
+    </div>
+    <div class="card-body">
+      <h2>{{ card.value }}</h2>
+      <p>{{ card.title }}</p>
+    </div>
+    <div class="card-footer">{{ card.description }}</div>
+  </article>
+</section>

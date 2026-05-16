@@ -1,0 +1,369 @@
+.projects-table-card {
+  background: white;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.projects-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 200px;
+  background: white;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.search-icon {
+  font-size: 1rem;
+}
+
+.search-field input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.875rem;
+  background: transparent;
+}
+
+.search-field input::placeholder {
+  color: rgba(15, 23, 42, 0.4);
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: visible;
+}
+
+.dropdown-filter {
+  position: relative;
+  z-index: 2;
+}
+
+.projects-toolbar,
+.projects-table-card {
+  overflow: visible;
+}
+
+.dropdown-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  min-width: 170px;
+  padding: 0.6rem 1rem;
+  background: white;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #0f172a;
+  transition: all 0.2s ease;
+}
+
+.dropdown-filter summary:hover,
+.dropdown-button:hover {
+  background: rgba(15, 23, 42, 0.04);
+}
+
+.dropdown-filter summary:focus-visible,
+.dropdown-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.dropdown-filter summary::-webkit-details-marker {
+  display: none;
+}
+
+.dropdown-filter .dropdown-icon,
+.dropdown-button .dropdown-icon {
+  font-size: 0.8rem;
+  transition: transform 0.2s;
+}
+
+.dropdown-button .dropdown-icon.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-filter .dropdown-icon.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-filter .dropdown-icon {
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+}
+
+.dropdown-filter[open] .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: white;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 0.75rem;
+  margin-top: 0.5rem;
+  z-index: 9999;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+  overflow: visible;
+  max-height: 400px;
+  overflow-y: auto;
+  display: block;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #0f172a;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  transition: all 0.2s;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover:not(.selected) {
+  background: rgba(15, 23, 42, 0.04);
+}
+
+.dropdown-item.selected {
+  background-color: #10b981 !important;
+  color: white !important;
+  border-radius: 0.5rem !important;
+  margin: 0.5rem !important;
+  padding: 0.75rem 1rem !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.dropdown-item.selected .checkmark {
+  color: white !important;
+}
+
+.dropdown-item.selected span:first-child {
+  color: white !important;
+}
+
+.checkmark {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.btn-export {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #0f172a;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+
+.btn-export:hover {
+  background: rgba(15, 23, 42, 0.04);
+}
+
+.projects-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.projects-table thead {
+  background: rgba(15, 23, 42, 0.02);
+}
+
+.projects-table th {
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  color: rgba(15, 23, 42, 0.7);
+  border-bottom: 2px solid rgba(15, 23, 42, 0.08);
+}
+
+.projects-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.projects-table tbody tr:hover {
+  background: rgba(15, 23, 42, 0.02);
+}
+
+.project-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.project-name {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.project-location {
+  font-size: 0.75rem;
+  color: rgba(15, 23, 42, 0.5);
+}
+
+.farmer-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.farmer-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.08);
+  font-size: 1rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-active {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.badge-funding {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.badge-pending {
+  background: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+}
+
+.badge-expert {
+  background: rgba(59, 130, 246, 0.12);
+  color: #3b82f6;
+}
+
+.badge-completed {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.badge-rejected {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}
+
+.funding-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.funding-amount {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 0.5rem;
+  background: rgba(15, 23, 42, 0.08);
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #06b6d4);
+  border-radius: 0.25rem;
+  transition: width 0.3s;
+}
+
+.progress-percent {
+  font-size: 0.75rem;
+  color: rgba(15, 23, 42, 0.5);
+}
+
+.investors-count {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.roi-value {
+  font-weight: 600;
+}
+
+.actions-cell {
+  text-align: center;
+  cursor: pointer;
+  color: rgba(15, 23, 42, 0.4);
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .projects-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-field {
+    flex: 1;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .btn-export {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+}

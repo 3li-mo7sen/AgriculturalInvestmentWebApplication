@@ -1,0 +1,113 @@
+.metric-growth-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 28px;
+  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.06);
+  padding: 1.5rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.metric-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #0f172a;
+}
+
+.metric-header p {
+  margin: 0.35rem 0 0;
+  color: rgba(15, 23, 42, 0.65);
+  font-size: 0.95rem;
+}
+
+.metric-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #0f5132;
+  font-size: 1rem;
+}
+
+.metric-chart {
+  display: grid;
+  gap: 1rem;
+}
+
+.growth-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: end;
+  min-height: 210px;
+  padding: 0 0.35rem;
+}
+
+.growth-column {
+  display: grid;
+  align-items: end;
+  gap: 0.8rem;
+}
+
+.growth-bar {
+  width: 100%;
+  border-radius: 1.25rem 1.25rem 0 0;
+  display: block;
+  min-height: 1.5rem;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+.growth-bar.users {
+  background: linear-gradient(180deg, #0f5132 0%, #166534 100%);
+}
+
+.growth-bar.projects {
+  background: linear-gradient(180deg, #d1fae5 0%, #7dd3fc 100%);
+}
+
+.growth-labels {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.metric-legend {
+  display: flex;
+  gap: 1rem;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.legend-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.legend-dot.users {
+  background: #0f5132;
+}
+
+.legend-dot.projects {
+  background: #2f855a;
+}
+
+@media (max-width: 830px) {
+  .metric-growth-card {
+    padding: 1.25rem;
+  }
+}

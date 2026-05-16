@@ -8,7 +8,7 @@ import { ExpertDashPerformance } from './components/expert-dash-performance/expe
   selector: 'app-expert-dashboard',
   imports: [ExpertDashCards,ExpertDashReviews,ExpertDashActivity,ExpertDashPerformance],
   templateUrl: './expert-dashboard.html',
-  styleUrl: './expert-dashboard.css',
+  styleUrls: ['./expert-dashboard.css'],
 })
 export class ExpertDashboard {
 

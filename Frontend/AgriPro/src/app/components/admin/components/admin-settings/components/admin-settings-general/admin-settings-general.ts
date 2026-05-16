@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-admin-settings-general',
   imports: [],
   templateUrl: './admin-settings-general.html',
-  styleUrl: './admin-settings-general.css',
+  styleUrls: ['./admin-settings-general.css'],
 })
 export class AdminSettingsGeneral {
 

@@ -6,7 +6,7 @@ import { ProjectLifecycle } from './components/project-lifecycle/project-lifecyc
   selector: 'app-my-projects',
   imports: [ProjectCards,ProjectLifecycle],
   templateUrl: './my-projects.html',
-  styleUrl: './my-projects.css',
+  styleUrls: ['./my-projects.css'],
 })
 export class MyProjects {
 

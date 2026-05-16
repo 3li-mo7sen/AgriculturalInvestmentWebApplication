@@ -1,17 +1,49 @@
+<section class="admin-reports-topbar">
+  <div class="admin-reports-heading">
+    <h1>Reports & Analytics</h1>
+    <p>Platform performance metrics and generated reports</p>
+  </div>
+
+  <div class="admin-reports-actions">
+    <div class="dropdown-filter">
+      <button class="dropdown-button" type="button" (click)="togglePeriodMenu($event)">
+        <span class="filter-icon"><i class="fa-solid fa-calendar-days"></i></span>
+        <span>{{ selectedPeriod.label }}</span>
+        <span class="dropdown-icon">▾</span>
+      </button>
+
+      <div class="dropdown-menu" *ngIf="isPeriodMenuOpen">
+        <div
+          class="dropdown-item"
+          *ngFor="let option of periodOptions"
+          (click)="selectPeriod(option)"
+          [class.selected]="selectedPeriod.value === option.value"
+        >
+          <span>{{ option.label }}</span>
+          <span class="checkmark" *ngIf="selectedPeriod.value === option.value">✔</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-export" type="button">⬇ Export All</button>
+  </div>
+</section>
+
 <app-admin-reports-cards></app-admin-reports-cards>
-<app-admin-reports-growth></app-admin-reports-growth>
-<app-admin-reports-volume></app-admin-reports-volume>
+<section class="admin-reports-metrics">
+  <app-admin-reports-growth></app-admin-reports-growth>
+  <app-admin-reports-volume></app-admin-reports-volume>
+</section>
 <div class="settings-container">
   <nav class="settings-tabs">
     <a routerLink="reports" routerLinkActive="active-tab" [routerLinkActiveOptions]="{ exact: true }">
       <i class="fa-solid fa-file-lines"></i>
-      Reports
+      Generated Reports
     </a>
     <a routerLink="alerts" routerLinkActive="active-tab">
       <i class="fa-solid fa-triangle-exclamation"></i>
-      Alerts
+      System Alerts
     </a>
-    
   </nav>
 
   <section class="settings-panel">

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -8,7 +9,7 @@ import { AuthService } from '../../services/auth/auth.service';
   selector: 'app-reset-password',
   imports: [ReactiveFormsModule,CommonModule,RouterLink],
   templateUrl: './reset-password.html',
-  styleUrl: './reset-password.css'
+  styleUrls: ['./reset-password.css']
 })
 export class ResetPassword {
   serverError: any = null;
@@ -27,7 +28,7 @@ export class ResetPassword {
 
   constructor(private _ActivatedRoute: ActivatedRoute, private _AuthService: AuthService, private _Router: Router) {
    
-    this._ActivatedRoute.queryParams.subscribe(params => {
+    this._ActivatedRoute.queryParams.subscribe((params: any) => {
       this.email = params['email'];
       this.token = params['code'];
     });
@@ -51,10 +52,12 @@ export class ResetPassword {
       console.log("Data to be sent:", model);
 
       this._AuthService.resetPassword(model).subscribe({
-        next: (res) => {
+        next: (res: any) => {
           alert("Password reset successfully!");
           this._Router.navigate(['/login']);
         },
+        error: (err: any) => {
+          
         error: (err) => {
           console.log("Full Error Object:", err);
           this.serverError = err.error?.message || "Invalid or expired token";

@@ -12,7 +12,7 @@ interface PerformanceMetric {
   selector: 'app-expert-dash-performance',
   imports: [CommonModule],
   templateUrl: './expert-dash-performance.html',
-  styleUrl: './expert-dash-performance.css',
+  styleUrls: ['./expert-dash-performance.css'],
 })
 export class ExpertDashPerformance {
   metrics: PerformanceMetric[] = [

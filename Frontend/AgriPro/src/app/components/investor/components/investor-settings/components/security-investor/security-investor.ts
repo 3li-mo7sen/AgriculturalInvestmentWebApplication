@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-security-investor',
   imports: [],
   templateUrl: './security-investor.html',
-  styleUrl: './security-investor.css',
+  styleUrls: ['./security-investor.css'],
 })
 export class SecurityInvestor {
 

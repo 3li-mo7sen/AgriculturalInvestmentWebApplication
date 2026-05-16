@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   selector: 'app-contract-list',
   imports: [],
   templateUrl: './contract-list.html',
-  styleUrl: './contract-list.css',
+  styleUrls: ['./contract-list.css'],
 })
 export class ContractList {
 

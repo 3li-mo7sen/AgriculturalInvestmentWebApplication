@@ -24,7 +24,7 @@ interface ReviewItem {
   selector: 'app-expert-reviews-list',
   imports: [CommonModule],
   templateUrl: './expert-reviews-list.html',
-  styleUrl: './expert-reviews-list.css',
+  styleUrls: ['./expert-reviews-list.css'],
 })
 export class ExpertReviewsList {
   @Input() reviews: ReviewItem[] = [];

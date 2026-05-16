@@ -1,1 +1,49 @@
-<p>admin-settings-security works!</p>
+<section class="security-settings-page">
+  <article class="security-card">
+    <div class="security-card-header">
+      <div>
+        <h2>Authentication Settings</h2>
+        <p>Configure security and authentication options</p>
+      </div>
+      <label class="switch-toggle">
+        <span>Two-Factor Authentication</span>
+        <input type="checkbox" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="security-grid">
+      <div class="security-field">
+        <label>Session Timeout (minutes)</label>
+        <input type="number" value="30" />
+      </div>
+      <div class="security-field">
+        <label>Password Expiry (days)</label>
+        <input type="number" value="90" />
+      </div>
+      <div class="security-field">
+        <label>Max Login Attempts</label>
+        <input type="number" value="5" />
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="security-footer">
+      <div>
+        <h3>IP Whitelist</h3>
+        <p>Restrict admin access to specific IPs</p>
+      </div>
+      <label class="switch-toggle switch-right">
+        <input type="checkbox" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="actions-row">
+      <button class="btn-save" type="button">Save Changes</button>
+    </div>
+  </article>
+</section>

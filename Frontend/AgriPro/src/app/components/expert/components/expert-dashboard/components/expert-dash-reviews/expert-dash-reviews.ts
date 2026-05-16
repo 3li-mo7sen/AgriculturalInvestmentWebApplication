@@ -19,7 +19,7 @@ interface Review {
   selector: 'app-expert-dash-reviews',
   imports: [CommonModule],
   templateUrl: './expert-dash-reviews.html',
-  styleUrl: './expert-dash-reviews.css',
+  styleUrls: ['./expert-dash-reviews.css'],
 })
 export class ExpertDashReviews {
   reviews: Review[] = [

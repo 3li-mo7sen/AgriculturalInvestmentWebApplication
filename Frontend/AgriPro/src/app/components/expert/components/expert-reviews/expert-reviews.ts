@@ -25,7 +25,7 @@ interface ReviewItem {
   selector: 'app-expert-reviews',
   imports: [ExpertReviewsList, ExpertReviewsSearch],
   templateUrl: './expert-reviews.html',
-  styleUrl: './expert-reviews.css',
+  styleUrls: ['./expert-reviews.css'],
 })
 export class ExpertReviews {
   searchQuery = '';

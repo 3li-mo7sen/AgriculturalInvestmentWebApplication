@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-admin-reports-growth',
   imports: [],
   templateUrl: './admin-reports-growth.html',
-  styleUrl: './admin-reports-growth.css',
+  styleUrls: ['./admin-reports-growth.css'],
 })
 export class AdminReportsGrowth {
 
