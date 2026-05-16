@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StatsCards } from './components/stats-cards/stats-cards';
 import { RecentProjects } from './components/recent-projects/recent-projects';
+import { FarmerService } from '../../../../services/farmerService/farmer.service';
 
 @Component({
   standalone: true,
@@ -9,6 +10,18 @@ import { RecentProjects } from './components/recent-projects/recent-projects';
   templateUrl: './farmer-dashboard.html',
   styleUrls: ['./farmer-dashboard.css'],
 })
-export class FarmerDashboard {
+export class FarmerDashboard implements OnInit{
+  dashboardData: any = null;
+
+  constructor(private _farmerService: FarmerService) { }
+
+  ngOnInit(): void {
+    this._farmerService.getDashboardData().subscribe({
+      next: (res) => {
+        this.dashboardData = res; // الداتا اللي راجعة من الـ API
+      },
+      error: (err) => console.error(err)
+    });
+  }
 
 }
