@@ -1,11 +1,12 @@
 import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   standalone: true,
   selector: 'app-farmer-nav',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './farmer-nav.html',
   styleUrls: ['./farmer-nav.css'],
 })
@@ -26,7 +27,7 @@ export class FarmerNav {
     ['settings', { title: 'Settings', subtitle: 'Manage your account preferences' }],
   ]);
 
-  constructor() {
+  constructor(private _AuthService:AuthService) {
     this.updateHeader(this.router.url);
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -74,27 +75,18 @@ export class FarmerNav {
     this.showNotificationsMenu = false;
   }
 
-  goToNotifications() {
-    this.showNotificationsMenu = false;
-    this.router.navigate(['/farmer/settings/notifications']);
-  }
-
+  
   goToProfile() {
     this.showAccountMenu = false;
     this.router.navigate(['/farmer/settings/profile']);
   }
 
-  goToSettings() {
-    this.showAccountMenu = false;
-    this.router.navigate(['/farmer/settings']);
-  }
+  
 
-  goToHelpCenter() {
-    this.showAccountMenu = false;
-  }
 
   logout() {
     this.showAccountMenu = false;
-    this.router.navigate(['/login']);
+
+    this._AuthService.logout();
   }
 }
