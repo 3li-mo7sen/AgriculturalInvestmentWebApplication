@@ -75,14 +75,24 @@ export class FarmerNav {
     this.showNotificationsMenu = false;
   }
 
-  
+  goToNotifications() {
+    this.showNotificationsMenu = false;
+    this.router.navigate(['/farmer/settings/notifications']);
+  }
+
   goToProfile() {
     this.showAccountMenu = false;
     this.router.navigate(['/farmer/settings/profile']);
   }
 
-  
+  goToSettings() {
+    this.showAccountMenu = false;
+    this.router.navigate(['/farmer/settings']);
+  }
 
+  goToHelpCenter() {
+    this.showAccountMenu = false;
+  }
 
   logout() {
     this.showAccountMenu = false;
