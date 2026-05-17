@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+//import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+//import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
@@ -56,7 +57,7 @@ export class ResetPassword {
           alert("Password reset successfully!");
           this._Router.navigate(['/login']);
         },
-        error: (err: any) => {
+        //error: (err: any) => {
           
         error: (err) => {
           console.log("Full Error Object:", err);
