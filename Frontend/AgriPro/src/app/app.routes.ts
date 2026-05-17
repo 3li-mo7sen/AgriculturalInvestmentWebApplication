@@ -54,6 +54,7 @@ import { AdminSettingsNotification } from './components/admin/components/admin-s
 import { AdminSettingsGeneral } from './components/admin/components/admin-settings/components/admin-settings-general/admin-settings-general';
 import { AdminReportsAlerts } from './components/admin/components/admin-reports/components/admin-reports-alerts/admin-reports-alerts';
 import { AdminReportsReports } from './components/admin/components/admin-reports/components/admin-reports-reports/admin-reports-reports';
+import { FarmerProfile2 } from './components/farmer/components/farmer-profile2/farmer-profile2';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -118,17 +119,17 @@ export const routes: Routes = [
       { path: 'create-project', component: CreateProject }, 
       { path: 'my-projects', component: MyProjects },
       { path: 'contracts', component: Contracts },       
-      { path: 'wallet', component: Wallet },           
-      {
+      { path: 'profile', component: FarmerProfile2 },           
+     /* {
         path: 'settings', component: Settings,
         children: [
-          { path: '', redirectTo: 'profile', pathMatch: 'full' }, // لو دخل سيتنجز بس يفتح بروفايل
+          { path: '', redirectTo: 'profile', pathMatch: 'full' }, 
           { path: 'profile', component: ProfileFarmer},
-          { path: 'security', component: SecurityFarmer },
-          { path: 'notifications', component: NotificationsFarmer },
-          { path: 'preferences', component: PreferencesFarmer }
+        
+         
         ]
-},         
+},*/ 
+    
     ]  },
   {
     path: 'investor', component: Investor, canActivate: [authGuard, roleGuard], data: { role: 'Investor' },
