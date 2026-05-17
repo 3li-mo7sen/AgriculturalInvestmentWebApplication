@@ -55,6 +55,8 @@ import { AdminSettingsGeneral } from './components/admin/components/admin-settin
 import { AdminReportsAlerts } from './components/admin/components/admin-reports/components/admin-reports-alerts/admin-reports-alerts';
 import { AdminReportsReports } from './components/admin/components/admin-reports/components/admin-reports-reports/admin-reports-reports';
 import { FarmerProfile2 } from './components/farmer/components/farmer-profile2/farmer-profile2';
+import { AddProjectForm } from './components/farmer/components/create-project/components/add-project-form/add-project-form';
+import { CreateProjectForms } from './components/farmer/components/create-project/components/create-project-forms/create-project-forms';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -116,7 +118,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: FarmerDashboard },
-      { path: 'create-project', component: CreateProject }, 
+      { path: 'create-project', component:  CreateProjectForms}, 
       { path: 'my-projects', component: MyProjects },
       { path: 'contracts', component: Contracts },       
       { path: 'profile', component: FarmerProfile2 },           
