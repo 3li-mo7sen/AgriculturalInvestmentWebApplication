@@ -21,11 +21,9 @@
 
 .main-content {
   flex: 1;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  min-width: 0;
+  padding: 0 1.5rem 1.25rem 1.5rem;
   background: #f5f7f8;
-  overflow-x: hidden;
   overflow-y: auto;
 }
 

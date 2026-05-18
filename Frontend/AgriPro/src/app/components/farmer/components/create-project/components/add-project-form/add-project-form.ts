@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./add-project-form.css'],
 })
 export class AddProjectForm {
-
+  @Output() continue = new EventEmitter<void>();
+  @Output() previous = new EventEmitter<void>();
 }

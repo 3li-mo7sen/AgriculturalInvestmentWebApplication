@@ -34,6 +34,7 @@ builder.Services.AddScoped<IExpertService, ExpertService>();
 builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddAuthorization();
 // ==========================================================
 
@@ -50,7 +51,8 @@ builder.Services.AddCors(options =>
                     "http://localhost:4200",
                     "http://localhost:50547",
                     "http://127.0.0.1:3000",
-                    "http://127.0.0.1:3001")
+                    "http://127.0.0.1:3001",
+                    "http://127.0.0.1:4200")
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   .AllowCredentials();
@@ -59,9 +61,9 @@ builder.Services.AddCors(options =>
 // ======================================================
 
 
-// ======================== Mail Service ========================
+// ======================== Server ========================
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
-// =============================================================
+// =======================================================
 
 
 // ======================== Swagger ========================
@@ -76,7 +78,6 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Agricultural Investment Platform API"
     });
 
-    // ================= JWT =================
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using Bearer scheme.",
@@ -92,6 +93,12 @@ builder.Services.AddSwaggerGen(c =>
 
 // ======================== Authentication ========================
 var jwtSettings = builder.Configuration.GetSection("Jwt");
+var jwtIssuer = jwtSettings["Issuer"]
+    ?? throw new InvalidOperationException("JWT issuer is missing.");
+var jwtAudience = jwtSettings["Audience"]
+    ?? throw new InvalidOperationException("JWT audience is missing.");
+var jwtKey = jwtSettings["Key"]
+    ?? throw new InvalidOperationException("JWT key is missing.");
 
 builder.Services.AddAuthentication(options =>
 {
@@ -110,12 +117,15 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
+
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtAudience,
+
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(jwtSettings["Key"]))
+            Encoding.UTF8.GetBytes(jwtKey))
     };
-    // this for telling the JWT Authentication to read the token form the cookies not the header bearer 
+
+    // Read JWT from Cookie
     options.Events = new JwtBearerEvents
     {
         OnMessageReceived = context =>
@@ -130,10 +140,12 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+
 // ======================== Seed Admin User ========================
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
     await dbContext.Database.MigrateAsync();
 
     var adminEmail = "admin@agripro.com";
@@ -154,10 +166,12 @@ using (var scope = app.Services.CreateScope())
         };
 
         dbContext.Users.Add(admin);
+
         await dbContext.SaveChangesAsync();
     }
 }
 // ===================================================================
+
 
 // ======================== Pipeline ========================
 if (app.Environment.IsDevelopment())
@@ -167,10 +181,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
-//================for wwwroot folder to serve static files like images and pdfs================
+
+// Serve Static Files
 app.UseStaticFiles();
+
 
 // ======================== CORS ========================
 app.UseCors("AllowAngular");
@@ -188,7 +204,5 @@ app.UseAuthorization();
 
 
 app.MapControllers();
-
-
 
 app.Run();

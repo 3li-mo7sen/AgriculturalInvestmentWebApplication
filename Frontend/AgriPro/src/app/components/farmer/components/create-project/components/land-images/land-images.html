@@ -1,1 +1,24 @@
-<p>land-images works!</p>
+<section class="images-card">
+  <div class="section-header">
+    <div>
+      <h2>Land Images</h2>
+      <p>Upload multiple images of your land to help investors visualize the project.</p>
+    </div>
+  </div>
+
+  <div class="upload-area">
+    <div class="upload-icon">⬆</div>
+    <div class="upload-text">
+      <h3>Click to upload or drag and drop</h3>
+      <p>PNG, JPG up to 10MB each. Recommended: Wide landscape, Soil close-up, Irrigation system, Boundaries</p>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
+    <div class="action-group">
+      <button type="button" class="btn btn-save">Save Draft</button>
+      <button type="button" class="btn btn-primary" (click)="continue.emit()">Continue</button>
+    </div>
+  </div>
+</section>
