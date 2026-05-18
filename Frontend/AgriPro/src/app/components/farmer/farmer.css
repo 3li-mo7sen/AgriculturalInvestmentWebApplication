@@ -9,6 +9,7 @@ main.main-content {
   padding: 0 1.5rem 1.25rem 1.5rem;
   background: #edf2ec;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sidebar {
