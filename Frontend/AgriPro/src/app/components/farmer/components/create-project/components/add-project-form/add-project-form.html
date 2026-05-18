@@ -36,10 +36,10 @@
     </div>
 
     <div class="form-actions">
-      <button type="button" class="btn btn-secondary">Previous</button>
+      <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
       <div class="action-group">
         <button type="button" class="btn btn-save">Save Draft</button>
-        <button type="submit" class="btn btn-primary">Continue</button>
+        <button type="button" class="btn btn-primary" (click)="continue.emit()">Continue</button>
       </div>
     </div>
   </form>

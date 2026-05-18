@@ -24,6 +24,7 @@ export class FarmerNav {
     ['my-projects', { title: 'My Projects', subtitle: 'Manage your agricultural investment projects' }],
     ['wallet', { title: 'Wallet', subtitle: 'Manage your funds and transactions' }],
     ['contracts', { title: 'Contracts', subtitle: 'Manage your investment contracts' }],
+    ['profile', { title: 'My Profile', subtitle: 'Manage your farmer profile and account details' }],
     ['settings', { title: 'Settings', subtitle: 'Manage your account preferences' }],
   ]);
 
@@ -39,7 +40,7 @@ export class FarmerNav {
   private updateHeader(url: string) {
     const segments = url.split('/').filter(Boolean);
     const pageKey = segments.length ? segments[segments.length - 1] : 'dashboard';
-    const effectiveKey = ['profile', 'security', 'notifications', 'preferences'].includes(pageKey)
+    const effectiveKey = ['security', 'notifications', 'preferences'].includes(pageKey)
       ? 'settings'
       : pageKey;
     const config = this.pageMap.get(effectiveKey) ?? this.pageMap.get('dashboard');

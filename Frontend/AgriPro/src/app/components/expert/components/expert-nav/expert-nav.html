@@ -1,35 +1,28 @@
-<div class="full-width-nav">
-  <nav class="expert-navbar">
-    <!-- Left Title Section -->
-    <div class="navbar-title">
-      <h3>{{ pageTitle }}</h3>
-      <p>{{ pageSubtitle }}</p>
+<section class="expert-header bg-white rounded-3 p-2 shadow-sm mb-4">
+  <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+    <div class="header-copy">
+      <h1 class="header-title mb-1">{{ pageTitle }}</h1>
+      <p class="header-subtitle text-muted mb-0">{{ pageSubtitle }}</p>
     </div>
 
-  <!-- Right Section -->
-  <div class="navbar-content">
-    <!-- Search Bar -->
-    <div class="search-container">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.35-4.35"></path>
-      </svg>
-      <input type="text" class="search-input" placeholder="Search..." />
-    </div>
+    <div class="header-actions d-flex flex-column flex-sm-row align-items-center gap-3">
+      <div class="search-box w-100 w-sm-auto">
+        <div class="input-group search-input-group rounded-pill overflow-hidden bg-light border">
+          <span class="input-group-text bg-transparent border-0 text-secondary">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+          <input type="search" class="form-control border-0 bg-transparent px-2" placeholder="Search..." aria-label="Search" />
+        </div>
+      </div>
 
-    <!-- Notification and Profile -->
-    <div class="navbar-actions">
       <div class="dropdown-wrapper">
-        <button class="btn-notification" type="button" (click)="toggleNotifications($event)">
-          <svg class="bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-          </svg>
+        <button class="btn btn-light btn-notification position-relative" type="button" (click)="toggleNotifications($event)">
+          <i class="fa-solid fa-bell"></i>
           <span class="notification-badge">{{ notificationCount }}</span>
         </button>
 
-        <div class="dropdown-card notifications-menu" *ngIf="showNotificationsMenu">
-          <div class="dropdown-card-header">
+        <div class="dropdown-card notifications-menu shadow-sm" *ngIf="showNotificationsMenu">
+          <div class="dropdown-card-header d-flex align-items-center justify-content-between">
             <span>Notifications</span>
             <button type="button" class="btn-clear" (click)="markAllRead($event)">Mark all as read</button>
           </div>
@@ -62,19 +55,18 @@
       </div>
 
       <div class="dropdown-wrapper">
-        <button class="btn-user" type="button" (click)="toggleAccount($event)">
+        <button class="btn btn-user d-flex align-items-center gap-2" type="button" (click)="toggleAccount($event)">
           <span class="user-avatar"><i class="fa-solid fa-user"></i></span>
           <span class="user-name">{{ userName }}</span>
         </button>
-        <div class="dropdown-card account-menu" *ngIf="showAccountMenu">
+        <div class="dropdown-card account-menu shadow-sm" *ngIf="showAccountMenu">
           <button type="button" class="dropdown-link" (click)="goToProfile()">My Profile</button>
           <button type="button" class="dropdown-link" (click)="goToSettings()">Settings</button>
           <button type="button" class="dropdown-link" (click)="goToHelpCenter()">Help Center</button>
           <div class="dropdown-divider"></div>
-          <button type="button" class="dropdown-link logout-link" (click)="logout()">Logout</button>
+          <button type="button" class="dropdown-link text-danger" (click)="logout()">Logout</button>
         </div>
       </div>
     </div>
   </div>
-</nav>
-</div>
+</section>
