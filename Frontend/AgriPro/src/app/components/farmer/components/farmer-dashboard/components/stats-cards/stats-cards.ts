@@ -1,9 +1,10 @@
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
-  standalone: true,
+ 
   selector: 'app-stats-cards',
-  imports: [],
+  imports: [CommonModule, DecimalPipe],
   templateUrl: './stats-cards.html',
   styleUrls: ['./stats-cards.css'],
 })

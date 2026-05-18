@@ -19,33 +19,33 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Wheat Farm - Beheira</td>
-          <td><span class="status-badge status-active"><i class="fa-solid fa-chart-line"></i> Active</span></td>
-          <td>EGP 180,000</td>
+        <tr *ngFor="let project of projects">
+          <td>{{ project.name }}</td>
+          <td><span class="status-badge" [ngClass]="{'status-active': project.status === 'Published'}"><i class="fa-solid fa-chart-line"></i> {{ project.status }}</span></td>
+          <td>EGP {{ project.fundingRaised | number }}</td>
           <td>
             <div class="progress-wrap">
-              <div class="progress-bar filled" style="width: 75%"></div>
+              <div class="progress-bar filled" [style.width.%]="project.fundingProgress"></div>
             </div>
-            <span>75%</span>
+            <span>{{ project.fundingProgress }}%</span>
           </td>
-          <td>12</td>
+          <td><i class="fa-solid fa-arrow-right"></i></td>
           <td><i class="fa-solid fa-arrow-right"></i></td>
         </tr>
-        <tr>
-          <td>Mango Orchard - Ismailia</td>
-          <td><span class="status-badge status-review"><i class="fa-solid fa-clock"></i> Under Review</span></td>
-          <td>EGP 0</td>
-          <td>
-            <div class="progress-wrap">
-              <div class="progress-bar"></div>
-            </div>
-            <span>0%</span>
-          </td>
-          <td>0</td>
-          <td><i class="fa-solid fa-arrow-right"></i></td>
+        <tr *ngIf="projects?.length === 0">
+          <td colspan="5" style="text-align: center; padding: 20px;">No active projects found.</td>
+          <!--<td><span class="status-badge status-review"><i class="fa-solid fa-clock"></i> Under Review</span></td>
+  <td>EGP 0</td>
+  <td>
+    <div class="progress-wrap">
+      <div class="progress-bar"></div>
+    </div>
+    <span>0%</span>
+  </td>
+  <td>0</td>
+  <td><i class="fa-solid fa-arrow-right"></i></td>-->
         </tr>
-        <tr>
+      <!--  <tr>
           <td>Organic Vegetables - Fayoum</td>
           <td><span class="status-badge status-funded"><i class="fa-solid fa-circle-check"></i> Funded</span></td>
           <td>EGP 250,000</td>
@@ -70,7 +70,7 @@
           </td>
           <td>0</td>
           <td><i class="fa-solid fa-arrow-right"></i></td>
-        </tr>
+        </tr>-->
       </tbody>
     </table>
   </div>
