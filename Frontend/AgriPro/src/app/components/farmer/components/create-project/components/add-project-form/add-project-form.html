@@ -9,37 +9,32 @@
   <form class="project-form">
     <div class="field-group">
       <label>Project Title</label>
-      <input type="text" placeholder="e.g., Wheat Farm Investment - Beheira" />
+      <input type="text" [(ngModel)]="data.title" name="title" placeholder="Project Title" />
     </div>
 
     <div class="field-group">
       <label>Short Description</label>
-      <textarea rows="2" placeholder="Brief overview of your project (max 150 characters)"></textarea>
-    </div>
-
-    <div class="field-group">
-      <label>Full Description</label>
-      <textarea rows="4" placeholder="Detailed description of your agricultural project, including history, methods, and expected outcomes..."></textarea>
-    </div>
+      <textarea [(ngModel)]="data.shortDescription" name="shortDesc" placeholder="Short Description"></textarea>
+      </div>
 
     <div class="field-group">
       <label>Crop Type</label>
       <div class="select-wrap">
-        <select>
-          <option>Select crop type</option>
-          <option>Wheat</option>
-          <option>Mango</option>
-          <option>Vegetables</option>
-          <option>Cotton</option>
+        <select [(ngModel)]="data.cropType" name="crop">
+          
+          <option value="Wheat">Wheat</option>
+          <option value="Mango">Mango</option>
+          <option value="Vegetables">Vegetables</option>
+          <option value="Cotton">Cotton</option>
         </select>
       </div>
     </div>
 
     <div class="form-actions">
-      <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
+
       <div class="action-group">
         <button type="button" class="btn btn-save">Save Draft</button>
-        <button type="button" class="btn btn-primary" (click)="continue.emit()">Continue</button>
+        <button type="button" class="btn btn-primary" (click)="sendData()">Continue</button>
       </div>
     </div>
   </form>
