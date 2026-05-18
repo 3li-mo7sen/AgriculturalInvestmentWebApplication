@@ -7,20 +7,10 @@ import { catchError, throwError } from "rxjs";
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
-  const token = localStorage.getItem('token');
+  const clonedRequest = req.clone({
+    withCredentials: true 
+  });
 
-  
-  if (token) {
-    const authReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}` 
-      },
-      withCredentials: true
-    });
-    return next(authReq);
-  }
-
-
-  return next(req);
+  return next(clonedRequest);
 
 }

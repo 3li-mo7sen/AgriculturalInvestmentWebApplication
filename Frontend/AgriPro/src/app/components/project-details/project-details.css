@@ -1,140 +1,120 @@
-/* الحاوية الأساسية */
+/* الخلفية العامة للمحتوى عشان الكروت البيضاء تظهر */
 .project-details-container {
-  padding: 30px;
-  background-color: #f8f9fa;
+  padding: 40px;
+  background-color: #f4f7f2; /* نفس درجة الرمادي المخضر الفاتح اللي في الصورة */
+  min-height: 100vh;
 }
 
-/* الكروت البيضاء */
-.main-card, .stats-sidebar-card, .farmer-card {
-  background: #fff;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  border: 1px solid #eee;
+/* ضبط المسافات بين الأعمدة */
+.row {
+  display: flex;
+  gap: 20px; /* المسافة بين الـ Main content والـ Sidebar */
 }
 
-/* صورة المشروع */
-.image-wrapper {
-  position: relative;
-  height: 400px;
-}
-
-.main-project-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.badge-verified {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background: #28a745;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 50px;
-  font-size: 14px;
-}
-
-/* الجانب الأيمن (التمويل) */
+/* تنسيق كارت الإحصائيات (اليمين) */
 .stats-sidebar-card {
-  padding: 25px;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 24px; /* زوايا دائرية أكتر زي الصورة */
+  border: 1px solid rgba(0,0,0,0.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+/* النص الخاص بالعملة EGP */
+.label {
+  color: #1a1a1a;
+  font-weight: 700;
+  margin-bottom: 2px;
+  font-size: 1.1rem;
 }
 
 .amount {
-  font-size: 2rem;
-  font-weight: 800;
+  font-size: 2.2rem;
+  font-weight: 900;
   color: #1a1a1a;
-  margin: 0;
+  letter-spacing: -1px;
 }
 
+.target {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* شريط التقدم (البار) */
 .progress-container {
-  background: #e9ecef;
-  height: 10px;
+  background: #e5e7eb;
+  height: 8px;
   border-radius: 10px;
 }
 
 .progress-bar-fill {
-  background: #28a745;
+  background: #28a745; /* اللون الأخضر الصريح */
   height: 100%;
   border-radius: 10px;
 }
 
-/* أزرار وكروت صغيرة */
-.roi-duration-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-bottom: 20px;
+/* كارت الـ Minimum Investment */
+.min-invest-box {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 15px 20px;
+  border-radius: 16px;
+  margin: 25px 0;
 }
 
-.mini-card {
-  background: #f1f8f4;
-  padding: 15px;
-  border-radius: 12px;
-  text-align: center;
-}
-
-  .mini-card p {
-    color: #28a745;
-    font-weight: 700;
-    margin-bottom: 5px;
+  .min-invest-box p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.85rem;
   }
 
+  .min-invest-box strong {
+    display: block;
+    font-size: 1.2rem;
+    color: #1a1a1a;
+    margin-top: 4px;
+  }
+
+/* زر الاستثمار */
 .btn-invest-now {
-  background: #0b4627; /* اللون الأخضر بتاع Agri-Pro */
-  color: white;
+  background: #0b4627;
+  color: #ffffff;
   border: none;
-  padding: 15px;
-  border-radius: 12px;
-  font-weight: 600;
-  transition: 0.3s;
+  padding: 18px;
+  border-radius: 50px; /* زرار بيضاوي زي الصورة */
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.3s all;
 }
 
-  .btn-invest-now:hover {
-    background: #08321c;
-    transform: translateY(-2px);
-  }
+/* كارت المزارع (Farmer Card) */
+.farmer-card {
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #e5e7eb;
+}
+
+.section-label {
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
 
 .farmer-avatar {
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   background: #0b4627;
-  color: white;
+  color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.2rem;
   font-weight: bold;
 }
-
-.btn-back {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  color: #4b5563; /* لون رمادي غامق هادي */
-  background-color: #ffffff; /* خلفية بيضاء */
-  padding: 8px 16px;
-  border: 1px solid #e5e7eb; /* حدود خفيفة جداً */
-  border-radius: 10px; /* زوايا دائرية بسيطة */
-  font-weight: 500;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-  .btn-back i {
-    font-size: 12px;
-    transition: transform 0.3s ease;
-  }
-
-  .btn-back:hover {
-    background-color: #f9fafb;
-    color: #0b4627; /* يقلب لأخضر Agri-Pro عند الوقوف عليه */
-    border-color: #0b4627;
-    text-decoration: none;
-  }
-
-    .btn-back:hover i {
-      transform: translateX(-4px); /* حركة خفيفة للسهم لورا بتدي UX ممتاز */
-    }
