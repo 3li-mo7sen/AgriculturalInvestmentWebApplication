@@ -139,6 +139,13 @@ namespace BackendAPI.Data
             modelBuilder.Entity<SystemTransaction>()
                 .Property(t => t.Amount)
                 .HasPrecision(18, 2);
+
+            // داخل دالة OnModelCreating في ملف AppDbContext.cs
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.Investment)
+                .WithMany(i => i.AssociatedContracts) // تأكيد الربط مع المصفوفة الجديدة المحدثة
+                .HasForeignKey(c => c.InvestmentId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

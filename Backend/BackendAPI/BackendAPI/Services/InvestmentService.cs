@@ -1,4 +1,3 @@
-// File: BackendAPI/Services/InvestmentService.cs
 using BackendAPI.Data;
 using BackendAPI.DTOs;
 using BackendAPI.Interfaces;
@@ -23,6 +22,10 @@ namespace BackendAPI.Services
             _context = context;
             _http = http;
         }
+
+        // =========================================================
+        //                 INVESTMENT CORE OPERATIONS
+        // =========================================================
 
         public async Task<ServiceResult> InvestAsync(InvestDto dto)
         {
@@ -80,24 +83,28 @@ namespace BackendAPI.Services
                     InvestorId = investor.Id,
                     ProjectId = project.Id,
                     Amount = dto.Amount,
-                    Date = DateTime.UtcNow
+                    ExpectedRoiPercentage = project.InvestorProfitShare,
+                    Status = InvestmentStatus.Active,
+                    Date = DateTime.UtcNow,
+                    MaturityDate = DateTime.UtcNow.AddMonths(project.Duration)
                 };
                 await _context.Investments.AddAsync(investment);
-                await _context.SaveChangesAsync(); // Generates tracking identity references
+                await _context.SaveChangesAsync();
 
+                // CHANGED: تعيين العقد وإضافته مباشرة داخل مصفوفة الاستثمار المحدثة AssociatedContracts
                 var contract = new Contract
                 {
                     InvestmentId = investment.Id,
                     Terms = $"Automated Legal Binding Instrument: Allocation of EGP {dto.Amount:N2} out of aggregate operational project cost target EGP {project.Cost:N2} under dynamic calculated yield return share ratio of {finalizedContractProfitShare * 100m:N4}%.",
                     ProfitShare = finalizedContractProfitShare,
-                    Status = ContractStatus.Active, // Auto-activates once funding transaction clears
+                    Status = ContractStatus.Active,
                     CreatedAt = DateTime.UtcNow
                 };
                 await _context.Contracts.AddAsync(contract);
 
                 // Balance Updates
                 investor.Balance -= dto.Amount;
-                project.Farmer.Balance += dto.Amount; // Injects capital securely into target escrow account balance
+                project.Farmer.Balance += dto.Amount;
 
                 // Maintain System Audit Trail Ledgers
                 var investorTransaction = new SystemTransaction
@@ -135,25 +142,25 @@ namespace BackendAPI.Services
             }
         }
 
-        public async Task<List<InvestmentViewDto>> GetAllAsync()
+        public async Task<List<InvestmentDto>> GetAllAsync()
         {
             var investments = await GetInvestmentQuery().ToListAsync();
             return investments.Select(MapInvestment).ToList();
         }
 
-        public async Task<InvestmentViewDto?> GetByIdAsync(int id)
+        public async Task<InvestmentDto?> GetByIdAsync(int id)
         {
             var investment = await GetInvestmentQuery().FirstOrDefaultAsync(i => i.Id == id);
             return investment == null ? null : MapInvestment(investment);
         }
 
-        public async Task<List<InvestmentViewDto>> GetByInvestorAsync(int investorId)
+        public async Task<List<InvestmentDto>> GetByInvestorAsync(int investorId)
         {
             var currentUserId = GetCurrentUserId();
             var role = GetCurrentUserRole();
 
             if (currentUserId == null && investorId <= 0)
-                return new List<InvestmentViewDto>();
+                return new List<InvestmentDto>();
 
             var targetInvestorId = role == "Admin" && investorId > 0
                 ? investorId
@@ -166,7 +173,7 @@ namespace BackendAPI.Services
             return investments.Select(MapInvestment).ToList();
         }
 
-        public async Task<List<InvestmentViewDto>> GetMyInvestmentsAsync() => await GetByInvestorAsync(0);
+        public async Task<List<InvestmentDto>> GetMyInvestmentsAsync() => await GetByInvestorAsync(0);
 
         public async Task<List<ProjectInvestorsDto>> GetProjectInvestorsAsync(int projectId)
         {
@@ -202,6 +209,10 @@ namespace BackendAPI.Services
                 })
                 .ToListAsync();
         }
+
+        // =========================================================
+        //                    DIGITAL CONTRACTS
+        // =========================================================
 
         public async Task<List<ContractDto>> GetContractsAsync()
         {
@@ -256,17 +267,25 @@ namespace BackendAPI.Services
             return new ServiceResult { Success = true, Message = "Legal instruments lifecycle structural status updated successfully." };
         }
 
+        // =========================================================
+        //                    PROFIT & PAYOUTS
+        // =========================================================
+
         public async Task<ProfitDto?> CalculateProfitAsync(int investmentId)
         {
+            // CHANGED: تضمين مصفوفة AssociatedContracts بدلاً من الخاصية الفردية القديمة
             var investment = await _context.Investments
                 .Include(i => i.Project)
-                .Include(i => i.Contract)
+                .Include(i => i.AssociatedContracts)
                 .FirstOrDefaultAsync(i => i.Id == investmentId);
 
             if (investment == null) return null;
-            if (investment.Contract == null) return null;
 
-            if (investment.Contract.Status != ContractStatus.Active)
+            // CHANGED: استخراج العقد النشط أو الأول من المصفوفة
+            var contract = investment.AssociatedContracts?.FirstOrDefault();
+            if (contract == null) return null;
+
+            if (contract.Status != ContractStatus.Active)
             {
                 return new ProfitDto
                 {
@@ -275,12 +294,12 @@ namespace BackendAPI.Services
                     ExpectedProfit = 0,
                     InvestorProfit = 0,
                     ProjectName = investment.Project.Name,
-                    Status = $"Calculated Blocked: Contract context state is currently: {investment.Contract.Status}"
+                    Status = $"Calculated Blocked: Contract context state is currently: {contract.Status}"
                 };
             }
 
             var expectedProfitPool = investment.Project.ExpectedProfit;
-            var investorShareRatio = investment.Contract.ProfitShare;
+            var investorShareRatio = contract.ProfitShare;
             var investorProfit = expectedProfitPool * investorShareRatio;
 
             return new ProfitDto
@@ -299,24 +318,29 @@ namespace BackendAPI.Services
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                // CHANGED: تعديل الـ Includes لدعم مصفوفة العقود AssociatedContracts
                 var investment = await _context.Investments
                     .Include(i => i.Project)
-                    .Include(i => i.Contract)
+                    .Include(i => i.AssociatedContracts)
                     .Include(i => i.Investor)
                     .FirstOrDefaultAsync(i => i.Id == investmentId);
 
                 if (investment == null) return new ServiceResult { Success = false, Message = "Target asset context could not be located." };
-                if (investment.Contract == null) return new ServiceResult { Success = false, Message = "Legal configuration error: Associated binding contract is missing." };
 
-                if (investment.Contract.Status != ContractStatus.Active)
+                // CHANGED: التحقق من وجود العقد داخل المصفوفة
+                var contract = investment.AssociatedContracts?.FirstOrDefault();
+                if (contract == null) return new ServiceResult { Success = false, Message = "Legal configuration error: Associated binding contract is missing." };
+
+                if (contract.Status != ContractStatus.Active)
                     return new ServiceResult { Success = false, Message = "Execution Halt: Yield cannot be calculated against an inactive contract status." };
 
                 var expectedProfitPool = investment.Project.ExpectedProfit;
-                var investorShareRatio = investment.Contract.ProfitShare;
+                var investorShareRatio = contract.ProfitShare;
                 var investorProfit = expectedProfitPool * investorShareRatio;
 
                 investment.Investor.Balance += investorProfit;
-                investment.Contract.Status = ContractStatus.Completed;
+                contract.Status = ContractStatus.Completed;
+                investment.Status = InvestmentStatus.Completed;
 
                 var performanceRecord = new SystemTransaction
                 {
@@ -324,7 +348,7 @@ namespace BackendAPI.Services
                     Type = TransactionType.ProfitDistribution,
                     Amount = investorProfit,
                     Timestamp = DateTime.UtcNow,
-                    Description = $"Divident payout distribution captured successfully for project asset: {investment.Project.Name}",
+                    Description = $"Dividend payout distribution captured successfully for project asset: {investment.Project.Name}",
                     ProjectId = investment.ProjectId
                 };
                 await _context.SystemTransactions.AddAsync(performanceRecord);
@@ -341,12 +365,17 @@ namespace BackendAPI.Services
             }
         }
 
+        // =========================================================
+        //            PRIVATE HELPER QUERIES & MAPPING
+        // =========================================================
+
         private IQueryable<Investment> GetInvestmentQuery()
         {
+            // CHANGED: تحويل الـ Include القديم إلى AssociatedContracts لدعم الـ Model الجديد
             return _context.Investments
                 .Include(i => i.Investor)
                 .Include(i => i.Project)
-                .Include(i => i.Contract);
+                .Include(i => i.AssociatedContracts);
         }
 
         private IQueryable<Contract> GetContractQuery()
@@ -356,29 +385,30 @@ namespace BackendAPI.Services
                 .Include(c => c.Investment).ThenInclude(i => i.Project).ThenInclude(p => p.Investments);
         }
 
-        private static InvestmentViewDto MapInvestment(Investment investment)
+        private static InvestmentDto MapInvestment(Investment investment)
         {
-            var expectedReturn = investment.Project.Cost > 0
-                ? investment.Amount * (investment.Project.ExpectedProfit / investment.Project.Cost)
-                : 0;
+            // CHANGED: استخراج حالة العقد الحالي من مصفوفة العقود لعرضها بشكل ديناميكي للـ Frontend UI
+            var activeContract = investment.AssociatedContracts?.FirstOrDefault();
+            var currentStatus = activeContract != null ? activeContract.Status.ToString() : investment.Status.ToString();
 
-            return new InvestmentViewDto
+            return new InvestmentDto
             {
                 Id = investment.Id,
-                InvestorId = investment.InvestorId,
                 ProjectId = investment.ProjectId,
-                Amount = investment.Amount,
-                ExpectedReturn = expectedReturn,
-                Date = investment.Date,
-                Status = investment.Contract?.Status.ToString() ?? "Pending",
-                InvestorName = investment.Investor.Name,
-                ProjectName = investment.Project.Name
+                ProjectName = investment.Project?.Name ?? "Unknown Campaign",
+                CropType = investment.Project?.CropType ?? "AgriAsset",
+                AmountInjected = investment.Amount,
+                RoiYield = investment.ExpectedRoiPercentage > 0 ? investment.ExpectedRoiPercentage : (double)(investment.Project?.InvestorProfitShare ?? 0),
+                OrderStatus = currentStatus, // يعكس حالة العقد أو العملية مباشرة
+                TxRef = investment.TransactionReference ?? Guid.NewGuid().ToString("N"),
+                PurchasedAt = investment.Date,
+                EstMaturity = investment.MaturityDate == DateTime.MinValue ? investment.Date.AddMonths(investment.Project?.Duration ?? 6) : investment.MaturityDate
             };
         }
 
         private static ContractDto MapContract(Contract contract)
         {
-            var projectInvestments = contract.Investment.Project.Investments ?? new List<Investment>();
+            var projectInvestments = contract.Investment?.Project?.Investments ?? new List<Investment>();
 
             return new ContractDto
             {
@@ -388,12 +418,12 @@ namespace BackendAPI.Services
                 ProfitShare = contract.ProfitShare,
                 Status = contract.Status.ToString(),
                 CreatedAt = contract.CreatedAt,
-                ExpiresAt = contract.CreatedAt.AddMonths(Math.Max(contract.Investment.Project.Duration, 1)),
+                ExpiresAt = contract.CreatedAt.AddMonths(Math.Max(contract.Investment?.Project?.Duration ?? 1, 1)),
                 InvestmentId = contract.InvestmentId,
-                ProjectId = contract.Investment.ProjectId,
-                InvestorName = contract.Investment.Investor.Name,
-                ProjectName = contract.Investment.Project.Name,
-                Amount = contract.Investment.Amount,
+                ProjectId = contract.Investment?.ProjectId ?? 0,
+                InvestorName = contract.Investment?.Investor?.Name ?? "Subscribed Investor",
+                ProjectName = contract.Investment?.Project?.Name ?? "Unknown Project",
+                Amount = contract.Investment?.Amount ?? 0,
                 TotalAmount = projectInvestments.Sum(i => i.Amount),
                 InvestorCount = projectInvestments.Select(i => i.InvestorId).Distinct().Count(),
                 Investors = projectInvestments.Select(i => new ProjectInvestorsDto
