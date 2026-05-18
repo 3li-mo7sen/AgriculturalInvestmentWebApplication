@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StatsCards } from './components/stats-cards/stats-cards';
 import { RecentProjects } from './components/recent-projects/recent-projects';
 import { FarmerService } from '../../../../services/farmerService/farmer.service';
-
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   standalone: true,
   selector: 'app-farmer-dashboard',
@@ -13,7 +13,7 @@ import { FarmerService } from '../../../../services/farmerService/farmer.service
 export class FarmerDashboard implements OnInit{
   dashboardData: any = null;
 
-  constructor(private _farmerService: FarmerService) { }
+  constructor(private _farmerService: FarmerService,private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this._farmerService.getDashboardData().subscribe({
