@@ -5,7 +5,7 @@
       <button class="tab" [class.active]="activeTab === 'Published'" (click)="filterProjects('Published')">Active</button>
       <button class="tab" [class.active]="activeTab === 'Pending'" (click)="filterProjects('Pending')">Under Review</button>
     </div>
-    <button class="btn-create">
+    <button class="btn-create" routerLink="/farmer/create-project">
       <i class="fa-solid fa-folder-plus"></i>
       Create New Project
     </button>

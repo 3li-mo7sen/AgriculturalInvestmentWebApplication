@@ -21,7 +21,8 @@ export class MyProjects implements OnInit{
       next: (res) => {
         this.allProjects = res;
         this.filteredProjects = res; 
-      }
+      },
+      error: (err) => console.error("Error loading projects", err)
     });
   }
 
