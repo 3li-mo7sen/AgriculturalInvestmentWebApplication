@@ -15,8 +15,8 @@
         </div>
       </div>
 
-      <div class="dropdown-wrapper">
-        <button class="btn btn-light btn-notification position-relative" type="button" (click)="goToNotifications($event)">
+      <div class="dropdown-wrapper" (click)="$event.stopPropagation()">
+        <button class="btn btn-light btn-notification position-relative" type="button" (click)="toggleNotifications($event)">
           <i class="fa-solid fa-bell"></i>
           <span class="notification-badge">2</span>
         </button>
@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <div class="dropdown-wrapper">
+      <div class="dropdown-wrapper" (click)="$event.stopPropagation()">
         <button class="btn btn-user d-flex align-items-center gap-2" type="button" (click)="toggleAccount($event)">
           <span class="user-avatar"><i class="fa-solid fa-user"></i></span>
           <span class="user-name">{{ userName }}</span>

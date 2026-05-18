@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FarmerService } from '../../../../../../services/farmerService/farmer.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-project-cards',
-  imports: [RouterLink,RouterLinkActive,CommonModule],
+  imports: [RouterLink,CommonModule],
   templateUrl: './project-cards.html',
   styleUrls: ['./project-cards.css'],
 })

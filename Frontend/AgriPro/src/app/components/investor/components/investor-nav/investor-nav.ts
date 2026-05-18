@@ -23,7 +23,7 @@ export class InvestorNav {
     ['my-investments', { title: 'My Investments', subtitle: 'Track and manage your agricultural investments' }],
     ['investment-history', { title: 'Investment History', subtitle: 'View your complete investment transaction history' }],
     ['wallet', { title: 'Wallet', subtitle: 'Manage your investment funds' }],
-    ['settings', { title: 'Settings', subtitle: 'Manage your account preferences' }],
+    ['settings', { title: 'My Profile', subtitle: 'Manage your account preferences' }],
   ]);
 
   constructor() {
@@ -62,8 +62,13 @@ export class InvestorNav {
     }
   }
 
-  @HostListener('document:click')
-  closeMenus() {
+  @HostListener('document:click', ['$event'])
+  closeMenus(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (target.closest('.dropdown-wrapper')) {
+      return;
+    }
+
     this.showNotificationsMenu = false;
     this.showAccountMenu = false;
   }
@@ -80,7 +85,7 @@ export class InvestorNav {
 
   goToProfile() {
     this.showAccountMenu = false;
-    this.router.navigate(['/investor/settings/profile']);
+    this.router.navigate(['/investor/profile']);
   }
 
   goToSettings() {
