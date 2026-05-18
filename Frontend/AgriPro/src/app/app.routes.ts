@@ -58,6 +58,7 @@ import { FarmerProfile2 } from './components/farmer/components/farmer-profile2/f
 import { AddProjectForm } from './components/farmer/components/create-project/components/add-project-form/add-project-form';
 import { CreateProjectForms } from './components/farmer/components/create-project/components/create-project-forms/create-project-forms';
 import { ProjectDetails } from './components/project-details/project-details';
+import { InvestorProfile2 } from './components/investor/components/investor-profile2/investor-profile2';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -143,17 +144,8 @@ export const routes: Routes = [
       { path: 'available-projects', component:InvestorProjects  },
       { path: 'my-investments', component: InvestorInvestments },
       { path: 'investment-history', component: InvestorHistory },
-      { path: 'wallet', component: InvestorWallet },
-      {
-        path: 'settings', component: InvestorSettings,
-        children: [
-          { path: '', redirectTo: 'profile', pathMatch: 'full' }, // لو دخل سيتنجز بس يفتح بروفايل
-          { path: 'profile', component:  ProfileInvestor},
-          { path: 'security', component: SecurityInvestor },
-          { path: 'notifications', component: NotificationsInvestor },
-          { path: 'preferences', component: PreferencesInvestor }
-        ]
-      }
+      
+      {path:'profile',component:InvestorProfile2}
       ]
   }
   ,
