@@ -38,14 +38,7 @@ namespace BackendAPI.Controllers
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
-            Response.Cookies.Append("token", result, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = false,              // devonly
-                SameSite = SameSiteMode.Lax, //devonly 
-                IsEssential = true,
-                Expires = DateTime.UtcNow.AddDays(1)
-            });
+            Response.Cookies.Append("token", result, GetAuthCookieOptions());
             return Ok(new
             {
                 statusCode = 200,
@@ -208,7 +201,7 @@ namespace BackendAPI.Controllers
         [HttpPost("logout")]
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("token");
+            Response.Cookies.Delete("token", GetAuthCookieOptions());
 
             return Ok(new
             {
@@ -217,6 +210,19 @@ namespace BackendAPI.Controllers
             });
         }
 
+        private CookieOptions GetAuthCookieOptions()
+        {
+            var isHttps = Request.IsHttps;
+
+            return new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = isHttps,
+                SameSite = isHttps ? SameSiteMode.None : SameSiteMode.Lax,
+                IsEssential = true,
+                Expires = DateTime.UtcNow.AddDays(1)
+            };
+        }
 
     }
   
