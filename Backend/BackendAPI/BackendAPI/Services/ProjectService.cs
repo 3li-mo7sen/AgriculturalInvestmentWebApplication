@@ -1,8 +1,15 @@
+// File: BackendAPI/Services/ProjectService.cs
 using BackendAPI.Data;
 using BackendAPI.DTOs;
 using BackendAPI.Interfaces;
 using BackendAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BackendAPI.Services
 {
@@ -15,327 +22,250 @@ namespace BackendAPI.Services
             _context = context;
         }
 
-        // ================= GET ALL =================
         public async Task<List<ProjectDto>> GetAllAsync()
         {
             var projects = await GetProjectQuery().ToListAsync();
             return projects.Select(MapProject).ToList();
         }
 
-        // ================= GET BY ID =================
         public async Task<ProjectDto?> GetByIdAsync(int id)
         {
-            var project = await GetProjectQuery()
-                .FirstOrDefaultAsync(p => p.Id == id);
-
+            var project = await GetProjectQuery().FirstOrDefaultAsync(p => p.Id == id);
             return project == null ? null : MapProject(project);
         }
 
-        // ================= GET BY STATUS =================
         public async Task<List<ProjectDto>> GetByStatusAsync(string status)
         {
-            if (!TryParseProjectStatus(status, out var projectStatus))
-                return new List<ProjectDto>();
+            if (!TryParseProjectStatus(status, out var projectStatus)) return new List<ProjectDto>();
 
-            var projects = await GetProjectQuery()
-                .Where(p => p.Status == projectStatus)
-                .ToListAsync();
+            var projects = await GetProjectQuery().Where(p => p.Status == projectStatus).ToListAsync();
 
             return projects.Select(MapProject).ToList();
         }
 
-        // ================= PUBLIC PROJECTS =================
         public async Task<List<ProjectDto>> GetPublishedProjectsAsync()
         {
-            var projects = await GetProjectQuery()
-                .Where(p => p.Status == ProjectStatus.Published)
-                .ToListAsync();
+            var projects = await GetProjectQuery().Where(p => p.Status == ProjectStatus.Published).ToListAsync();
 
             return projects.Select(MapProject).ToList();
         }
 
-        // ================= CREATE =================
-        public async Task<ProjectDto> CreateAsync(ProjectDto dto, int farmerId)
+        public async Task<ProjectDto> CreateAsync(CreateProjectDto dto, int farmerId)
         {
-            var cost = GetProjectCost(dto);
-            var expectedProfit = GetExpectedProfit(dto, cost);
+            string? imagePath = await SaveFileAsync(dto.Image, "wwwroot/images/projects");
+            string? landOwnershipPath = await SaveFileAsync(dto.LandOwnershipDoc, "wwwroot/uploads/documents");
+            string? nationalIdPath = await SaveFileAsync(dto.NationalIdDoc, "wwwroot/uploads/documents");
+            string? agriculturalPermitPath = await SaveFileAsync(dto.AgriculturalPermitDoc, "wwwroot/uploads/documents");
+            string? waterRightsPath = await SaveFileAsync(dto.WaterRightsDoc, "wwwroot/uploads/documents");
 
             var project = new Project
             {
-                Name = GetProjectName(dto),
-                Cost = cost,
-                ExpectedProfit = expectedProfit,
-                Duration = dto.Duration > 0 ? dto.Duration : 1,
+                Name = dto.Name,
+                Cost = dto.Cost,
+                ExpectedProfit = dto.ExpectedProfit,
+                Duration = dto.Duration,
                 FarmerId = farmerId,
-                Status = ProjectStatus.Pending
+                Status = ProjectStatus.Pending,
+                ImageUrl = imagePath,
+                ShortDescription = dto.ShortDescription,
+                FullDescription = dto.FullDescription,
+                CropType = dto.CropType,
+                Governorate = dto.Governorate,
+                District = dto.District,
+                LandSize = dto.LandSize,
+                SoilType = dto.SoilType,
+                WaterSource = dto.WaterSource,
+                LandOwnershipType = dto.LandOwnershipType,
+                ExpectedCropSeason = dto.ExpectedCropSeason,
+                MinimumInvestment = dto.MinimumInvestment,
+                FarmerProfitShare = dto.FarmerProfitShare,
+                InvestorProfitShare = dto.InvestorProfitShare,
+                LandOwnershipDocUrl = landOwnershipPath,
+                NationalIdDocUrl = nationalIdPath,
+                AgriculturalPermitDocUrl = agriculturalPermitPath,
+                WaterRightsDocUrl = waterRightsPath
             };
 
             _context.Projects.Add(project);
-
             await _context.SaveChangesAsync();
 
-            var createdProject = await GetProjectQuery()
-                .FirstAsync(p => p.Id == project.Id);
-
+            var createdProject = await GetProjectQuery().FirstAsync(p => p.Id == project.Id);
             return MapProject(createdProject);
         }
 
-        // ================= MY PROJECTS =================
         public async Task<List<ProjectDto>> GetMyProjectsAsync(int farmerId)
         {
-            var projects = await GetProjectQuery()
-                .Where(p => p.FarmerId == farmerId)
-                .ToListAsync();
+            var projects = await GetProjectQuery().Where(p => p.FarmerId == farmerId).ToListAsync();
 
             return projects.Select(MapProject).ToList();
         }
 
-        // ================= UPDATE =================
-        public async Task<ProjectDto?> UpdateAsync(int id, ProjectDto dto, int farmerId)
+        public async Task<ProjectDto?> UpdateAsync(int id, CreateProjectDto dto, int farmerId)
         {
-            // ===== Get Project =====
-            var project = await _context.Projects
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id);
+            if (project == null || project.FarmerId != farmerId) return null;
 
-            if (project == null)
-                return null;
+            if (dto.Image != null) project.ImageUrl = await SaveFileAsync(dto.Image, "wwwroot/images/projects");
+            if (dto.LandOwnershipDoc != null) project.LandOwnershipDocUrl = await SaveFileAsync(dto.LandOwnershipDoc, "wwwroot/uploads/documents");
+            if (dto.NationalIdDoc != null) project.NationalIdDocUrl = await SaveFileAsync(dto.NationalIdDoc, "wwwroot/uploads/documents");
+            if (dto.AgriculturalPermitDoc != null) project.AgriculturalPermitDocUrl = await SaveFileAsync(dto.AgriculturalPermitDoc, "wwwroot/uploads/documents");
+            if (dto.WaterRightsDoc != null) project.WaterRightsDocUrl = await SaveFileAsync(dto.WaterRightsDoc, "wwwroot/uploads/documents");
 
-            // ===== Ownership Check =====
-            if (project.FarmerId != farmerId)
-                return null;
+            project.Name = dto.Name;
+            project.Cost = dto.Cost;
+            project.ExpectedProfit = dto.ExpectedProfit;
+            project.Duration = dto.Duration;
+            project.ShortDescription = dto.ShortDescription;
+            project.FullDescription = dto.FullDescription;
+            project.CropType = dto.CropType;
+            project.Governorate = dto.Governorate;
+            project.District = dto.District;
+            project.LandSize = dto.LandSize;
+            project.SoilType = dto.SoilType;
+            project.WaterSource = dto.WaterSource;
+            project.LandOwnershipType = dto.LandOwnershipType;
+            project.ExpectedCropSeason = dto.ExpectedCropSeason;
+            project.MinimumInvestment = dto.MinimumInvestment;
+            project.FarmerProfitShare = dto.FarmerProfitShare;
+            project.InvestorProfitShare = dto.InvestorProfitShare;
 
-            // ===== Update Data =====
-            project.Name = GetProjectName(dto);
-            project.Cost = GetProjectCost(dto);
-            project.ExpectedProfit = GetExpectedProfit(dto, project.Cost);
-            project.Duration = dto.Duration > 0 ? dto.Duration : project.Duration;
+            // Re-evaluating status back down if updated out of a rejection loop state
+            if (project.Status == ProjectStatus.Rejected)
+            {
+                project.Status = ProjectStatus.Pending;
+                project.RejectionReason = null;
+            }
 
             await _context.SaveChangesAsync();
 
-            var updatedProject = await GetProjectQuery()
-                .FirstAsync(p => p.Id == project.Id);
-
+            var updatedProject = await GetProjectQuery().FirstAsync(p => p.Id == project.Id);
             return MapProject(updatedProject);
         }
 
-        // ================= DELETE =================
         public async Task<bool> DeleteAsync(int id, int farmerId)
         {
-            // ===== Get Project =====
-            var project = await _context.Projects
-                .FirstOrDefaultAsync(p => p.Id == id);
-
-            if (project == null)
+            var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id);
+            if (project == null || project.FarmerId != farmerId || (project.Status != ProjectStatus.Pending && project.Status != ProjectStatus.Rejected))
                 return false;
 
-            // ===== Ownership Check =====
-            if (project.FarmerId != farmerId)
-                return false;
-
-            // ===== Business Rule =====
-            // Farmer can delete only pending projects
-            if (project.Status != ProjectStatus.Pending)
-                return false;
-
-            // ===== Delete =====
             _context.Projects.Remove(project);
-
             await _context.SaveChangesAsync();
-
             return true;
         }
 
-        // ================= PENDING PROJECTS =================
-        public async Task<List<ProjectDto>> GetPendingProjectsAsync()
-        {
-            return await GetByStatusAsync(ProjectStatus.Pending.ToString());
-        }
+        public async Task<List<ProjectDto>> GetPendingProjectsAsync() => await GetByStatusAsync("pending");
+        public async Task<List<ProjectDto>> GetApprovedProjectsAsync() => await GetByStatusAsync("approved");
+        public async Task<List<ProjectDto>> GetRejectedProjectsAsync() => await GetByStatusAsync("rejected");
 
-        // ================= APPROVED PROJECTS =================
-        public async Task<List<ProjectDto>> GetApprovedProjectsAsync()
-        {
-            return await GetByStatusAsync(ProjectStatus.Approved.ToString());
-        }
-
-        // ================= REJECTED PROJECTS =================
-        public async Task<List<ProjectDto>> GetRejectedProjectsAsync()
-        {
-            return await GetByStatusAsync(ProjectStatus.Rejected.ToString());
-        }
-
-        // ================= APPROVE =================
         public async Task<bool> ApproveProjectAsync(int id)
         {
-            // ===== Get Project =====
-            var project = await _context.Projects
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id);
+            if (project == null || project.Status != ProjectStatus.Pending) return false;
 
-            if (project == null)
-                return false;
-
-            // ===== Only Pending =====
-            if (project.Status != ProjectStatus.Pending)
-                return false;
-
-            // ===== Approve =====
             project.Status = ProjectStatus.Approved;
-
+            project.RejectionReason = null;
             await _context.SaveChangesAsync();
-
             return true;
         }
 
-        // ================= REJECT =================
-        public async Task<bool> RejectProjectAsync(int id)
+        public async Task<bool> RejectProjectAsync(int id) => await RejectProjectWithReasonAsync(id, "No reason provided by verification authority.");
+
+        public async Task<bool> RejectProjectWithReasonAsync(int id, string reason)
         {
-            // ===== Get Project =====
-            var project = await _context.Projects
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id);
+            if (project == null || project.Status != ProjectStatus.Pending) return false;
 
-            if (project == null)
-                return false;
-
-            // ===== Only Pending =====
-            if (project.Status != ProjectStatus.Pending)
-                return false;
-
-            // ===== Reject =====
             project.Status = ProjectStatus.Rejected;
-
+            project.RejectionReason = reason;
             await _context.SaveChangesAsync();
-
             return true;
         }
 
-        // ================= PUBLISH =================
         public async Task<bool> PublishProjectAsync(int id)
         {
-            // ===== Get Project =====
-            var project = await _context.Projects
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id);
+            if (project == null || project.Status != ProjectStatus.Approved) return false;
 
-            if (project == null)
-                return false;
-
-            // ===== Only Approved =====
-            if (project.Status != ProjectStatus.Approved)
-                return false;
-
-            // ===== Publish =====
             project.Status = ProjectStatus.Published;
-
             await _context.SaveChangesAsync();
-
             return true;
+        }
+
+        private static async Task<string?> SaveFileAsync(IFormFile? file, string folder)
+        {
+            if (file == null) return null;
+
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), folder);
+            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var fullPath = Path.Combine(folderPath, fileName);
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            string relativePath = folder.Replace("wwwroot", "");
+            return $"{relativePath}/{fileName}";
         }
 
         private IQueryable<Project> GetProjectQuery()
         {
-            return _context.Projects
-                .Include(p => p.Farmer)
-                .Include(p => p.Investments);
+            return _context.Projects.Include(p => p.Farmer).Include(p => p.Investments);
         }
 
         private static ProjectDto MapProject(Project project)
         {
             var fundingRaised = project.Investments?.Sum(i => i.Amount) ?? 0;
-            var fundingProgress = project.Cost > 0
-                ? (int)Math.Min(100, Math.Round((fundingRaised / project.Cost) * 100))
-                : 0;
-            var roi = project.Cost > 0
-                ? $"{Math.Round((project.ExpectedProfit / project.Cost) * 100)}%"
-                : "0%";
+            var fundingProgress = project.Cost > 0  ? (int)Math.Min(100, Math.Round((fundingRaised / project.Cost) * 100)) : 0;
 
             return new ProjectDto
             {
                 Id = project.Id,
                 Name = project.Name,
-                Title = project.Name,
-                ProjectTitle = project.Name,
                 Cost = project.Cost,
-                FundingAmount = project.Cost,
-                TargetAmount = project.Cost,
                 FundingRaised = fundingRaised,
                 FundingProgress = fundingProgress,
-                InvestorsCount = project.Investments?.Select(i => i.InvestorId).Distinct().Count() ?? 0,
                 ExpectedProfit = project.ExpectedProfit,
-                ExpectedRoi = roi,
-                Roi = roi,
                 Duration = project.Duration,
                 FarmerId = project.FarmerId,
                 FarmerName = project.Farmer?.Name,
-                Location = project.Farmer?.LandDetails,
-                LandSize = project.Farmer?.LandDetails,
-                Status = project.Status.ToString()
+                ImageUrl = project.ImageUrl,
+                Status = project.Status.ToString(),
+                ShortDescription = project.ShortDescription,
+                FullDescription = project.FullDescription,
+                CropType = project.CropType,
+                Governorate = project.Governorate,
+                District = project.District,
+                LandSize = project.LandSize,
+                SoilType = project.SoilType,
+                WaterSource = project.WaterSource,
+                LandOwnershipType = project.LandOwnershipType,
+                ExpectedCropSeason = project.ExpectedCropSeason,
+                MinimumInvestment = project.MinimumInvestment,
+                FarmerProfitShare = project.FarmerProfitShare,
+                InvestorProfitShare = project.InvestorProfitShare,
+                LandOwnershipDocUrl = project.LandOwnershipDocUrl,
+                NationalIdDocUrl = project.NationalIdDocUrl,
+                AgriculturalPermitDocUrl = project.AgriculturalPermitDocUrl,
+                WaterRightsDocUrl = project.WaterRightsDocUrl,
+                RejectionReason = project.RejectionReason
             };
-        }
-
-        private static string GetProjectName(ProjectDto dto)
-        {
-            return FirstNotEmpty(dto.Name, dto.Title, dto.ProjectTitle, dto.LandName)
-                ?? "New Agricultural Project";
         }
 
         private static bool TryParseProjectStatus(string status, out ProjectStatus projectStatus)
         {
             var normalizedStatus = status.Trim().Replace("-", "_").ToLower();
-
             projectStatus = normalizedStatus switch
             {
-                "pending" or "pending_review" => ProjectStatus.Pending,
-                "approved" or "expert_review" or "verified" => ProjectStatus.Approved,
-                "published" or "funding" or "active" => ProjectStatus.Published,
+                "pending" => ProjectStatus.Pending,
+                "approved" => ProjectStatus.Approved,
+                "published" => ProjectStatus.Published,
                 "rejected" => ProjectStatus.Rejected,
                 _ => default
             };
-
-            return normalizedStatus is
-                "pending" or "pending_review" or
-                "approved" or "expert_review" or "verified" or
-                "published" or "funding" or "active" or
-                "rejected";
-        }
-
-        private static decimal GetProjectCost(ProjectDto dto)
-        {
-            if (dto.Cost > 0)
-                return dto.Cost;
-
-            if (dto.FundingAmount.HasValue && dto.FundingAmount.Value > 0)
-                return dto.FundingAmount.Value;
-
-            if (dto.TargetAmount.HasValue && dto.TargetAmount.Value > 0)
-                return dto.TargetAmount.Value;
-
-            return 1;
-        }
-
-        private static decimal GetExpectedProfit(ProjectDto dto, decimal cost)
-        {
-            if (dto.ExpectedProfit > 0)
-                return dto.ExpectedProfit;
-
-            var roi = FirstNotEmpty(dto.ExpectedRoi, dto.Roi);
-            var roiNumber = ParseFirstNumber(roi);
-
-            if (roiNumber > 0)
-                return cost * roiNumber / 100;
-
-            return cost * 0.15m;
-        }
-
-        private static decimal ParseFirstNumber(string? value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                return 0;
-
-            var chars = value.TakeWhile(c => char.IsDigit(c) || c == '.').ToArray();
-            return decimal.TryParse(new string(chars), out var result) ? result : 0;
-        }
-
-        private static string? FirstNotEmpty(params string?[] values)
-        {
-            return values.FirstOrDefault(v => !string.IsNullOrWhiteSpace(v));
+            return normalizedStatus is "pending" or "approved" or "published" or "rejected";
         }
     }
 }

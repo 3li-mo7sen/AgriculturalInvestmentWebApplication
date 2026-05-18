@@ -4,46 +4,23 @@ namespace BackendAPI.Interfaces
 {
     public interface IProjectService
     {
-        // ================= GET ALL =================
         Task<List<ProjectDto>> GetAllAsync();
-
-        // ================= GET BY ID =================
         Task<ProjectDto?> GetByIdAsync(int id);
-
-        // ================= GET BY STATUS =================
         Task<List<ProjectDto>> GetByStatusAsync(string status);
-
-        // ================= PUBLIC PROJECTS =================
         Task<List<ProjectDto>> GetPublishedProjectsAsync();
-
-        // ================= CREATE =================
-        Task<ProjectDto> CreateAsync(ProjectDto dto, int farmerId);
-
-        // ================= MY PROJECTS =================
+        Task<ProjectDto> CreateAsync(CreateProjectDto dto, int farmerId);
         Task<List<ProjectDto>> GetMyProjectsAsync(int farmerId);
-
-        // ================= UPDATE =================
-        Task<ProjectDto?> UpdateAsync(int id, ProjectDto dto, int farmerId);
-
-        // ================= DELETE =================
+        Task<ProjectDto?> UpdateAsync(int id, CreateProjectDto dto, int farmerId);
         Task<bool> DeleteAsync(int id, int farmerId);
-
-        // ================= PENDING PROJECTS =================
         Task<List<ProjectDto>> GetPendingProjectsAsync();
-
-        // ================= APPROVED PROJECTS =================
         Task<List<ProjectDto>> GetApprovedProjectsAsync();
-
-        // ================= REJECTED PROJECTS =================
         Task<List<ProjectDto>> GetRejectedProjectsAsync();
-
-        // ================= APPROVE =================
         Task<bool> ApproveProjectAsync(int id);
-
-        // ================= REJECT =================
         Task<bool> RejectProjectAsync(int id);
 
-        // ================= PUBLISH =================
+        // ADD THIS LINE HERE:
+        Task<bool> RejectProjectWithReasonAsync(int id, string reason);
+
         Task<bool> PublishProjectAsync(int id);
     }
 }

@@ -7,11 +7,11 @@
         public DateTime Date { get; set; }
 
         public int InvestorId { get; set; }
-        public Investor Investor { get; set; }
+        public Investor Investor { get; set; } = null!;
 
         public int ProjectId { get; set; }
-        public Project Project { get; set; }
+        public Project Project { get; set; } = null!;
 
-        public Contract Contract { get; set; }
+        public Contract? Contract { get; set; }
     }
 }

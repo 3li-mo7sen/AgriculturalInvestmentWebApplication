@@ -18,8 +18,8 @@ namespace BackendAPI.Controllers
         }
 
         // ================= DASHBOARD =================
-        // GET /api/Expert/dashboard
-        [HttpGet("dashboard")]
+        // GET /api/Expert/Get-Expert-Dashboard
+        [HttpGet("Get-Expert-Dashboard")]
         public async Task<IActionResult> GetDashboard()
         {
             var data = await _service.GetDashboardAsync();
@@ -28,8 +28,8 @@ namespace BackendAPI.Controllers
         }
 
         // ================= PENDING PROJECTS =================
-        // GET /api/Expert/pending-projects
-        [HttpGet("pending-projects")]
+        // GET /api/Expert/Get-Pending-Projects
+        [HttpGet("Get-Pending-Projects")]
         public async Task<IActionResult> GetPendingProjects()
         {
             var projects = await _service.GetPendingProjectsAsync();
@@ -38,8 +38,8 @@ namespace BackendAPI.Controllers
         }
 
         // ================= VERIFIED PROJECTS =================
-        // GET /api/Expert/verified-projects
-        [HttpGet("verified-projects")]
+        // GET /api/Expert/Get-Verified-Projects
+        [HttpGet("Get-Verified-Projects")]
         public async Task<IActionResult> GetVerifiedProjects()
         {
             var projects = await _service.GetVerifiedProjectsAsync();
@@ -48,8 +48,8 @@ namespace BackendAPI.Controllers
         }
 
         // ================= REJECTED PROJECTS =================
-        // GET /api/Expert/rejected-projects
-        [HttpGet("rejected-projects")]
+        // GET /api/Expert/Get-Rejected-Projects
+        [HttpGet("Get-Rejected-Projects")]
         public async Task<IActionResult> GetRejectedProjects()
         {
             var projects = await _service.GetRejectedProjectsAsync();
@@ -58,8 +58,8 @@ namespace BackendAPI.Controllers
         }
 
         // ================= VERIFY =================
-        // PUT /api/Expert/projects/{id}/verify
-        [HttpPut("projects/{id}/verify")]
+        // PUT /api/Expert/Verify-Project/{id}
+        [HttpPut("Verify-Project/{id}")]
         public async Task<IActionResult> VerifyProject(int id)
         {
             var result = await _service.VerifyProjectAsync(id);
@@ -68,8 +68,8 @@ namespace BackendAPI.Controllers
         }
 
         // ================= REJECT =================
-        // PUT /api/Expert/projects/{id}/reject
-        [HttpPut("projects/{id}/reject")]
+        // PUT /api/Expert/Reject-Project/{id}
+        [HttpPut("Reject-Project/{id}")]
         public async Task<IActionResult> RejectProject(int id, ProjectReviewDto dto)
         {
             var result = await _service.RejectProjectAsync(id, dto.Reason);

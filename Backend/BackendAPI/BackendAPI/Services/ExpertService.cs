@@ -1,8 +1,13 @@
+// File: BackendAPI/Services/ExpertService.cs
 using BackendAPI.Data;
 using BackendAPI.DTOs;
 using BackendAPI.Interfaces;
 using BackendAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BackendAPI.Services
 {
@@ -17,12 +22,10 @@ namespace BackendAPI.Services
             _projectService = projectService;
         }
 
-        // ================= DASHBOARD =================
         public async Task<RoleDashboardDto> GetDashboardAsync()
         {
             var pending = await _context.Projects.CountAsync(p => p.Status == ProjectStatus.Pending);
-            var verified = await _context.Projects.CountAsync(p =>
-                p.Status == ProjectStatus.Approved || p.Status == ProjectStatus.Published);
+            var verified = await _context.Projects.CountAsync(p => p.Status == ProjectStatus.Approved || p.Status == ProjectStatus.Published);
             var rejected = await _context.Projects.CountAsync(p => p.Status == ProjectStatus.Rejected);
 
             var pendingProjects = await _context.Projects
@@ -38,8 +41,7 @@ namespace BackendAPI.Services
                     Location = p.Farmer.LandDetails,
                     FundingGoal = p.Cost,
                     ExpectedRoi = p.Cost > 0 ? $"{Math.Round((p.ExpectedProfit / p.Cost) * 100)}%" : "0%"
-                })
-                .ToListAsync();
+                }).ToListAsync();
 
             var recentlyVerified = await _context.Projects
                 .Include(p => p.Farmer)
@@ -53,8 +55,7 @@ namespace BackendAPI.Services
                     Farmer = p.Farmer.Name,
                     Location = p.Farmer.LandDetails,
                     Status = p.Status.ToString()
-                })
-                .ToListAsync();
+                }).ToListAsync();
 
             return new RoleDashboardDto
             {
@@ -70,47 +71,31 @@ namespace BackendAPI.Services
             };
         }
 
-        // ================= PENDING =================
-        public async Task<List<ProjectDto>> GetPendingProjectsAsync()
-        {
-            return await _projectService.GetPendingProjectsAsync();
-        }
+        public async Task<List<ProjectDto>> GetPendingProjectsAsync() => await _projectService.GetPendingProjectsAsync();
 
-        // ================= VERIFIED =================
         public async Task<List<ProjectDto>> GetVerifiedProjectsAsync()
         {
             var approved = await _projectService.GetApprovedProjectsAsync();
             var published = await _projectService.GetPublishedProjectsAsync();
-
-            return approved.Concat(published)
-                .OrderByDescending(p => p.Id)
-                .ToList();
+            return approved.Concat(published).OrderByDescending(p => p.Id).ToList();
         }
 
-        // ================= REJECTED =================
-        public async Task<List<ProjectDto>> GetRejectedProjectsAsync()
-        {
-            return await _projectService.GetRejectedProjectsAsync();
-        }
+        public async Task<List<ProjectDto>> GetRejectedProjectsAsync() => await _projectService.GetRejectedProjectsAsync();
 
-        // ================= VERIFY =================
         public async Task<ServiceResult> VerifyProjectAsync(int id)
         {
             var approved = await _projectService.ApproveProjectAsync(id);
-
             return approved
-                ? new ServiceResult { Success = true, Message = "Project verified successfully" }
-                : new ServiceResult { Success = false, Message = "Cannot verify this project" };
+                ? new ServiceResult { Success = true, Message = "Project structure passed technical verification audits cleanly." }
+                : new ServiceResult { Success = false, Message = "Verification Exception: Processing restrictions apply to target asset." };
         }
 
-        // ================= REJECT =================
         public async Task<ServiceResult> RejectProjectAsync(int id, string? reason)
         {
-            var rejected = await _projectService.RejectProjectAsync(id);
-
+            bool rejected = await _projectService.RejectProjectWithReasonAsync(id, reason ?? "Technical documents did not satisfy validation rules criteria.");
             return rejected
-                ? new ServiceResult { Success = true, Message = "Project rejected successfully" }
-                : new ServiceResult { Success = false, Message = "Cannot reject this project" };
+                ? new ServiceResult { Success = true, Message = "Asset rejected cleanly and updated context returned back to owner profile." }
+                : new ServiceResult { Success = false, Message = "Rejection Failure: Unable to process target project instance state change." };
         }
     }
 }

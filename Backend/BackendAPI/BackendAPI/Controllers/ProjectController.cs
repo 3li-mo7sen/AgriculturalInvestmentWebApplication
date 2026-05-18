@@ -1,8 +1,10 @@
-﻿using BackendAPI.DTOs;
+﻿// File: BackendAPI/Controllers/ProjectController.cs
+using BackendAPI.DTOs;
 using BackendAPI.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BackendAPI.Controllers
 {
@@ -18,207 +20,135 @@ namespace BackendAPI.Controllers
             _service = service;
         }
 
-        // ================= GET ALL =================
-        // GET /api/Project
         [AllowAnonymous]
-        [HttpGet]
+        [HttpGet("Get-All-Projects")]
         public async Task<IActionResult> GetAll()
         {
-            var data = await _service.GetAllAsync();
-
-            return Ok(data);
+            return Ok(await _service.GetAllAsync());
         }
 
-        // ================= GET BY ID =================
-        // GET /api/Project/{id}
         [AllowAnonymous]
-        [HttpGet("{id}")]
+        [HttpGet("Get-Project-By-Id/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var project = await _service.GetByIdAsync(id);
-
-            if (project == null)
-                return NotFound();
-
+            if (project == null) return NotFound(new { Message = "Asset structural context missing matching criteria identifiers." });
             return Ok(project);
         }
 
-        // ================= PUBLISHED PROJECTS =================
-        // GET /api/Project/published
         [AllowAnonymous]
-        [HttpGet("published")]
+        [HttpGet("Get-Published-Projects")]
         public async Task<IActionResult> GetPublishedProjects()
         {
-            var projects = await _service.GetPublishedProjectsAsync();
-
-            return Ok(projects);
+            return Ok(await _service.GetPublishedProjectsAsync());
         }
 
-        // ================= PROJECTS BY STATUS =================
-        // GET /api/Project/status/pending
-        [HttpGet("status/{status}")]
+        [HttpGet("Get-Projects-By-Status/{status}")]
         public async Task<IActionResult> GetByStatus(string status)
         {
-            var projects = await _service.GetByStatusAsync(status);
-
-            return Ok(projects);
+            return Ok(await _service.GetByStatusAsync(status));
         }
 
-        // ================= CREATE =================
-        // POST /api/Project
         [Authorize(Roles = "Farmer")]
-        [HttpPost]
-        public async Task<IActionResult> Create(ProjectDto dto)
+        [HttpPost("Create-Project")]
+        public async Task<IActionResult> Create([FromForm] CreateProjectDto dto)
         {
-            // ===== Get Farmer Id From Token =====
-            var farmerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (farmerIdClaim == null)
-                return Unauthorized();
+            var farmerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (farmerIdClaim == null) return Unauthorized();
 
             int farmerId = int.Parse(farmerIdClaim.Value);
-
-            var result = await _service.CreateAsync(dto, farmerId);
-
-            return Ok(result);
+            return Ok(await _service.CreateAsync(dto, farmerId));
         }
 
-        // ================= MY PROJECTS =================
-        // GET /api/Project/my-projects
         [Authorize(Roles = "Farmer")]
-        [HttpGet("my-projects")]
+        [HttpGet("Get-My-Projects")]
         public async Task<IActionResult> GetMyProjects()
         {
-            // ===== Get Farmer Id From Token =====
             var farmerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (farmerIdClaim == null)
-                return Unauthorized();
+            if (farmerIdClaim == null) return Unauthorized();
 
             int farmerId = int.Parse(farmerIdClaim.Value);
-
-            var projects = await _service.GetMyProjectsAsync(farmerId);
-
-            return Ok(projects);
+            return Ok(await _service.GetMyProjectsAsync(farmerId));
         }
 
-        // ================= UPDATE =================
-        // PUT /api/Project/{id}
         [Authorize(Roles = "Farmer")]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, ProjectDto dto)
+        [HttpPut("Update-Project/{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] CreateProjectDto dto)
         {
-            // ===== Get Farmer Id From Token =====
-            var farmerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (farmerIdClaim == null)
-                return Unauthorized();
+            var farmerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (farmerIdClaim == null) return Unauthorized();
 
             int farmerId = int.Parse(farmerIdClaim.Value);
-
             var updatedProject = await _service.UpdateAsync(id, dto, farmerId);
 
-            if (updatedProject == null)
-                return NotFound();
-
+            if (updatedProject == null) return NotFound(new { Message = "Project mutation targets unreachable or access forbidden." });
             return Ok(updatedProject);
         }
 
-        // ================= DELETE =================
-        // DELETE /api/Project/{id}
         [Authorize(Roles = "Farmer")]
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete-Project/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            // ===== Get Farmer Id From Token =====
             var farmerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (farmerIdClaim == null)
-                return Unauthorized();
+            if (farmerIdClaim == null) return Unauthorized();
 
             int farmerId = int.Parse(farmerIdClaim.Value);
+            bool deleted = await _service.DeleteAsync(id, farmerId);
 
-            var deleted = await _service.DeleteAsync(id, farmerId);
-
-            if (!deleted)
-                return BadRequest("Cannot delete this project");
-
-            return Ok("Project deleted successfully");
+            if (!deleted) return BadRequest(new { Message = "Destruction Guardrail: Assets out of 'Pending' or 'Rejected' phases cannot be dropped natively." });
+            return Ok(new { Message = "Project configuration matrix deleted successfully." });
         }
 
-        // ================= PENDING PROJECTS =================
-        // GET /api/Project/pending
         [Authorize(Roles = "Expert,Admin")]
-        [HttpGet("pending")]
+        [HttpGet("Get-Pending-Projects")]
         public async Task<IActionResult> GetPendingProjects()
         {
-            var projects = await _service.GetPendingProjectsAsync();
-
-            return Ok(projects);
+            return Ok(await _service.GetPendingProjectsAsync());
         }
 
-        // ================= APPROVED PROJECTS =================
-        // GET /api/Project/approved
         [Authorize(Roles = "Expert,Admin")]
-        [HttpGet("approved")]
+        [HttpGet("Get-Approved-Projects")]
         public async Task<IActionResult> GetApprovedProjects()
         {
-            var projects = await _service.GetApprovedProjectsAsync();
-
-            return Ok(projects);
+            return Ok(await _service.GetApprovedProjectsAsync());
         }
 
-        // ================= REJECTED PROJECTS =================
-        // GET /api/Project/rejected
         [Authorize(Roles = "Expert,Admin")]
-        [HttpGet("rejected")]
+        [HttpGet("Get-Rejected-Projects")]
         public async Task<IActionResult> GetRejectedProjects()
         {
-            var projects = await _service.GetRejectedProjectsAsync();
-
-            return Ok(projects);
+            return Ok(await _service.GetRejectedProjectsAsync());
         }
 
-        // ================= APPROVE =================
-        // PUT /api/Project/approve/{id}
         [Authorize(Roles = "Expert,Admin")]
-        [HttpPut("approve/{id}")]
+        [HttpPut("Approve-Project/{id}")]
         public async Task<IActionResult> Approve(int id)
         {
-            var approved = await _service.ApproveProjectAsync(id);
-
-            if (!approved)
-                return BadRequest("Cannot approve this project");
-
-            return Ok("Project approved successfully");
+            bool approved = await _service.ApproveProjectAsync(id);
+            if (!approved) return BadRequest(new { Message = "Asset workflow modification transition blocked." });
+            return Ok(new { Message = "Project technical details approved successfully." });
         }
 
-        // ================= REJECT =================
-        // PUT /api/Project/reject/{id}
         [Authorize(Roles = "Expert,Admin")]
-        [HttpPut("reject/{id}")]
-        public async Task<IActionResult> Reject(int id)
+        [HttpPut("Reject-Project/{id}")]
+        public async Task<IActionResult> Reject(int id, [FromBody] RejectProjectDto dto)
         {
-            var rejected = await _service.RejectProjectAsync(id);
-
-            if (!rejected)
-                return BadRequest("Cannot reject this project");
-
-            return Ok("Project rejected successfully");
+            bool rejected = await _service.RejectProjectWithReasonAsync(id, dto.Reason);
+            if (!rejected) return BadRequest(new { Message = "Asset workflow modification transition blocked." });
+            return Ok(new { Message = "Project flagged as rejected with feedback logs preserved." });
         }
 
-        // ================= PUBLISH =================
-        // PUT /api/Project/publish/{id}
         [Authorize(Roles = "Admin")]
-        [HttpPut("publish/{id}")]
+        [HttpPut("Publish-Project/{id}")]
         public async Task<IActionResult> Publish(int id)
         {
-            var published = await _service.PublishProjectAsync(id);
-
-            if (!published)
-                return BadRequest("Cannot publish this project");
-
-            return Ok("Project published successfully");
+            bool published = await _service.PublishProjectAsync(id);
+            if (!published) return BadRequest(new { Message = "Asset visibility publication transition blocked: Ensure project state balances 'Approved'." });
+            return Ok(new { Message = "Asset unlocked and deployed for public crowdfunding investment rounds." });
         }
     }
 }

@@ -30,6 +30,8 @@
 
 	<ItemGroup>
 		<Folder Include="Migrations\" />
+		<Folder Include="wwwroot\images\projects\" />
+		<Folder Include="wwwroot\uploads\documents\" />
 	</ItemGroup>
 	<PropertyGroup>
 		<NoWarn>NU1902</NoWarn>
