@@ -24,4 +24,27 @@
     {
         public decimal Amount { get; set; }
     }
+
+    public class FarmerSummaryDto
+    {
+        public decimal TotalIncome { get; set; }
+        public int TotalProjectsCount { get; set; }
+        public double TotalLandSizeFeddan { get; set; }
+        public int ActiveContractsCount { get; set; }
+    }
+
+    public class WalletSummaryDto
+    {
+        public decimal CurrentBalance { get; set; }
+        public List<WalletTransactionDto> RecentTransactions { get; set; } = new();
+    }
+    public class NotificationDto
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public bool IsRead { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
 }
