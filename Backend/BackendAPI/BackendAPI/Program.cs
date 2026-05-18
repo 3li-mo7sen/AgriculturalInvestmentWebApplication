@@ -53,6 +53,13 @@ builder.Services.AddCors(options =>
                     "http://127.0.0.1:3000",
                     "http://127.0.0.1:3001",
                     "http://127.0.0.1:4200")
+                  .SetIsOriginAllowed(origin =>
+                  {
+                      if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                          return false;
+
+                      return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+                  })
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   .AllowCredentials();
@@ -166,6 +173,19 @@ using (var scope = app.Services.CreateScope())
         };
 
         dbContext.Users.Add(admin);
+
+        await dbContext.SaveChangesAsync();
+    }
+    else
+    {
+        existingAdmin.Name = "Administrator";
+        existingAdmin.Role = "Admin";
+        existingAdmin.EmailConfirmed = true;
+
+        if (!BCrypt.Net.BCrypt.Verify(adminPassword, existingAdmin.Password))
+        {
+            existingAdmin.Password = BCrypt.Net.BCrypt.HashPassword(adminPassword);
+        }
 
         await dbContext.SaveChangesAsync();
     }
