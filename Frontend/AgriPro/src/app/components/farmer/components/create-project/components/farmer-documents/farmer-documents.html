@@ -1,1 +1,65 @@
-<p>farmer-documents works!</p>
+<section class="documents-card">
+  <div class="section-header">
+    <div>
+      <h2>Legal Documents & Verification</h2>
+      <p>Upload required documents for project verification.</p>
+    </div>
+  </div>
+
+  <div class="info-banner">
+    <span class="info-icon">🛡</span>
+    <p>All documents are encrypted with AES-256 security</p>
+  </div>
+
+  <div class="document-row">
+    <div class="document-box">
+      <div class="document-title">Land Ownership / Lease Contract</div>
+      <div class="document-subtitle">Required - Proof of land ownership or lease agreement</div>
+      <button type="button" class="upload-box">
+        <span class="upload-icon">⬆</span>
+        Upload Document
+      </button>
+    </div>
+  </div>
+
+  <div class="document-row">
+    <div class="document-box">
+      <div class="document-title">National ID</div>
+      <div class="document-subtitle">Required - Your valid national identification</div>
+      <button type="button" class="upload-box">
+        <span class="upload-icon">⬆</span>
+        Upload Document
+      </button>
+    </div>
+  </div>
+
+  <div class="document-row">
+    <div class="document-box">
+      <div class="document-title">Agricultural Permits</div>
+      <div class="document-subtitle">Optional - Any relevant agricultural permits</div>
+      <button type="button" class="upload-box">
+        <span class="upload-icon">⬆</span>
+        Upload Document
+      </button>
+    </div>
+  </div>
+
+  <div class="document-row">
+    <div class="document-box">
+      <div class="document-title">Water Rights Document</div>
+      <div class="document-subtitle">Optional - If applicable for irrigation rights</div>
+      <button type="button" class="upload-box">
+        <span class="upload-icon">⬆</span>
+        Upload Document
+      </button>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
+    <div class="action-group">
+      <button type="button" class="btn btn-save">Save Draft</button>
+      <button type="button" class="btn btn-primary" (click)="continue.emit()">Continue</button>
+    </div>
+  </div>
+</section>
