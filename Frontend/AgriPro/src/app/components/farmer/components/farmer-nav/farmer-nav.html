@@ -16,7 +16,7 @@
       </div>
 
       <div class="dropdown-wrapper">
-        <button class="btn btn-light btn-notification position-relative" type="button" (click)="toggleNotifications($event)">
+        <button class="btn btn-light btn-notification position-relative" type="button" (click)="goToNotifications($event)">
           <i class="fa-solid fa-bell"></i>
           <span class="notification-badge">2</span>
         </button>
@@ -57,7 +57,7 @@
       <div class="dropdown-wrapper">
         <button class="btn btn-user d-flex align-items-center gap-2" type="button" (click)="toggleAccount($event)">
           <span class="user-avatar"><i class="fa-solid fa-user"></i></span>
-          <span class="user-name">Ahmed Hassan</span>
+          <span class="user-name">{{ userName }}</span>
         </button>
         <div class="dropdown-card account-menu shadow-sm" *ngIf="showAccountMenu">
           <button type="button" class="dropdown-link" (click)="goToProfile()">My Profile</button>
