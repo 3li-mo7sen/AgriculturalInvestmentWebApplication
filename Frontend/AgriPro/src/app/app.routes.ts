@@ -57,6 +57,7 @@ import { AdminReportsReports } from './components/admin/components/admin-reports
 import { FarmerProfile2 } from './components/farmer/components/farmer-profile2/farmer-profile2';
 import { AddProjectForm } from './components/farmer/components/create-project/components/add-project-form/add-project-form';
 import { CreateProjectForms } from './components/farmer/components/create-project/components/create-project-forms/create-project-forms';
+import { ProjectDetails } from './components/project-details/project-details';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -121,7 +122,8 @@ export const routes: Routes = [
       { path: 'create-project', component:  CreateProjectForms}, 
       { path: 'my-projects', component: MyProjects },
       { path: 'contracts', component: Contracts },       
-      { path: 'profile', component: FarmerProfile2 },           
+      { path: 'profile', component: FarmerProfile2 },
+      { path: 'project-details', component: ProjectDetails }
      /* {
         path: 'settings', component: Settings,
         children: [
@@ -156,7 +158,8 @@ export const routes: Routes = [
   }
   ,
   { path: 'forget-password', component: ForgetPassword },
-  {path:'reset-password',component:ResetPassword}
+  { path: 'reset-password', component: ResetPassword },
+  {path:'project-details' ,component:ProjectDetails}
   
 
 

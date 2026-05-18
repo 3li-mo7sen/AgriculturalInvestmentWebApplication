@@ -1,0 +1,140 @@
+/* الحاوية الأساسية */
+.project-details-container {
+  padding: 30px;
+  background-color: #f8f9fa;
+}
+
+/* الكروت البيضاء */
+.main-card, .stats-sidebar-card, .farmer-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+}
+
+/* صورة المشروع */
+.image-wrapper {
+  position: relative;
+  height: 400px;
+}
+
+.main-project-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge-verified {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #28a745;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 50px;
+  font-size: 14px;
+}
+
+/* الجانب الأيمن (التمويل) */
+.stats-sidebar-card {
+  padding: 25px;
+}
+
+.amount {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.progress-container {
+  background: #e9ecef;
+  height: 10px;
+  border-radius: 10px;
+}
+
+.progress-bar-fill {
+  background: #28a745;
+  height: 100%;
+  border-radius: 10px;
+}
+
+/* أزرار وكروت صغيرة */
+.roi-duration-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.mini-card {
+  background: #f1f8f4;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+  .mini-card p {
+    color: #28a745;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+.btn-invest-now {
+  background: #0b4627; /* اللون الأخضر بتاع Agri-Pro */
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+  .btn-invest-now:hover {
+    background: #08321c;
+    transform: translateY(-2px);
+  }
+
+.farmer-avatar {
+  width: 50px;
+  height: 50px;
+  background: #0b4627;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: #4b5563; /* لون رمادي غامق هادي */
+  background-color: #ffffff; /* خلفية بيضاء */
+  padding: 8px 16px;
+  border: 1px solid #e5e7eb; /* حدود خفيفة جداً */
+  border-radius: 10px; /* زوايا دائرية بسيطة */
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+  .btn-back i {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  .btn-back:hover {
+    background-color: #f9fafb;
+    color: #0b4627; /* يقلب لأخضر Agri-Pro عند الوقوف عليه */
+    border-color: #0b4627;
+    text-decoration: none;
+  }
+
+    .btn-back:hover i {
+      transform: translateX(-4px); /* حركة خفيفة للسهم لورا بتدي UX ممتاز */
+    }

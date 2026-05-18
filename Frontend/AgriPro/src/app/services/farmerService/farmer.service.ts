@@ -12,5 +12,9 @@ export class FarmerService {
   getDashboardData(): Observable<any> {
     return this._http.get(`${environment.baseUrl}/api/Farmer/dashboard`);
   }
+  getMyProjects(): Observable<any[]> {
+    // مش محتاجين نبعت الهيدر يدوياً لأن الـ Interceptor اللي عملناه هيقوم بالواجب
+    return this._http.get<any[]>(`${environment.baseUrl}/api/Project/my-projects`);
+  }
   
 }

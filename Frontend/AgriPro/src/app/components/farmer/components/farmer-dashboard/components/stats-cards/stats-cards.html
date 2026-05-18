@@ -3,20 +3,20 @@
     <div class="stat-meta">
       <div>
         <p class="stat-label">Total Projects</p>
-        <h3>12</h3>
+        <h3>{{ stats?.totalProjects || 0 }}</h3>
       </div>
       <span class="stat-icon stat-icon-green">
         <i class="fa-solid fa-copy"></i>
       </span>
     </div>
-    <p class="stat-note">+2 this month</p>
+  
   </article>
-  <!--
+  
     <article class="stat-card">
       <div class="stat-meta">
         <div>
-          <p class="stat-label">Active Investments</p>
-          <h3>EGP 450,000</h3>
+          <p class="stat-label">Funding Raised</p>
+          <h3>EGP {{ stats?.totalFundingRaised | number }}</h3>
         </div>
         <span class="stat-icon stat-icon-dark">
           <i class="fa-solid fa-chart-line"></i>
@@ -24,13 +24,13 @@
       </div>
       <p class="stat-note">+15% from last month</p>
     </article>
-    -->
+    
 
   <article class="stat-card">
     <div class="stat-meta">
       <div>
-        <p class="stat-label">Pending Reviews</p>
-        <h3>3</h3>
+        <p class="stat-label">Total Investors</p>
+        <h3>{{ stats?.totalInvestors || 0 }}</h3>
       </div>
       <span class="stat-icon stat-icon-yellow">
         <i class="fa-solid fa-clock"></i>
