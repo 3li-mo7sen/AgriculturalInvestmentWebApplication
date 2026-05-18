@@ -16,6 +16,7 @@ namespace BackendAPI.Data
         public DbSet<Investment> Investments { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<SystemTransaction> SystemTransactions { get; set; } = null!;
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)

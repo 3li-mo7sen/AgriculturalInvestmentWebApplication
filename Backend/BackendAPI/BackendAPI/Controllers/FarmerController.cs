@@ -1,6 +1,8 @@
+// File: BackendAPI/Controllers/FarmerController.cs
 using BackendAPI.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BackendAPI.Controllers
 {
@@ -15,35 +17,28 @@ namespace BackendAPI.Controllers
         {
             _service = service;
         }
-
         // ================= DASHBOARD =================
-        // GET /api/Farmer/dashboard
-        [HttpGet("dashboard")]
+        // GET /api/Farmer/Get-Farmer-Dashboard
+        [HttpGet("Get-Farmer-Dashboard")]
         public async Task<IActionResult> GetDashboard()
         {
-            var data = await _service.GetDashboardAsync();
-
-            return Ok(data);
+            return Ok(await _service.GetDashboardAsync());
         }
 
-        // ================= WALLET =================
-        // GET /api/Farmer/wallet
-        [HttpGet("wallet")]
+        //================== WALLET =================
+        // GET /api/Farmer/Get-Farmer-Wallet
+        [HttpGet("Get-Farmer-Wallet")]
         public async Task<IActionResult> GetWallet()
         {
-            var wallet = await _service.GetWalletAsync();
-
-            return Ok(wallet);
+            return Ok(await _service.GetWalletAsync());
         }
 
         // ================= CONTRACTS =================
-        // GET /api/Farmer/contracts
-        [HttpGet("contracts")]
+        // GET /api/Farmer/Get-Farmer-Contracts
+        [HttpGet("Get-Farmer-Contracts")]
         public async Task<IActionResult> GetContracts()
         {
-            var contracts = await _service.GetContractsAsync();
-
-            return Ok(contracts);
+            return Ok(await _service.GetContractsAsync());
         }
     }
 }

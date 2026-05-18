@@ -17,8 +17,8 @@ namespace BackendAPI.Controllers
         }
 
         // ================= GET ALL =================
-        // GET /api/Contract
-        [HttpGet]
+        // GET /api/Contract/Get-All-Contracts
+        [HttpGet("Get-All-Contracts")]
         public async Task<IActionResult> GetAll()
         {
             var data = await _service.GetContractsAsync();
@@ -26,8 +26,8 @@ namespace BackendAPI.Controllers
         }
 
         // ================= GET MY CONTRACTS =================
-        // GET /api/Contract/my-contracts
-        [HttpGet("my-contracts")]
+        // GET /api/Contract/Get-My-Contracts
+        [HttpGet("Get-My-Contracts")]
         public async Task<IActionResult> GetMyContracts()
         {
             var data = await _service.GetMyContractsAsync();
@@ -35,9 +35,9 @@ namespace BackendAPI.Controllers
         }
 
         // ================= GET BY PROJECT =================
-        // GET /api/Contract/by-project/{projectId}
+        // GET /api/Contract/Get-Contracts-By-Project/{projectId}
         [Authorize(Roles = "Farmer,Admin")]
-        [HttpGet("by-project/{projectId}")]
+        [HttpGet("Get-Contracts-By-Project/{projectId}")]
         public async Task<IActionResult> GetByProject(int projectId)
         {
             var data = await _service.GetContractsByProjectAsync(projectId);
@@ -45,8 +45,8 @@ namespace BackendAPI.Controllers
         }
 
         // ================= GET BY ID =================
-        // GET /api/Contract/{id}
-        [HttpGet("{id}")]
+        // GET /api/Contract/Get-Contract-By-Id/{id}
+        [HttpGet("Get-Contract-By-Id/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var item = await _service.GetContractByIdAsync(id);
@@ -58,9 +58,9 @@ namespace BackendAPI.Controllers
         }
 
         // ================= UPDATE STATUS =================
-        // PUT /api/Contract/{id}/status
+        // PUT /api/Contract/Update-Contract-Status/{id}
         [Authorize(Roles = "Farmer,Admin")]
-        [HttpPut("{id}/status")]
+        [HttpPut("Update-Contract-Status/{id}")]
         public async Task<IActionResult> UpdateStatus(int id, [FromBody] string status)
         {
             var result = await _service.UpdateContractStatusAsync(id, status);
@@ -69,8 +69,8 @@ namespace BackendAPI.Controllers
         }
 
         // ================= CALCULATE PROFIT =================
-        // GET /api/Contract/{investmentId}/profit
-        [HttpGet("{investmentId}/profit")]
+        // GET /api/Contract/Calculate-Profit/{investmentId}
+        [HttpGet("Calculate-Profit/{investmentId}")]
         public async Task<IActionResult> CalculateProfit(int investmentId)
         {
             var result = await _service.CalculateProfitAsync(investmentId);
@@ -82,9 +82,9 @@ namespace BackendAPI.Controllers
         }
 
         // ================= DISTRIBUTE PROFIT =================
-        // POST /api/Contract/{investmentId}/distribute
+        // POST /api/Contract/Distribute-Profit/{investmentId}
         [Authorize(Roles = "Farmer,Admin")]
-        [HttpPost("{investmentId}/distribute")]
+        [HttpPost("Distribute-Profit/{investmentId}")]
         public async Task<IActionResult> DistributeProfit(int investmentId)
         {
             var result = await _service.DistributeProfitAsync(investmentId);

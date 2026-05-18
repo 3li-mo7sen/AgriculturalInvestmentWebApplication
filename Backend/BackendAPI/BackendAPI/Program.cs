@@ -86,7 +86,6 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "bearer",
         BearerFormat = "JWT"
     });
-
 });
 // ======================================================
 
@@ -170,6 +169,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//================for wwwroot folder to serve static files like images and pdfs================
+app.UseStaticFiles();
 
 // ======================== CORS ========================
 app.UseCors("AllowAngular");
