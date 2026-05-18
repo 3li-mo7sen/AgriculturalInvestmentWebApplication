@@ -124,7 +124,7 @@ export const routes: Routes = [
       { path: 'my-projects', component: MyProjects },
       { path: 'contracts', component: Contracts },       
       { path: 'profile', component: FarmerProfile2 },
-      { path: 'project-details', component: ProjectDetails }
+      { path: 'project-details/:id', component: ProjectDetails }
      /* {
         path: 'settings', component: Settings,
         children: [
@@ -151,7 +151,7 @@ export const routes: Routes = [
   ,
   { path: 'forget-password', component: ForgetPassword },
   { path: 'reset-password', component: ResetPassword },
-  {path:'project-details' ,component:ProjectDetails}
+  {path:'project-details/:id' ,component:ProjectDetails}
   
 
 

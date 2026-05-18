@@ -42,7 +42,6 @@ namespace BackendAPI.Controllers
             return Ok(new
             {
                 statusCode = 200,
-                token = result,
                 user = user == null ? null : new
                 {
                     user.Id,
