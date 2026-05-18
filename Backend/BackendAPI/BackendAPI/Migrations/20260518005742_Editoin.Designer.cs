@@ -4,6 +4,7 @@ using BackendAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260518005742_Editoin")]
+    partial class Editoin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +81,8 @@ namespace BackendAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvestmentId");
+                    b.HasIndex("InvestmentId")
+                        .IsUnique();
 
                     b.ToTable("Contracts");
                 });
@@ -98,24 +102,11 @@ namespace BackendAPI.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("ExpectedRoiPercentage")
-                        .HasColumnType("float");
-
                     b.Property<int>("InvestorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("MaturityDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TransactionReference")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -454,8 +445,8 @@ namespace BackendAPI.Migrations
             modelBuilder.Entity("BackendAPI.Models.Contract", b =>
                 {
                     b.HasOne("BackendAPI.Models.Investment", "Investment")
-                        .WithMany("AssociatedContracts")
-                        .HasForeignKey("InvestmentId")
+                        .WithOne("Contract")
+                        .HasForeignKey("BackendAPI.Models.Contract", "InvestmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -525,7 +516,7 @@ namespace BackendAPI.Migrations
 
             modelBuilder.Entity("BackendAPI.Models.Investment", b =>
                 {
-                    b.Navigation("AssociatedContracts");
+                    b.Navigation("Contract");
                 });
 
             modelBuilder.Entity("BackendAPI.Models.Project", b =>

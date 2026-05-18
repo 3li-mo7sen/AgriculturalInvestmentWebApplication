@@ -24,6 +24,7 @@ namespace BackendAPI.Services
             _http = http;
         }
 
+        // ======================== DASHBOARD SUMMARY METRICS ========================
         public async Task<RoleDashboardDto> GetDashboardAsync()
         {
             var farmerId = GetCurrentUserId();
@@ -60,6 +61,7 @@ namespace BackendAPI.Services
             };
         }
 
+        // ======================== WALLET LEDGER TRACKING ========================
         public async Task<WalletDto> GetWalletAsync()
         {
             var farmerId = GetCurrentUserId();
@@ -70,6 +72,7 @@ namespace BackendAPI.Services
 
             if (farmer == null) return new WalletDto();
 
+            // Using your existing SystemTransactions infrastructure safely linked to UserId
             var historyTransactions = await _context.SystemTransactions
                 .Where(t => t.UserId == farmerId.Value)
                 .OrderByDescending(t => t.Timestamp)
@@ -84,12 +87,12 @@ namespace BackendAPI.Services
 
             return new WalletDto
             {
-                Balance = farmer.Balance, // Clean real-time tracking value mapping accurately
+                Balance = farmer.Balance,
                 TotalRaised = totalRaised,
                 Transactions = historyTransactions.Select(t => new WalletTransactionDto
                 {
                     Id = t.Id,
-                    Type = t.Type.ToString().ToLower(),
+                    Type = t.Type.ToString().ToLower(), // e.g. "deposit", "withdrawal", "payout"
                     Description = t.Description,
                     Amount = t.Amount,
                     Date = t.Timestamp,
@@ -98,6 +101,7 @@ namespace BackendAPI.Services
             };
         }
 
+        // ======================== LEGAL CONTRACTS LISTING ========================
         public async Task<List<ContractDto>> GetContractsAsync()
         {
             var farmerId = GetCurrentUserId();
@@ -137,6 +141,59 @@ namespace BackendAPI.Services
             }).ToList();
         }
 
+        // ======================== NEW: NOTIFICATIONS OPERATIONS ========================
+
+        // 1. Fetch current Farmer notifications list
+        public async Task<List<NotificationDto>> GetNotificationsAsync()
+        {
+            var farmerId = GetCurrentUserId();
+            if (farmerId == null) return new List<NotificationDto>();
+
+            var notifications = await _context.Notifications
+                .Where(n => n.UserId == farmerId.Value)
+                .OrderByDescending(n => n.CreatedAt)
+                .ToListAsync();
+
+            return notifications.Select(n => new NotificationDto
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Message = n.Message,
+                Type = n.Type.ToLower(), // "success", "info", "danger", etc.
+                IsRead = n.IsRead,
+                CreatedAt = n.CreatedAt
+            }).ToList();
+        }
+
+        // 2. Utility method used anywhere in the backend to push a notification card to this farmer
+        public async Task CreateNotificationAsync(int userId, string title, string message, string type)
+        {
+            var notification = new Notification
+            {
+                UserId = userId,
+                Title = title,
+                Message = message,
+                Type = type,
+                IsRead = false,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.Notifications.Add(notification);
+            await _context.SaveChangesAsync();
+        }
+
+        // 3. Simple action trigger for when a farmer clicks/clears notifications on the frontend topbar
+        public async Task<bool> MarkAsReadAsync(int notificationId)
+        {
+            var notification = await _context.Notifications.FindAsync(notificationId);
+            if (notification == null) return false;
+
+            notification.IsRead = true;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        // ======================== CONTEXT CLAIMS HELPER ========================
         private int? GetCurrentUserId()
         {
             var userIdClaim = _http.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
