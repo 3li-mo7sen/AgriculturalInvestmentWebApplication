@@ -11,9 +11,7 @@ export class FarmerService {
   constructor(private _http: HttpClient) { }
 
   getDashboardData(): Observable<any> {
-    return this._http.get<any>(`${environment.baseUrl}/api/Farmer/Get-Farmer-Dashboard`).pipe(
-      map((dashboard) => this.mapDashboard(dashboard))
-    );
+    return this._http.get<any>(`${environment.baseUrl}/api/Farmer/Get-Farmer-Dashboard`);
   }
 
   getMyProjects(): Observable<any[]> {
@@ -45,7 +43,7 @@ export class FarmerService {
   getContracts(): Observable<any[]> {
     return this._http.get<any[]>(`${environment.baseUrl}/api/Farmer/Get-Farmer-Contracts`);
   }
-
+  /*
   private mapDashboard(dashboard: any): any {
     const stats = dashboard?.stats ?? [];
     const statValue = (title: string, fallback: any = 0) =>
@@ -72,7 +70,7 @@ export class FarmerService {
       activeProjects
     };
   }
-
+  */
   private mapProject(project: any): any {
     return {
       ...project,
