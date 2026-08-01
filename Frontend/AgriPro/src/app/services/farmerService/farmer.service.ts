@@ -32,8 +32,20 @@ export class FarmerService {
     );
   }
 
-  createProject(projectData: any) {
-    return this._http.post(`${environment.baseUrl}/api/Project/Create-Project`, projectData);
+  createProject(projectData: any): Observable<any> {
+    const formData = new FormData();
+
+    
+    Object.keys(projectData).forEach((key) => {
+      const value = projectData[key];
+      if (value !== null && value !== undefined) {
+   
+        const formattedKey = key.charAt(0).toUpperCase() + key.slice(1);
+        formData.append(formattedKey, value);
+      }
+    });
+
+    return this._http.post(`${environment.baseUrl}/api/Project/Create-Project`, formData);
   }
 
   getWallet(): Observable<any> {

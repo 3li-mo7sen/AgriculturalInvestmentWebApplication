@@ -6,36 +6,83 @@
     </div>
   </div>
 
-  <form class="project-form">
+  <form class="project-form" #projectForm="ngForm" (ngSubmit)="sendData(projectForm)">
     <div class="field-group">
-      <label>Project Title</label>
-      <input type="text" [(ngModel)]="data.title" name="title" placeholder="Project Title" />
+      <label>Project Title<span class="required-star">*</span></label>
+      <input type="text" [(ngModel)]="data.title" name="title" placeholder="Project Title" #title="ngModel"
+             required>
+      <small class="error-msg" *ngIf="title.invalid && (title.touched || projectForm.submitted)">
+        Project Title is required.
+      </small>
     </div>
 
     <div class="field-group">
-      <label>Short Description</label>
-      <textarea [(ngModel)]="data.shortDescription" name="shortDesc" placeholder="Short Description"></textarea>
-      </div>
+      <label>Cost<span class="required-star">*</span></label>
+      <input type="number" [(ngModel)]="data.cost" name="cost" #cost="ngModel"
+             required
+             min="1" placeholder="Cost">
+      <small class="error-msg" *ngIf="cost.invalid && (cost.touched || projectForm.submitted)">
+        <span *ngIf="cost.errors?.['required']">Cost is required.</span>
+        <span *ngIf="cost.errors?.['min']">Cost must be greater than 0.</span>
+      </small>
+    </div>
 
     <div class="field-group">
-      <label>Crop Type</label>
-      <div class="select-wrap">
-        <select [(ngModel)]="data.cropType" name="crop">
-          
-          <option value="Wheat">Wheat</option>
-          <option value="Mango">Mango</option>
-          <option value="Vegetables">Vegetables</option>
-          <option value="Cotton">Cotton</option>
-        </select>
-      </div>
+      <label>Expected Profit<span class="required-star">*</span></label>
+      <input type="number" [(ngModel)]="data.expectedProfit" name="expectedProfit" name="expectedProfit"
+             #expectedProfit="ngModel"
+             required
+             min="1" placeholder="Expected Profit">
+      <small class="error-msg" *ngIf="expectedProfit.invalid && (expectedProfit.touched || projectForm.submitted)">
+        <span *ngIf="expectedProfit.errors?.['required']">Expected Profit is required.</span>
+        <span *ngIf="expectedProfit.errors?.['min']">Profit must be greater than 0.</span>
+      </small>
+    </div>
+
+    <div class="field-group">
+      <label>Duration (in days)<span class="required-star">*</span></label>
+      <input type="number" [(ngModel)]="data.duration" name="duration" #duration="ngModel"
+             required
+             min="1" placeholder="Duration">
+      <small class="error-msg" *ngIf="duration.invalid && (duration.touched || projectForm.submitted)">
+        <span *ngIf="duration.errors?.['required']">Duration is required.</span>
+        <span *ngIf="duration.errors?.['min']">Duration must be at least 1 day.</span>
+      </small>
+    </div>
+
+    <div class="field-group">
+      <label>Full Description<span class="required-star">*</span></label>
+      <textarea [(ngModel)]="data.fullDescription" name="fullDesc" #fullDesc="ngModel"
+                required placeholder="Full Description"></textarea>
+      <small class="error-msg" *ngIf="fullDesc.invalid && (fullDesc.touched || projectForm.submitted)">
+        Full Description is required.
+      </small>
+    </div>
+
+    <div class="field-group">
+      <label>Short Description<span class="required-star">*</span></label>
+      <textarea [(ngModel)]="data.shortDescription" name="shortDesc" #shortDesc="ngModel"
+                required placeholder="Short Description"></textarea>
+      <small class="error-msg" *ngIf="shortDesc.invalid && (shortDesc.touched || projectForm.submitted)">
+        Short Description is required.
+      </small>
+    </div>
+
+    <div class="field-group">
+      <label>Crop Type<span class="required-star">*</span></label>
+      <input type="text" [(ngModel)]="data.cropType" name="cropType" #cropType="ngModel"
+             required placeholder="Crop Type" />
+      <small class="error-msg" *ngIf="cropType.invalid && (cropType.touched || projectForm.submitted)">
+        Crop Type is required.
+      </small>
     </div>
 
     <div class="form-actions">
 
       <div class="action-group">
-        <button type="button" class="btn btn-save">Save Draft</button>
-        <button type="button" class="btn btn-primary" (click)="sendData()">Continue</button>
+        <!--<button type="button" class="btn btn-save">Save Draft</button>-->
+          <button type="submit" class="btn btn-primary" >Continue</button>
+        </div>
       </div>
-    </div>
-  </form>
-</section>
+    </form>
+  </section>

@@ -11,54 +11,70 @@
     <p>All documents are encrypted with AES-256 security</p>
   </div>
 
+  <!-- 1. Land Ownership Doc -->
   <div class="document-row">
     <div class="document-box">
       <div class="document-title">Land Ownership / Lease Contract</div>
       <div class="document-subtitle">Required - Proof of land ownership or lease agreement</div>
-      <button type="button" class="upload-box">
+
+      <input type="file" id="landDoc" (change)="onFileSelected($event, 'land')" accept=".pdf,image/*" style="display: none;" />
+
+      <label for="landDoc" class="upload-box">
         <span class="upload-icon">⬆</span>
-        Upload Document
-      </button>
+        {{ landOwnershipDoc ? landOwnershipDoc.name : 'Upload Document' }}
+      </label>
     </div>
   </div>
 
+  <!-- 2. National ID Doc -->
   <div class="document-row">
     <div class="document-box">
       <div class="document-title">National ID</div>
       <div class="document-subtitle">Required - Your valid national identification</div>
-      <button type="button" class="upload-box">
+
+      <input type="file" id="idDoc" (change)="onFileSelected($event, 'id')" accept=".pdf,image/*" style="display: none;" />
+
+      <label for="idDoc" class="upload-box">
         <span class="upload-icon">⬆</span>
-        Upload Document
-      </button>
+        {{ nationalIdDoc ? nationalIdDoc.name : 'Upload Document' }}
+      </label>
     </div>
   </div>
 
+  <!-- 3. Agricultural Permits Doc -->
   <div class="document-row">
     <div class="document-box">
       <div class="document-title">Agricultural Permits</div>
       <div class="document-subtitle">Optional - Any relevant agricultural permits</div>
-      <button type="button" class="upload-box">
+
+      <input type="file" id="permitDoc" (change)="onFileSelected($event, 'permit')" accept=".pdf,image/*" style="display: none;" />
+
+      <label for="permitDoc" class="upload-box">
         <span class="upload-icon">⬆</span>
-        Upload Document
-      </button>
+        {{ agriculturalPermitDoc ? agriculturalPermitDoc.name : 'Upload Document' }}
+      </label>
     </div>
   </div>
 
+  <!-- 4. Water Rights Doc -->
   <div class="document-row">
     <div class="document-box">
       <div class="document-title">Water Rights Document</div>
       <div class="document-subtitle">Optional - If applicable for irrigation rights</div>
-      <button type="button" class="upload-box">
+
+      <input type="file" id="waterDoc" (change)="onFileSelected($event, 'water')" accept=".pdf,image/*" style="display: none;" />
+
+      <label for="waterDoc" class="upload-box">
         <span class="upload-icon">⬆</span>
-        Upload Document
-      </button>
+        {{ waterRightsDoc ? waterRightsDoc.name : 'Upload Document' }}
+      </label>
     </div>
   </div>
 
   <div class="form-actions">
     <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
     <div class="action-group">
-      <button type="button" class="btn btn-save">Save Draft</button>
+      <!--<button type="button" class="btn btn-save">Save Draft</button>-->
       <button type="button" class="btn btn-primary" (click)="continue.emit()">Continue</button>
     </div>
   </div>

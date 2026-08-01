@@ -7,69 +7,82 @@
   </div>
 
   <div class="input-grid">
-    <div class="field-group">
-      <label>Required Funding Amount (EGP)</label>
-      <input type="text" placeholder="e.g., 250000" />
-    </div>
+    <!-- Minimum Investment -->
     <div class="field-group">
       <label>Minimum Investment per Investor (EGP)</label>
-      <input type="text" placeholder="e.g., 5000" />
+      <input type="number"
+             [(ngModel)]="data.minimumInvestment"
+             name="minimumInvestment"
+             placeholder="e.g., 5000" />
     </div>
+
+    <!-- Farmer Profit Share -->
     <div class="field-group">
-      <label>Expected ROI (%)</label>
-      <input type="text" placeholder="e.g., 15-18" />
+      <label>Farmer Profit Share (%)</label>
+      <input type="number"
+             [(ngModel)]="data.farmerProfitShare"
+             name="farmerProfitShare"
+             placeholder="e.g., 40" />
     </div>
+
+    <!-- Investor Profit Share -->
     <div class="field-group">
-      <label>Project Duration (months)</label>
-      <input type="text" placeholder="e.g., 6" />
+      <label>Investor Profit Share (%)</label>
+      <input type="number"
+             [(ngModel)]="data.investorProfitShare"
+             name="investorProfitShare"
+             placeholder="e.g., 60" />
     </div>
   </div>
 
+  <!-- Preview Card (عرض التكلفة والنسب المباشرة) -->
   <div class="preview-card">
     <div class="preview-row">
       <div>
-        <div class="preview-label">Funding Goal</div>
-        <div class="preview-value">EGP 0</div>
-      </div>
-      <div>
-        <div class="preview-label">Expected ROI</div>
-        <div class="preview-value highlight">0%</div>
-      </div>
-    </div>
-
-    <div class="preview-row">
-      <div>
         <div class="preview-label">Min. Investment</div>
-        <div class="preview-value">EGP 0</div>
+        <div class="preview-value">EGP {{ data.minimumInvestment || 0 }}</div>
       </div>
       <div>
-        <div class="preview-label">Duration</div>
-        <div class="preview-value">0 months</div>
+        <div class="preview-label">Farmer / Investor Share</div>
+        <div class="preview-value highlight">
+          {{ data.farmerProfitShare || 0 }}% / {{ data.investorProfitShare || 0 }}%
+        </div>
       </div>
-    </div>
-
-    <div class="progress-section">
-      <div class="progress-label">Funding Progress</div>
-      <div class="progress-bar"><div class="progress-fill"></div></div>
-      <div class="progress-note">0% funded - Opens after verification</div>
     </div>
   </div>
 
+  <!-- Summary Card (بيانات تجميعية من الخطوات السابقة) -->
   <div class="summary-card">
     <div class="summary-header">Project Summary</div>
-    <div class="summary-row"><span>Project Title</span><span>Not set</span></div>
-    <div class="summary-row"><span>Crop Type</span><span>Not set</span></div>
-    <div class="summary-row"><span>Location</span><span>Not set</span></div>
-    <div class="summary-row"><span>Land Size</span><span>Not set</span></div>
-    <div class="summary-row"><span>Images Uploaded</span><span>0</span></div>
-    <div class="summary-row"><span>Documents</span><span>0 uploaded</span></div>
+    <div class="summary-row">
+      <span>Project Title</span>
+      <span>{{ projectSummaryData?.title || 'Not set' }}</span>
+    </div>
+    <div class="summary-row">
+      <span>Crop Type</span>
+      <span>{{ projectSummaryData?.cropType || 'Not set' }}</span>
+    </div>
+    <div class="summary-row">
+      <span>Location</span>
+      <span>{{ projectSummaryData?.governorate || 'Not set' }}</span>
+    </div>
+    <div class="summary-row">
+      <span>Land Size</span>
+      <span>{{ projectSummaryData?.landSize ? (projectSummaryData.landSize + ' Feddan') : 'Not set' }}</span>
+    </div>
+    <div class="summary-row">
+      <span>Images Uploaded</span>
+      <span>{{ projectSummaryData?.image ? '1 image selected' : '0' }}</span>
+    </div>
   </div>
 
   <div class="form-actions">
     <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
     <div class="action-group">
-      <button type="button" class="btn btn-save">Save Draft</button>
-      <button type="button" class="btn btn-primary">Submit for Verification</button>
+      <!--<button type="button" class="btn btn-save">Save Draft</button>-->
+      <button type="button" class="btn btn-primary" (click)="sendData()">
+        Submit for Verification
+      </button>
     </div>
   </div>
 </section>

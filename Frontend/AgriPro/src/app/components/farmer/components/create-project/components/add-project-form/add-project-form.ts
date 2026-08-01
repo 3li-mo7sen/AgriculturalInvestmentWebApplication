@@ -1,10 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'app-add-project-form',
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './add-project-form.html',
   styleUrls: ['./add-project-form.css'],
 })
@@ -18,10 +19,24 @@ export class AddProjectForm {
     title: '',
     shortDescription: '',
     fullDescription: '',
-    cropType: ''
+    cropType: '',
+    cost: null,
+    expectedProfit: null,
+    duration:null
+
   };
 
-  sendData() {
+  sendData(form: NgForm) {
+    if (form.invalid) {
+      // إجبار إظهار رسائل الأخطاء للحقول التي لم يلمسها المستخدم بعد
+      Object.keys(form.controls).forEach(field => {
+        const control = form.controls[field];
+        control.markAsTouched({ onlySelf: true });
+      });
+      return;
+    }
+
+    // 🟢 لو الفورم تمام وسليم يبعت البيانات
     this.continue.emit(this.data);
   }
 }

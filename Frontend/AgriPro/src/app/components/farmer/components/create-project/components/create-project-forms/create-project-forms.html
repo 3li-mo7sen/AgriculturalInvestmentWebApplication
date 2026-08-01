@@ -12,6 +12,17 @@
     </div>
   </div>
 
+  <div class="error-banner" *ngIf="errorMessageList && errorMessageList.length > 0">
+    <div class="error-header">
+      <span class="error-icon">⚠️</span>
+      <h4>Please complete the required fields to submit your project:</h4>
+      <button type="button" class="close-btn" (click)="errorMessageList = []">✕</button>
+    </div>
+    <ul class="error-list">
+      <li *ngFor="let err of errorMessageList">{{ err }}</li>
+    </ul>
+  </div>
+
   <div class="stepper-content">
     <div class="card-wrapper">
       <ng-container [ngSwitch]="currentStep">
@@ -19,7 +30,7 @@
         <app-land-form *ngSwitchCase="1" (continue)="nextStep()" (previous)="prevStep()"></app-land-form>
         <app-land-images *ngSwitchCase="2" (continue)="nextStep()" (previous)="prevStep()"></app-land-images>
         <app-farmer-documents *ngSwitchCase="3" (continue)="nextStep()" (previous)="prevStep()"></app-farmer-documents>
-        <app-farmer-investment *ngSwitchCase="4" (previous)="prevStep()"></app-farmer-investment>
+        <app-farmer-investment *ngSwitchCase="4" (previous)="prevStep()" [projectSummaryData]="finalProjectData" (submitForm)="handleStepData($event)"></app-farmer-investment>
       </ng-container>
     </div>
   </div>

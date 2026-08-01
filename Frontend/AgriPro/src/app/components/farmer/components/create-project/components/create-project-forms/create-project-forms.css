@@ -73,3 +73,76 @@
   max-width: 900px;
   margin: 0 auto;
 }
+
+/* --- تصميم كارت الأخطاء الجمالي --- */
+/* --- تصميم كارت الأخطاء الجمالي --- */
+.error-banner {
+  background: #fdf2f2;
+  border: 1px solid #f8b4b4;
+  border-left: 6px solid #e53e3e; /* 👈 تم التعديل لجهة اليسار للواجهة الإنجليزية */
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 0 auto 30px auto;
+  max-width: 900px; /* ليناسب عرض الـ stepper-content */
+  box-shadow: 0 10px 25px rgba(229, 62, 62, 0.12);
+  animation: slideDown 0.4s ease-out forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.error-icon {
+  font-size: 20px;
+}
+
+.error-header h4 {
+  margin: 0;
+  color: #9b1c1c;
+  font-size: 15px;
+  font-weight: 700;
+  flex-grow: 1;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: #9b1c1c;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+  .close-btn:hover {
+    background: #fbd5d5;
+  }
+
+.error-list {
+  margin: 0;
+  padding-left: 24px; /* 👈 تم التعديل لجهة اليسار LTR */
+  padding-right: 0;
+  color: #c81e1e;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+  .error-list li {
+    margin-bottom: 4px;
+  }

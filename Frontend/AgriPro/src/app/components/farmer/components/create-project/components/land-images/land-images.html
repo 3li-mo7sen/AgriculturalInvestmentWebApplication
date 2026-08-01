@@ -6,18 +6,42 @@
     </div>
   </div>
 
+  <!-- Input ملفات مخفي -->
+  <input type="file"
+         #fileInput
+         (change)="onFileSelected($event)"
+         accept="image/png, image/jpeg"
+         style="display: none;" />
+
+  <!-- منطقة الضغط للرفع -->
   <div class="upload-area">
-    <div class="upload-icon">⬆</div>
-    <div class="upload-text">
-      <h3>Click to upload or drag and drop</h3>
-      <p>PNG, JPG up to 10MB each. Recommended: Wide landscape, Soil close-up, Irrigation system, Boundaries</p>
+
+    <!-- 1. حالة عدم وجود صورة: اضغطي للرفع -->
+    <label for="landImageInput" *ngIf="!selectedFile" class="upload-label">
+      <div class="upload-icon">⬆</div>
+      <div class="upload-text">
+        <h3>Click to upload or drag and drop</h3>
+        <p>PNG, JPG up to 10MB each. Recommended: Wide landscape, Soil close-up, Irrigation system, Boundaries</p>
+      </div>
+    </label>
+
+    <!-- 2. حالة وجود صورة: عرض المعاينة واسم الملف -->
+    <div *ngIf="selectedFile" class="image-preview-container">
+      <img *ngIf="imagePreview" [src]="imagePreview" alt="Selected Image" class="preview-img" />
+      <p class="file-name">{{ selectedFile.name }}</p>
+
+      <!-- زر لتغيير الصورة -->
+      <label for="landImageInput" class="change-file-btn">
+        Click to change image
+      </label>
     </div>
+
   </div>
 
   <div class="form-actions">
     <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
     <div class="action-group">
-      <button type="button" class="btn btn-save">Save Draft</button>
+      <!--<button type="button" class="btn btn-save">Save Draft</button>-->
       <button type="button" class="btn btn-primary" (click)="continue.emit()">Continue</button>
     </div>
   </div>

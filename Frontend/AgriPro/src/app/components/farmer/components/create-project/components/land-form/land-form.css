@@ -1,4 +1,4 @@
-﻿.land-form-card {
+.land-form-card {
   background: #ffffff;
   border-radius: 28px;
   padding: 32px;
@@ -24,9 +24,11 @@
 }
 
 .land-form {
+    /*
   display: grid;
   grid-template-columns: 1fr;
   gap: 22px;
+        */
 }
 
 .grid-two {
@@ -174,3 +176,31 @@
     justify-content: flex-end;
   }
 }
+
+
+/* رسالة الخطأ */
+.error-msg {
+  color: #e53e3e;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 4px;
+  display: block;
+}
+
+/* النجمة الحمراء */
+.required {
+  color: #e53e3e;
+}
+
+/* تمييز الـ Input والـ Select عند وجود خطأ */
+.field-group input.ng-invalid.ng-touched,
+.field-group select.ng-invalid.ng-touched {
+  border-color: #e53e3e;
+  background-color: #fff8f8;
+}
+
+  .field-group input.ng-invalid.ng-touched:focus,
+  .field-group select.ng-invalid.ng-touched:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.15);
+  }

@@ -18,7 +18,7 @@ export class FarmerDashboard implements OnInit{
   ngOnInit(): void {
     this._farmerService.getDashboardData().subscribe({
       next: (res) => {
-        this.dashboardData = res; // الداتا اللي راجعة من الـ API
+        this.dashboardData = res; 
       },
       error: (err) => console.error(err)
     });

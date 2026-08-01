@@ -6,99 +6,126 @@
     </div>
   </div>
 
-  <form class="land-form">
-    <div class="field-group full-width">
-      <label>Land Name / Project Name</label>
-      <input type="text" placeholder="e.g., El-Nour Farm" />
+  <form class="land-form" #landForm="ngForm" (ngSubmit)="sendData(landForm)">
+    <div class="field-group">
+      <label>Crop Type <span class="required">*</span></label>
+      <input type="text" [(ngModel)]="data.cropType" name="cropType" #cropType="ngModel" placeholder="e.g. Wheat, Corn" required />
+      <small class="error-msg" *ngIf="cropType.invalid && (cropType.touched || landForm.submitted)">
+        Crop Type is required.
+      </small>
     </div>
 
     <div class="grid-two">
+      <!-- Governorate -->
       <div class="field-group">
-        <label>Governorate</label>
+        <label>Governorate <span class="required">*</span></label>
         <div class="select-wrap">
-          <select>
-            <option>Select governorate</option>
-            <option>Beheira</option>
-            <option>Giza</option>
-            <option>Alexandria</option>
+          <select [(ngModel)]="data.governorate" name="governorate" required #governorate="ngModel">
+            <option value="" disabled selected>Select governorate</option>
+            <option *ngFor="let governorate of governorates" [value]="governorate">
+              {{ governorate }}
+            </option>
           </select>
         </div>
+        <small class="error-msg" *ngIf="governorate.invalid && (governorate.touched || landForm.submitted)">
+          Please select a governorate.
+        </small>
       </div>
 
+      <!-- District -->
       <div class="field-group">
-        <label>District / Village</label>
-        <input type="text" placeholder="Enter district or village" />
+        <label>District / Village <span class="required">*</span></label>
+        <input type="text" [(ngModel)]="data.district" name="district" #district="ngModel" placeholder="Enter district or village" required />
+        <small class="error-msg" *ngIf="district.invalid && (district.touched || landForm.submitted)">
+          District / Village is required.
+        </small>
       </div>
     </div>
 
     <div class="grid-two">
+      <!-- Land Size -->
       <div class="field-group">
         <label>Land Size (Feddan)</label>
-        <input type="text" placeholder="e.g., 10" />
+        <input type="number" [(ngModel)]="data.landSize" name="landSize" #landSize="ngModel" min="0.1" placeholder="e.g. 10" />
+        <small class="error-msg" *ngIf="landSize.invalid && (landSize.touched || landForm.submitted)">
+          
+          <span *ngIf="landSize.errors?.['min']">Land size must be greater than 0.</span>
+        </small>
       </div>
 
+      <!-- Soil Type -->
       <div class="field-group">
-        <label>Soil Type</label>
+        <label>Soil Type <span class="required">*</span></label>
         <div class="select-wrap">
-          <select>
-            <option>Select soil type</option>
-            <option>Sandy</option>
-            <option>Clay</option>
-            <option>Loam</option>
+          <select [(ngModel)]="data.soilType" name="soilType" #soilType="ngModel" required>
+            <option value="" disabled selected>Select soil type</option>
+            <option value="Sandy">Sandy</option>
+            <option value="Clay">Clay</option>
+            <option value="Loam">Loam</option>
           </select>
         </div>
+        <small class="error-msg" *ngIf="soilType.invalid && (soilType.touched || landForm.submitted)">
+          Please select soil type.
+        </small>
       </div>
     </div>
 
     <div class="grid-two">
+      <!-- Water Source -->
       <div class="field-group">
-        <label>Water Source</label>
+        <label>Water Source <span class="required">*</span></label>
         <div class="select-wrap">
-          <select>
-            <option>Select water source</option>
-            <option>Canal</option>
-            <option>Borewell</option>
-            <option>River</option>
+          <select [(ngModel)]="data.waterSource" name="waterSource" #waterSource="ngModel" required>
+            <option value="" disabled selected>Select water source</option>
+            <option value="Canal">Canal</option>
+            <option value="Borewell">Borewell</option>
+            <option value="Nile River">Nile River</option>
           </select>
         </div>
+        <small class="error-msg" *ngIf="waterSource.invalid && (waterSource.touched || landForm.submitted)">
+          Please select water source.
+        </small>
       </div>
 
+      <!-- Land Ownership Type -->
       <div class="field-group">
-        <label>Land Ownership Type</label>
+        <label>Land Ownership Type <span class="required">*</span></label>
         <div class="select-wrap">
-          <select>
-            <option>Select ownership type</option>
-            <option>Owned</option>
-            <option>Rented</option>
-            <option>Shared</option>
+          <select [(ngModel)]="data.landOwnershipType" name="landOwnershipType" #landOwnershipType="ngModel" required>
+            <option value="" disabled selected>Select ownership type</option>
+            <option value="Owned">Owned</option>
+            <option value="Rented">Rented</option>
+            <option value="Shared">Shared</option>
           </select>
         </div>
+        <small class="error-msg" *ngIf="landOwnershipType.invalid && (landOwnershipType.touched || landForm.submitted)">
+          Please select land ownership type.
+        </small>
       </div>
     </div>
 
+    <!-- Expected Crop Season -->
     <div class="field-group full-width">
-      <label>Expected Crop Season</label>
+      <label>Expected Crop Season <span class="required">*</span></label>
       <div class="select-wrap">
-        <select>
-          <option>Select crop season</option>
-          <option>Winter</option>
-          <option>Summer</option>
-          <option>Autumn</option>
+        <select [(ngModel)]="data.expectedCropSeason" name="expectedCropSeason" #expectedCropSeason="ngModel" required>
+          <option value="" disabled selected>Select crop season</option>
+          <option value="Winter">Winter</option>
+          <option value="Summer">Summer</option>
+          <option value="Autumn">Autumn</option>
+          <option value="Spring">Spring</option>
         </select>
       </div>
-    </div>
-
-    <div class="map-picker">
-      <div class="map-icon-large">📍</div>
-      <p class="map-label">Optional: Pin your land location on the map</p>
-      <button type="button" class="btn btn-map">Open Map Picker</button>
+      <small class="error-msg" *ngIf="expectedCropSeason.invalid && (expectedCropSeason.touched || landForm.submitted)">
+        Please select crop season.
+      </small>
     </div>
 
     <div class="form-actions">
       <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
       <div class="action-group">
-        <button type="button" class="btn btn-save">Save Draft</button>
-        <button type="button" class="btn btn-primary" (click)="continue.emit()">Continue</button>
+        <!--<button type="button" class="btn btn-save">Save Draft</button>-->
+        <button type="submit" class="btn btn-primary">Continue</button>
       </div>
     </div>
   </form>
