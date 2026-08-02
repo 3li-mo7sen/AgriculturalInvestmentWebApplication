@@ -15,12 +15,37 @@ export class LandImages {
   selectedFile: File | null = null;
   imagePreview: string | null = null;
 
+
+  showError: boolean = false;
+  errorMessage: string = '';
+
   onFileSelected(event: any) {
     const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
 
-      console.log('image is uploaded successfully', this.selectedFile);
+    if (file) {
+      // 1. Validation للحجم (أقل من 10 ميجا)
+      const maxSizeInMB = 10;
+      if (file.size > maxSizeInMB * 1024 * 1024) {
+        this.showError = true;
+        this.errorMessage = 'Image size must not exceed 10MB.';
+        this.selectedFile = null;
+        this.imagePreview = null;
+        return;
+      }
+
+      // 2. Validation للنوع (صور فقط)
+      if (!file.type.startsWith('image/')) {
+        this.showError = true;
+        this.errorMessage = 'Please select a valid image file (PNG or JPG).';
+        this.selectedFile = null;
+        this.imagePreview = null;
+        return;
+      }
+
+      // إخفاء الأخطاء إذا كانت الصورة سليمة
+      this.showError = false;
+      this.errorMessage = '';
+      this.selectedFile = file;
 
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -31,7 +56,15 @@ export class LandImages {
   }
 
   sendData() {
-    // بنبعت الملف تحت اسم Image تماماً زي ما في الـ Swagger
-    this.continue.emit({ image: this.selectedFile });
+
+    if (!this.selectedFile) {
+      this.showError = true;
+      this.errorMessage = 'Please upload a land image before continuing.';
+      return;
+    }
+
+    this.showError = false;
+   
+    this.continue.emit({ Image: this.selectedFile });
   }
 }

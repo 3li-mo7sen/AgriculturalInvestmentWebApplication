@@ -164,3 +164,25 @@
   text-decoration: underline;
   margin-top: 8px;
 }
+
+
+/* رسالة الخطأ */
+.error-msg {
+  color: #e53e3e;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-top: 8px;
+  display: block;
+}
+
+/* تمييز منطقة الرفع في حالة وجود خطأ */
+.upload-area.has-error {
+  border-color: #e53e3e !important;
+  background-color: #fff8f8;
+}
+
+.upload-label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}

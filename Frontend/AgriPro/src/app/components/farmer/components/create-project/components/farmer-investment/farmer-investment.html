@@ -6,83 +6,109 @@
     </div>
   </div>
 
-  <div class="input-grid">
-    <!-- Minimum Investment -->
-    <div class="field-group">
-      <label>Minimum Investment per Investor (EGP)</label>
-      <input type="number"
-             [(ngModel)]="data.minimumInvestment"
-             name="minimumInvestment"
-             placeholder="e.g., 5000" />
-    </div>
 
-    <!-- Farmer Profit Share -->
-    <div class="field-group">
-      <label>Farmer Profit Share (%)</label>
-      <input type="number"
-             [(ngModel)]="data.farmerProfitShare"
-             name="farmerProfitShare"
-             placeholder="e.g., 40" />
-    </div>
-
-    <!-- Investor Profit Share -->
-    <div class="field-group">
-      <label>Investor Profit Share (%)</label>
-      <input type="number"
-             [(ngModel)]="data.investorProfitShare"
-             name="investorProfitShare"
-             placeholder="e.g., 60" />
-    </div>
-  </div>
-
-  <!-- Preview Card (عرض التكلفة والنسب المباشرة) -->
-  <div class="preview-card">
-    <div class="preview-row">
-      <div>
-        <div class="preview-label">Min. Investment</div>
-        <div class="preview-value">EGP {{ data.minimumInvestment || 0 }}</div>
+  <form #investmentForm="ngForm" (ngSubmit)="sendData(investmentForm)">
+    <div class="input-grid">
+      <!-- Minimum Investment -->
+      <div class="field-group">
+        <label>Minimum Investment per Investor (EGP)<span class="required-star">*</span></label>
+        <input type="number"
+               [(ngModel)]="data.minimumInvestment"
+               name="minimumInvestment"
+               #minInv="ngModel"
+               required
+               min="1"
+               placeholder="e.g., 5000" />
+        <small class="error-msg" *ngIf="minInv.invalid && (minInv.touched || investmentForm.submitted)">
+          <span *ngIf="minInv.errors?.['required']">Minimum investment is required.</span>
+          <span *ngIf="minInv.errors?.['min']">Minimum investment must be greater than 0.</span>
+        </small>
       </div>
-      <div>
-        <div class="preview-label">Farmer / Investor Share</div>
-        <div class="preview-value highlight">
-          {{ data.farmerProfitShare || 0 }}% / {{ data.investorProfitShare || 0 }}%
+
+      <!-- Farmer Profit Share -->
+      <div class="field-group">
+        <label>Farmer Profit Share (%)<span class="required-star">*</span></label>
+        <input type="number"
+               [(ngModel)]="data.farmerProfitShare"
+               name="farmerProfitShare"
+               #farmerShare="ngModel"
+               required
+               min="1"
+               max="99"
+               placeholder="e.g., 40" />
+        <small class="error-msg" *ngIf="farmerShare.invalid && (farmerShare.touched || investmentForm.submitted)">
+          <span *ngIf="farmerShare.errors?.['required']">Farmer profit share is required.</span>
+          <span *ngIf="farmerShare.errors?.['min'] || farmerShare.errors?.['max']">Share must be between 1% and 99%.</span>
+        </small>
+      </div>
+
+      <!-- Investor Profit Share -->
+      <div class="field-group">
+        <label>Investor Profit Share (%)<span class="required-star">*</span></label>
+        <input type="number"
+               [(ngModel)]="data.investorProfitShare"
+               name="investorProfitShare"
+               #investorShare="ngModel"
+               required
+               min="1"
+               max="99"
+               placeholder="e.g., 60" />
+        <small class="error-msg" *ngIf="investorShare.invalid && (investorShare.touched || investmentForm.submitted)">
+          <span *ngIf="investorShare.errors?.['required']">Investor profit share is required.</span>
+          <span *ngIf="investorShare.errors?.['min'] || investorShare.errors?.['max']">Share must be between 1% and 99%.</span>
+        </small>
+      </div>
+    </div>
+
+    <!-- Preview Card (عرض التكلفة والنسب المباشرة) -->
+    <div class="preview-card">
+      <div class="preview-row">
+        <div>
+          <div class="preview-label">Min. Investment</div>
+          <div class="preview-value">EGP {{ data.minimumInvestment || 0 }}</div>
+        </div>
+        <div>
+          <div class="preview-label">Farmer / Investor Share</div>
+          <div class="preview-value highlight">
+            {{ data.farmerProfitShare || 0 }}% / {{ data.investorProfitShare || 0 }}%
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Summary Card (بيانات تجميعية من الخطوات السابقة) -->
-  <div class="summary-card">
-    <div class="summary-header">Project Summary</div>
-    <div class="summary-row">
-      <span>Project Title</span>
-      <span>{{ projectSummaryData?.title || 'Not set' }}</span>
+    <!-- Summary Card (بيانات تجميعية من الخطوات السابقة) -->
+    <div class="summary-card">
+      <div class="summary-header">Project Summary</div>
+      <div class="summary-row">
+        <span>Project Title</span>
+        <span>{{ projectSummaryData?.title || 'Not set' }}</span>
+      </div>
+      <div class="summary-row">
+        <span>Crop Type</span>
+        <span>{{ projectSummaryData?.cropType || 'Not set' }}</span>
+      </div>
+      <div class="summary-row">
+        <span>Location</span>
+        <span>{{ projectSummaryData?.governorate || 'Not set' }}</span>
+      </div>
+      <div class="summary-row">
+        <span>Land Size</span>
+        <span>{{ projectSummaryData?.landSize ? (projectSummaryData.landSize + ' Feddan') : 'Not set' }}</span>
+      </div>
+      <div class="summary-row">
+        <span>Images Uploaded</span>
+        <span>{{ projectSummaryData?.image ? '1 image selected' : '0' }}</span>
+      </div>
     </div>
-    <div class="summary-row">
-      <span>Crop Type</span>
-      <span>{{ projectSummaryData?.cropType || 'Not set' }}</span>
-    </div>
-    <div class="summary-row">
-      <span>Location</span>
-      <span>{{ projectSummaryData?.governorate || 'Not set' }}</span>
-    </div>
-    <div class="summary-row">
-      <span>Land Size</span>
-      <span>{{ projectSummaryData?.landSize ? (projectSummaryData.landSize + ' Feddan') : 'Not set' }}</span>
-    </div>
-    <div class="summary-row">
-      <span>Images Uploaded</span>
-      <span>{{ projectSummaryData?.image ? '1 image selected' : '0' }}</span>
-    </div>
-  </div>
 
-  <div class="form-actions">
-    <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
-    <div class="action-group">
-      <!--<button type="button" class="btn btn-save">Save Draft</button>-->
-      <button type="button" class="btn btn-primary" (click)="sendData()">
-        Submit for Verification
-      </button>
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
+      <div class="action-group">
+        <!--<button type="button" class="btn btn-save">Save Draft</button>-->
+        <button type="submit" class="btn btn-primary" >
+          Submit for Verification
+        </button>
+      </div>
     </div>
-  </div>
+  </form>
 </section>

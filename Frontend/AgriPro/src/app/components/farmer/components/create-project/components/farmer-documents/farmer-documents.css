@@ -1,4 +1,4 @@
-﻿.documents-card {
+.documents-card {
   background: #ffffff;
   border-radius: 28px;
   padding: 32px;
@@ -139,4 +139,33 @@
     width: 100%;
     justify-content: flex-end;
   }
+}
+
+
+.required-star {
+  color: #e53e3e;
+}
+
+
+.error-msg {
+  color: #e53e3e;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 6px;
+  display: block;
+}
+
+
+.document-box.has-error {
+  border: 1px solid #e53e3e;
+  background-color: #fff8f8;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+
+.upload-box.uploaded {
+  background-color: #e6f4ea;
+  border-color: #34a853;
+  color: #137333;
 }

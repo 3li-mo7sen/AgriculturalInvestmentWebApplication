@@ -13,31 +13,41 @@
 
   <!-- 1. Land Ownership Doc -->
   <div class="document-row">
-    <div class="document-box">
-      <div class="document-title">Land Ownership / Lease Contract</div>
+    <div class="document-box" [class.has-error]="landError">
+      <div class="document-title">Land Ownership / Lease Contract<span class="required-star">*</span></div>
       <div class="document-subtitle">Required - Proof of land ownership or lease agreement</div>
 
       <input type="file" id="landDoc" (change)="onFileSelected($event, 'land')" accept=".pdf,image/*" style="display: none;" />
 
-      <label for="landDoc" class="upload-box">
+      <label for="landDoc" class="upload-box" [class.uploaded]="landOwnershipDoc">
         <span class="upload-icon">⬆</span>
         {{ landOwnershipDoc ? landOwnershipDoc.name : 'Upload Document' }}
       </label>
+
+      <small class="error-msg" *ngIf="landError">
+        {{ landErrorMessage }}
+      </small>
+
+
     </div>
   </div>
 
   <!-- 2. National ID Doc -->
   <div class="document-row">
-    <div class="document-box">
-      <div class="document-title">National ID</div>
+    <div class="document-box" [class.has-error]="idError">
+      <div class="document-title">National ID <span class="required-star">*</span></div>
       <div class="document-subtitle">Required - Your valid national identification</div>
 
       <input type="file" id="idDoc" (change)="onFileSelected($event, 'id')" accept=".pdf,image/*" style="display: none;" />
 
-      <label for="idDoc" class="upload-box">
+      <label for="idDoc" class="upload-box" [class.uploaded]="nationalIdDoc">
         <span class="upload-icon">⬆</span>
         {{ nationalIdDoc ? nationalIdDoc.name : 'Upload Document' }}
       </label>
+
+      <small class="error-msg" *ngIf="idError">
+        {{ idErrorMessage }}
+      </small>
     </div>
   </div>
 
@@ -49,7 +59,7 @@
 
       <input type="file" id="permitDoc" (change)="onFileSelected($event, 'permit')" accept=".pdf,image/*" style="display: none;" />
 
-      <label for="permitDoc" class="upload-box">
+      <label for="permitDoc" class="upload-box" [class.uploaded]="agriculturalPermitDoc">
         <span class="upload-icon">⬆</span>
         {{ agriculturalPermitDoc ? agriculturalPermitDoc.name : 'Upload Document' }}
       </label>
@@ -64,7 +74,7 @@
 
       <input type="file" id="waterDoc" (change)="onFileSelected($event, 'water')" accept=".pdf,image/*" style="display: none;" />
 
-      <label for="waterDoc" class="upload-box">
+      <label for="waterDoc" class="upload-box" [class.uploaded]="waterRightsDoc">
         <span class="upload-icon">⬆</span>
         {{ waterRightsDoc ? waterRightsDoc.name : 'Upload Document' }}
       </label>
@@ -75,7 +85,7 @@
     <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
     <div class="action-group">
       <!--<button type="button" class="btn btn-save">Save Draft</button>-->
-      <button type="button" class="btn btn-primary" (click)="continue.emit()">Continue</button>
+      <button type="button" class="btn btn-primary" (click)="sendData()">Continue</button>
     </div>
   </div>
 </section>

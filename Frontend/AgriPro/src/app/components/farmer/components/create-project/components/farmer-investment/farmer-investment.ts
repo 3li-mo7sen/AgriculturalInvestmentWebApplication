@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -12,21 +12,43 @@ import { FormsModule } from '@angular/forms';
 export class FarmerInvestment {
   @Output() previous = new EventEmitter<void>();
   
-  @Output() submitForm = new EventEmitter<any>(); // حدث إرسال الفورم للـ API النهائي
+  @Output() submitForm = new EventEmitter<any>(); 
 
-  // استقبال كل الداتا اللي اتجمعت من الخطوات السابقة لعرضها في الـ Summary Card
+
   @Input() projectSummaryData: any = {};
 
-  // البيانات الخاصة بالخطوة الحالية (تطابق Swagger)
+
   data = {
     minimumInvestment: null as number | null,
     farmerProfitShare: null as number | null,
     investorProfitShare: null as number | null,
   };
 
-  sendData() {
-    // إرسال بيانات الاستثمار للـ Parent ليقوم بالـ POST النهائي
-    console.log(' Submit Button Clicked!');
+  sharesSumError: boolean = false;
+
+  sendData(form: NgForm) {
+    this.sharesSumError = false;
+
+   
+    if (form.invalid) {
+      Object.keys(form.controls).forEach(field => {
+        const control = form.controls[field];
+        control.markAsTouched({ onlySelf: true });
+      });
+      return;
+    }
+
+ 
+    const farmerShare = Number(this.data.farmerProfitShare) || 0;
+    const investorShare = Number(this.data.investorProfitShare) || 0;
+
+    if (farmerShare + investorShare !== 100) {
+      this.sharesSumError = true;
+      return;
+    }
+
+    console.log('Submit Button Clicked! Form is completely valid.');
     this.submitForm.emit(this.data);
   }
+
 }

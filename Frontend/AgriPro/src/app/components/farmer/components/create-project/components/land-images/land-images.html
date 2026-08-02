@@ -10,11 +10,12 @@
   <input type="file"
          #fileInput
          (change)="onFileSelected($event)"
+         id="landImageInput"
          accept="image/png, image/jpeg"
          style="display: none;" />
 
   <!-- منطقة الضغط للرفع -->
-  <div class="upload-area">
+  <div class="upload-area" [class.has-error]="showError">
 
     <!-- 1. حالة عدم وجود صورة: اضغطي للرفع -->
     <label for="landImageInput" *ngIf="!selectedFile" class="upload-label">
@@ -38,11 +39,15 @@
 
   </div>
 
+  <small class="error-msg" *ngIf="showError">
+    {{ errorMessage }}
+  </small>
+
   <div class="form-actions">
     <button type="button" class="btn btn-secondary" (click)="previous.emit()">Previous</button>
     <div class="action-group">
       <!--<button type="button" class="btn btn-save">Save Draft</button>-->
-      <button type="button" class="btn btn-primary" (click)="continue.emit()">Continue</button>
+      <button type="button" class="btn btn-primary" (click)="sendData()">Continue</button>
     </div>
   </div>
 </section>

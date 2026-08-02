@@ -1,4 +1,4 @@
-﻿.investment-card {
+.investment-card {
   background: #ffffff;
   border-radius: 28px;
   padding: 32px;
@@ -191,3 +191,41 @@
     justify-content: flex-end;
   }
 }
+
+
+
+.required-star {
+  color: #e53e3e;
+}
+
+
+.error-msg {
+  color: #e53e3e;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 4px;
+  display: block;
+}
+
+
+.shares-error-banner {
+  background-color: #fdf2f2;
+  border: 1px solid #f8b4b4;
+  color: #9b1c1c;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+
+.field-group input.ng-invalid.ng-touched {
+  border-color: #e53e3e;
+  background-color: #fff8f8;
+}
+
+  .field-group input.ng-invalid.ng-touched:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.15);
+  }
