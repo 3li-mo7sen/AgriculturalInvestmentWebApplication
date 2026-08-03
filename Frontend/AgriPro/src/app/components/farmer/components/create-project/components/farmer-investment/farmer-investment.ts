@@ -29,7 +29,7 @@ export class FarmerInvestment {
   sendData(form: NgForm) {
     this.sharesSumError = false;
 
-    // 1. فحص الحقول العادية (Required / Min / Max)
+ 
     if (form.invalid) {
       Object.keys(form.controls).forEach(field => {
         const control = form.controls[field];
@@ -38,14 +38,13 @@ export class FarmerInvestment {
       return;
     }
 
-    // 2. فحص مجموع النسب
+ 
     const farmerShare = Number(this.data.farmerProfitShare) || 0;
     const investorShare = Number(this.data.investorProfitShare) || 0;
 
     if (farmerShare + investorShare !== 100) {
       this.sharesSumError = true;
 
-      // 🟢 التركيز والتمرير (Scroll) لرسالة الخطأ عشان تظهر للمستخدم فوراً
       setTimeout(() => {
         const errorElement = document.querySelector('.shares-error-banner');
         if (errorElement) {

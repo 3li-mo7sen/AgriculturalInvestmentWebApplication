@@ -28,7 +28,7 @@ export class AddProjectForm {
 
   sendData(form: NgForm) {
     if (form.invalid) {
-      // إجبار إظهار رسائل الأخطاء للحقول التي لم يلمسها المستخدم بعد
+     
       Object.keys(form.controls).forEach(field => {
         const control = form.controls[field];
         control.markAsTouched({ onlySelf: true });
@@ -36,7 +36,7 @@ export class AddProjectForm {
       return;
     }
 
-    // 🟢 لو الفورم تمام وسليم يبعت البيانات
+  
     this.continue.emit(this.data);
   }
 }
