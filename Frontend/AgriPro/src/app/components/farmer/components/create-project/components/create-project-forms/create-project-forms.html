@@ -26,11 +26,11 @@
   <div class="stepper-content">
     <div class="card-wrapper">
       <ng-container [ngSwitch]="currentStep">
-        <app-add-project-form *ngSwitchCase="0" (continue)="nextStep()" (previous)="prevStep()"></app-add-project-form>
-        <app-land-form *ngSwitchCase="1" (continue)="nextStep()" (previous)="prevStep()"></app-land-form>
-        <app-land-images *ngSwitchCase="2" (continue)="nextStep()" (previous)="prevStep()"></app-land-images>
-        <app-farmer-documents *ngSwitchCase="3" (continue)="nextStep()" (previous)="prevStep()"></app-farmer-documents>
-        <app-farmer-investment *ngSwitchCase="4" (previous)="prevStep()" [projectSummaryData]="finalProjectData" (submitForm)="handleStepData($event)"></app-farmer-investment>
+        <app-add-project-form *ngSwitchCase="0" (continue)="handleStepData($event)" (previous)="prevStep()"></app-add-project-form>
+        <app-land-form *ngSwitchCase="1" (continue)="handleStepData($event)" (previous)="prevStep()"></app-land-form>
+        <app-land-images *ngSwitchCase="2" (continue)="handleStepData($event)" (previous)="prevStep()"></app-land-images>
+        <app-farmer-documents *ngSwitchCase="3" (continue)="handleStepData($event)" (previous)="prevStep()"></app-farmer-documents>
+        <app-farmer-investment *ngSwitchCase="4" (previous)="prevStep()" [projectSummaryData]="rawFormData" (submitForm)="handleStepData($event)"></app-farmer-investment>
       </ng-container>
     </div>
   </div>

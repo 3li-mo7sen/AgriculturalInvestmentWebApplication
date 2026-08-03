@@ -229,3 +229,37 @@
     outline: none;
     box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.15);
   }
+
+/* تنسيق بنر خطأ مجموع النسب */
+.shares-error-banner {
+  background-color: #fde8e8;
+  border: 1.5px solid #f8b4b4;
+  color: #9b1c1c;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.12);
+  animation: shake 0.4s ease-in-out;
+}
+
+/* تحديد الخانات باللون الأحمر عند وجود الخطأ */
+input.input-error {
+  border-color: #e53e3e !important;
+  background-color: #fff8f8 !important;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  20%, 60% {
+    transform: translateX(-6px);
+  }
+
+  40%, 80% {
+    transform: translateX(6px);
+  }
+}

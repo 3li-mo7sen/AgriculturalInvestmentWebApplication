@@ -45,11 +45,11 @@
     <div class="grid-two">
       <!-- Land Size -->
       <div class="field-group">
-        <label>Land Size (Feddan)</label>
-        <input type="number" [(ngModel)]="data.landSize" name="landSize" #landSize="ngModel" min="0.1" placeholder="e.g. 10" />
+        <label>Land Size (Feddan)<span class="required">*</span></label>
+        <input type="number" [(ngModel)]="data.landSize" name="landSize" #landSize="ngModel" min="0.01" placeholder="e.g. 10" required />
         <small class="error-msg" *ngIf="landSize.invalid && (landSize.touched || landForm.submitted)">
-          
-          <span *ngIf="landSize.errors?.['min']">Land size must be greater than 0.</span>
+          <span *ngIf="landSize.errors?.['required']">Land size is required.</span>
+          <span *ngIf="landSize.errors?.['min']">Land size must be greater than 0.01.</span>
         </small>
       </div>
 

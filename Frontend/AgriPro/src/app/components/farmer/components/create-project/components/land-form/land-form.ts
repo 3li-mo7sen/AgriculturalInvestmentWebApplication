@@ -56,7 +56,6 @@ export class LandForm {
 
   sendData(form: NgForm) {
     if (form.invalid) {
-      // إجبار إظهار الأخطاء للحقول التي لم يتفاعل معها المستخدم
       Object.keys(form.controls).forEach(field => {
         const control = form.controls[field];
         control.markAsTouched({ onlySelf: true });
@@ -64,7 +63,7 @@ export class LandForm {
       return;
     }
 
-    // إرسال البيانات إذا كانت كل الحقول صالحة
+    console.log('Sending from LandForm:', this.data); 
     this.continue.emit(this.data);
   }
 }

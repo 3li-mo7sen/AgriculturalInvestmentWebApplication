@@ -40,30 +40,28 @@
     </div>
 
     <div class="field-group">
-      <label>Duration (in days)<span class="required-star">*</span></label>
-      <input type="number" [(ngModel)]="data.duration" name="duration" #duration="ngModel"
-             required
-             min="1" placeholder="Duration">
+      <label>Duration (in months)<span class="required-star">*</span></label>
+      <input type="number" [(ngModel)]="data.duration" name="duration" #duration="ngModel" required min="1" max="120" placeholder="Duration (1 to 120 months)">
       <small class="error-msg" *ngIf="duration.invalid && (duration.touched || projectForm.submitted)">
         <span *ngIf="duration.errors?.['required']">Duration is required.</span>
-        <span *ngIf="duration.errors?.['min']">Duration must be at least 1 day.</span>
+        <span *ngIf="duration.errors?.['min'] || duration.errors?.['max']">Duration must be between 1 and 120 months.</span>
       </small>
     </div>
 
+   
     <div class="field-group">
       <label>Full Description<span class="required-star">*</span></label>
-      <textarea [(ngModel)]="data.fullDescription" name="fullDesc" #fullDesc="ngModel"
-                required placeholder="Full Description"></textarea>
-      <small class="error-msg" *ngIf="fullDesc.invalid && (fullDesc.touched || projectForm.submitted)">
+      <textarea [(ngModel)]="data.fullDescription" name="fullDescription" #fullDescription="ngModel" required placeholder="Full Description"></textarea>
+      <small class="error-msg" *ngIf="fullDescription.invalid && (fullDescription.touched || projectForm.submitted)">
         Full Description is required.
       </small>
     </div>
 
+    
     <div class="field-group">
       <label>Short Description<span class="required-star">*</span></label>
-      <textarea [(ngModel)]="data.shortDescription" name="shortDesc" #shortDesc="ngModel"
-                required placeholder="Short Description"></textarea>
-      <small class="error-msg" *ngIf="shortDesc.invalid && (shortDesc.touched || projectForm.submitted)">
+      <textarea [(ngModel)]="data.shortDescription" name="shortDescription" #shortDescription="ngModel" required placeholder="Short Description"></textarea>
+      <small class="error-msg" *ngIf="shortDescription.invalid && (shortDescription.touched || projectForm.submitted)">
         Short Description is required.
       </small>
     </div>
@@ -81,8 +79,8 @@
 
       <div class="action-group">
         <!--<button type="button" class="btn btn-save">Save Draft</button>-->
-          <button type="submit" class="btn btn-primary" >Continue</button>
-        </div>
+        <button type="submit" class="btn btn-primary">Continue</button>
       </div>
-    </form>
+    </div>
+  </form>
   </section>

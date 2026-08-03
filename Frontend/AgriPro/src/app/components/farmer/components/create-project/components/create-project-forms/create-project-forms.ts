@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { FarmerService } from '../../../../../../services/farmerService/farmer.service';
 import { Router } from '@angular/router';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-create-project-forms',
   imports: [AddProjectForm,LandForm,LandImages,FarmerDocuments,FarmerInvestment,CommonModule],
@@ -18,6 +20,8 @@ export class CreateProjectForms {
   errorMessageList: string[] = [];
   currentStep = 0;
 
+  rawFormData: any = {};
+  /*
   finalProjectData: any = {
     Name: "",
     ShortDescription: "",
@@ -42,7 +46,7 @@ export class CreateProjectForms {
     AgriculturalPermitDoc: null,
     WaterRightsDoc: null
   };
-
+  */
   steps = [
     { label: 'Basic Info', icon: 'fas fa-info-circle' },
     { label: 'Land Details', icon: 'fas fa-map-marker-alt' },
@@ -54,9 +58,9 @@ export class CreateProjectForms {
   constructor(private _FarmerService: FarmerService, private router: Router,private cdr: ChangeDetectorRef) { }
 
   handleStepData(data: any) {
-    this.finalProjectData = { ...this.finalProjectData, ...data };
+    
+    this.rawFormData = { ...this.rawFormData, ...data };
 
-    // إذا كانت هذه الخطوة هي الأخيرة (الاستثمار) أو عند استدعاء الإرسال النهائي
     if (this.currentStep === this.steps.length - 1) {
       this.submitToApi();
     } else {
@@ -78,20 +82,73 @@ export class CreateProjectForms {
 
   submitToApi() {
     this.errorMessageList = [];
-    this._FarmerService.createProject(this.finalProjectData).subscribe({
+
+
+    const payload = {
+      Name: this.rawFormData.Name || this.rawFormData.title || this.rawFormData.name || '',
+      ShortDescription: this.rawFormData.ShortDescription || this.rawFormData.shortDescription || '',
+      FullDescription: this.rawFormData.FullDescription || this.rawFormData.fullDescription || '',
+      CropType: this.rawFormData.CropType || this.rawFormData.cropType || '',
+      Governorate: this.rawFormData.Governorate || this.rawFormData.governorate || '',
+      District: this.rawFormData.District || this.rawFormData.district || '',
+
+      SoilType: this.rawFormData.SoilType || this.rawFormData.soilType || '',
+      WaterSource: this.rawFormData.WaterSource || this.rawFormData.waterSource || '',
+      LandOwnershipType: this.rawFormData.LandOwnershipType || this.rawFormData.landOwnershipType || '',
+      ExpectedCropSeason: this.rawFormData.ExpectedCropSeason || this.rawFormData.expectedCropSeason || '',
+
+     
+      LandSize: Number(this.rawFormData.LandSize ?? this.rawFormData.landSize) || 0,
+      Cost: Number(this.rawFormData.Cost ?? this.rawFormData.cost) || 0,
+      MinimumInvestment: Number(this.rawFormData.MinimumInvestment ?? this.rawFormData.minimumInvestment) || 0,
+      ExpectedProfit: Number(this.rawFormData.ExpectedProfit ?? this.rawFormData.expectedProfit) || 0,
+      Duration: Number(this.rawFormData.Duration ?? this.rawFormData.duration) || 0,
+      FarmerProfitShare: Number(this.rawFormData.FarmerProfitShare ?? this.rawFormData.farmerProfitShare) || 0,
+      InvestorProfitShare: Number(this.rawFormData.InvestorProfitShare ?? this.rawFormData.investorProfitShare) || 0,
+
+     
+      Image: this.rawFormData.Image || this.rawFormData.image || null,
+      LandOwnershipDoc: this.rawFormData.LandOwnershipDoc || this.rawFormData.landOwnershipDoc || null,
+      NationalIdDoc: this.rawFormData.NationalIdDoc || this.rawFormData.nationalIdDoc || null,
+      AgriculturalPermitDoc: this.rawFormData.AgriculturalPermitDoc || this.rawFormData.agriculturalPermitDoc || null,
+      WaterRightsDoc: this.rawFormData.WaterRightsDoc || this.rawFormData.waterRightsDoc || null
+    };
+
+    console.log('Final Prepared Payload:', payload);
+
+    this._FarmerService.createProject(payload).subscribe({
       next: (res) => {
-        alert('Project submitted successfully!');
-        this.router.navigate(['/farmer/my-projects']);
+        Swal.fire({
+          title: 'Success!',
+          text: 'Project submitted successfully!',
+          icon: 'success',
+          confirmButtonText: 'Go to My Projects',
+          confirmButtonColor: '#2e7d32', 
+          customClass: {
+            popup: 'rounded-4'
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['/farmer/my-projects']);
+          }
+        });
       },
       error: (err) => {
         console.error('Validation Errors:', err);
 
-        // استخراج وتنسيق الأخطاء القادمة من السيرفر
+      
         this.errorMessageList = this.extractErrors(err);
+
+        Swal.fire({
+          title: 'Submission Failed',
+          text: 'Please review the error messages at the top of the form.',
+          icon: 'error',
+          confirmButtonColor: '#d33',
+        });
 
         this.cdr.detectChanges();
 
-        // التمرير لأعلى الصفحة بسلاسة ليراها المستخدم فوراً
+      
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
@@ -101,7 +158,7 @@ export class CreateProjectForms {
     const errors: string[] = [];
 
     if (err.error?.errors) {
-      // لو السيرفر مراجع ModelState validation errors
+
       Object.keys(err.error.errors).forEach(key => {
         const fieldName = key.charAt(0).toUpperCase() + key.slice(1);
         errors.push(`${fieldName}: ${err.error.errors[key].join(', ')}`);
