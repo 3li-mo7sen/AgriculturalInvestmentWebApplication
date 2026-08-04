@@ -213,22 +213,98 @@
 
 .btn-view-details {
   width: 100%;
-  margin-top: 0.5rem; /* مسافة بسيطة فوق الزرار */
+  margin-top: 0.5rem; 
   padding: 0.75rem;
-  border-radius: 999px; /* عشان يبقى بيضاوي زي الصورة */
-  border: 1px solid #eef1ec; /* إطار خفيف جداً */
-  background-color: #f9fbf8; /* لون خلفية مائل للأبيض/أخضر فاتح */
-  color: #111b17; /* لون الخط */
+  border-radius: 999px; 
+  border: 1px solid #eef1ec; 
+  background-color: #f9fbf8; 
+  color: #111b17; 
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-  /* تأثير عند مرور الماوس (اختياري) */
+  
   .btn-view-details:hover {
     background-color: #0f5132;
     color: #ffffff;
     border-color: #0f5132;
   }
 
+
+
+.skeleton-card {
+  pointer-events: none;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid #eef2f5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.skeleton-badge,
+.skeleton-title,
+.skeleton-progress,
+.skeleton-info,
+.skeleton-btn,
+.skeleton-pill {
+  background: linear-gradient(90deg, #f0f2f5 25%, #e6e8ec 50%, #f0f2f5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+.skeleton-badge {
+  width: 90px;
+  height: 24px;
+  border-radius: 20px;
+}
+
+.skeleton-title {
+  width: 70%;
+  height: 22px;
+}
+
+.skeleton-progress {
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+}
+
+.skeleton-info {
+  width: 85%;
+  height: 16px;
+}
+
+.skeleton-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.skeleton-btn {
+  width: 100px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.skeleton-pill {
+  width: 80px;
+  height: 20px;
+}
+
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
