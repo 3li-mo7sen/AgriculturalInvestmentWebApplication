@@ -1,6 +1,6 @@
 <div class="profile-container">
 
-  <!-- 🟢 Skeleton Loading الحالة الأهم أثناء جلب البيانات -->
+  
   <div *ngIf="isLoading" class="skeleton-profile-wrapper">
     <div class="profile-card skeleton-card">
       <div class="profile-content">
@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <!-- 🟢 البيانات الحقيقية قادمة من الـ Endpoint -->
+ 
   <ng-container *ngIf="!isLoading && userProfile">
     <!-- Profile Card -->
     <div class="profile-card">
