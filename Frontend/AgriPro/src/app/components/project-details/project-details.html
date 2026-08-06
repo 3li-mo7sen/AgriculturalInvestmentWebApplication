@@ -1,83 +1,150 @@
-<div class="project-details-container" *ngIf="project">
+<div class="project-details-container">
+
+  <!-- Back Navigation -->
   <div class="details-header mb-4">
     <a routerLink="/farmer/my-projects" class="btn-back">
-      <i class="fa-solid fa-arrow-left me-2"></i>
+      <i class="fa-solid fa-arrow-left"></i>
       <span>Back to My Projects</span>
     </a>
   </div>
 
-  <div class="row">
-    <div class="col-lg-8">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center p-5">
+    <div class="spinner-border text-success" role="status"></div>
+    <p class="mt-2 text-muted">Loading project details...</p>
+  </div>
+
+  <!-- Error / 404 State -->
+  <div *ngIf="!isLoading && errorMessage" class="alert alert-danger text-center my-4">
+    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+    {{ errorMessage }}
+  </div>
+
+  <!-- Project Content Grid -->
+  <div class="project-grid" *ngIf="!isLoading && project">
+
+    <!-- Main Content (Left) -->
+    <div class="main-content">
+
+      <!-- Main Card -->
       <div class="main-card">
-        <div class="image-wrapper">
-          <img src="assets/images/wheat-field.jpg" alt="Project Image" class="main-project-img">
-          <span class="badge-verified" *ngIf="project.status === 'Published'">
-            <i class="fa-solid fa-shield-check"></i> Verified Project
+        <!-- Status Badge Header -->
+        <div class="card-status-bar">
+          <span class="badge badge-status" [ngClass]="project.status === 'Published' ? 'status-published' : 'status-pending'">
+            <i class="fa-solid" [ngClass]="project.status === 'Published' ? 'fa-circle-check' : 'fa-clock'"></i>
+            {{ project.status }}
+          </span>
+          <span class="crop-badge">
+            <i class="fa-solid fa-seedling me-1"></i> {{ project.cropType }}
           </span>
         </div>
 
         <div class="content-padding">
+          <!-- Title & Subtitle -->
           <h1 class="project-title">{{ project.name }}</h1>
-          <div class="project-meta">
-            <span><i class="fa-solid fa-location-dot"></i> {{ project.location }}</span>
-            <span><i class="fa-solid fa-seedling"></i> {{ project.cropType }}</span>
-            <span><i class="fa-solid fa-users"></i> {{ project.investorsCount }} Investors</span>
+          <p class="project-subtitle" *ngIf="project.title && project.title !== project.name">{{ project.title }}</p>
+
+          <!-- Short Description Quote -->
+          <div class="short-desc-box" *ngIf="project.shortDescription">
+            <p>{{ project.shortDescription }}</p>
           </div>
 
-          <hr>
-
-          <h3>About This Project</h3>
-          <p class="description">{{ project.fullDescription }}</p>
-
-          <div class="land-info-grid">
-            <div class="info-item">
-              <i class="fa-solid fa-calendar-days"></i>
-              <div><p>Duration</p><strong>{{ project.duration }} Months</strong></div>
+          <!-- Meta Pills -->
+          <div class="project-meta-pills">
+            <div class="meta-pill">
+              <i class="fa-solid fa-location-dot icon-location"></i>
+              <span>{{ project.location }}</span>
             </div>
-            <div class="info-item">
-              <i class="fa-solid fa-user-tie"></i>
-              <div><p>Farmer Name</p><strong>{{ project.farmerName }}</strong></div>
+            <div class="meta-pill">
+              <i class="fa-solid fa-users icon-users"></i>
+              <span>{{ project.investorsCount }} Investors</span>
+            </div>
+            <div class="meta-pill">
+              <i class="fa-solid fa-calendar-days icon-duration"></i>
+              <span>{{ project.duration }} Months Duration</span>
             </div>
           </div>
+
+          <div class="divider"></div>
+
+          <!-- Full Description -->
+          <h3 class="section-title">About This Project</h3>
+          <p class="description-text">{{ project.fullDescription }}</p>
+
+          <div class="divider"></div>
+
+          <!-- Farmer Details Card -->
+          <h3 class="section-title">Project Ownership</h3>
+          <div class="farmer-card">
+            <div class="farmer-avatar">
+              {{ project.farmerName ? project.farmerName.charAt(0).toUpperCase() : 'F' }}
+            </div>
+            <div class="farmer-info">
+              <span class="section-label">Farmer / Project Manager</span>
+              <h4>{{ project.farmerName }}</h4>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
 
-    <div class="col-lg-4">
+    <!-- Sidebar Financial Stats (Right) -->
+    <div class="sidebar-content">
       <div class="stats-sidebar-card">
+        <h4 class="sidebar-header">Funding Status</h4>
+
+        <!-- Funding Progress -->
         <div class="funding-info">
-          <div class="d-flex justify-content-between align-items-end">
+          <div class="funding-header">
             <div>
               <p class="label">EGP Raised</p>
-              <h2 class="amount">{{ project.fundingRaised | number }}</h2>
+              <h2 class="amount">EGP {{ project.fundingRaised | number }}</h2>
             </div>
             <div class="text-end">
-              <p class="target">of EGP {{ project.cost | number }}</p>
+              <p class="target">Goal: EGP {{ project.cost | number }}</p>
             </div>
           </div>
 
+          <!-- Custom Animated Progress Bar -->
           <div class="progress-container my-3">
             <div class="progress-bar-fill" [style.width.%]="project.fundingProgress"></div>
           </div>
-          <p class="remaining-text">{{ project.fundingProgress }}% funded</p>
+
+          <div class="progress-meta">
+            <span class="progress-percent">{{ project.fundingProgress }}% Funded</span>
+            <span class="backers-count"><i class="fa-solid fa-user-group me-1"></i>{{ project.investorsCount }} Backers</span>
+          </div>
         </div>
 
-        <div class="roi-duration-grid">
-          <div class="mini-card">
-            <p>{{ project.expectedRoi }}</p>
-            <span>Expected ROI</span>
+        <div class="divider"></div>
+
+        <!-- ROI & Profit Grid Cards -->
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <span class="metric-value text-roi">{{ project.expectedRoi }}</span>
+            <span class="metric-label">Expected ROI</span>
           </div>
-          <div class="mini-card">
-            <p>{{ project.expectedProfit | number }}</p>
-            <span>Exp. Profit (EGP)</span>
+          <div class="metric-box">
+            <span class="metric-value text-profit">EGP {{ project.expectedProfit | number }}</span>
+            <span class="metric-label">Expected Profit</span>
           </div>
         </div>
+
+        <!-- Extra Details -->
+        <div class="financial-summary-list">
+          <div class="summary-row">
+            <span>Total Project Cost</span>
+            <strong>EGP {{ project.cost | number }}</strong>
+          </div>
+          <div class="summary-row">
+            <span>Contract Duration</span>
+            <strong>{{ project.duration }} Months</strong>
+          </div>
+        </div>
+
       </div>
     </div>
-  </div>
-</div>
 
-<div *ngIf="!project" class="text-center p-5">
-  <div class="spinner-border text-success"></div>
-  <p>Loading project details...</p>
+  </div>
 </div>

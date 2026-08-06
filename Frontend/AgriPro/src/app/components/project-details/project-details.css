@@ -1,120 +1,336 @@
-/* الخلفية العامة للمحتوى عشان الكروت البيضاء تظهر */
+/* Container & Background */
 .project-details-container {
-  padding: 40px;
-  background-color: #f4f7f2; /* نفس درجة الرمادي المخضر الفاتح اللي في الصورة */
+  padding: 30px 40px;
+  background-color: #f4f7f2;
   min-height: 100vh;
+  font-family: inherit;
 }
 
-/* ضبط المسافات بين الأعمدة */
-.row {
+/* Button Back */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #0b4627;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+  .btn-back:hover {
+    background: #0b4627;
+    color: #ffffff;
+  }
+
+/* Custom Grid Layout */
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 25px;
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Main Content Card */
+.main-card {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+.card-status-bar {
   display: flex;
-  gap: 20px; /* المسافة بين الـ Main content والـ Sidebar */
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px 0;
 }
 
-/* تنسيق كارت الإحصائيات (اليمين) */
-.stats-sidebar-card {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 24px; /* زوايا دائرية أكتر زي الصورة */
-  border: 1px solid rgba(0,0,0,0.03);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+.badge-status {
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* النص الخاص بالعملة EGP */
-.label {
-  color: #1a1a1a;
+.status-published {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.crop-badge {
+  background: #f0f7f3;
+  color: #0b4627;
+  padding: 6px 14px;
+  border-radius: 50px;
   font-weight: 700;
-  margin-bottom: 2px;
-  font-size: 1.1rem;
+  font-size: 0.85rem;
 }
 
-.amount {
-  font-size: 2.2rem;
-  font-weight: 900;
+.content-padding {
+  padding: 25px 30px 30px;
+}
+
+.project-title {
+  font-size: 1.8rem;
+  font-weight: 800;
   color: #1a1a1a;
-  letter-spacing: -1px;
+  margin: 0;
 }
 
-.target {
+.project-subtitle {
   color: #6b7280;
+  font-size: 1.05rem;
+  margin-top: 4px;
+}
+
+/* Short Description Box */
+.short-desc-box {
+  background: #f8faf7;
+  border-left: 4px solid #0b4627;
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+  .short-desc-box p {
+    margin: 0;
+    color: #4b5563;
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+
+/* Meta Pills */
+.project-meta-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.meta-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f9fafb;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid #f3f4f6;
   font-size: 0.9rem;
+  color: #374151;
+  font-weight: 500;
 }
 
-/* شريط التقدم (البار) */
-.progress-container {
-  background: #e5e7eb;
-  height: 8px;
-  border-radius: 10px;
+.icon-location {
+  color: #dc2626;
 }
 
-.progress-bar-fill {
-  background: #28a745; /* اللون الأخضر الصريح */
-  height: 100%;
-  border-radius: 10px;
+.icon-users {
+  color: #2563eb;
 }
 
-/* كارت الـ Minimum Investment */
-.min-invest-box {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  padding: 15px 20px;
-  border-radius: 16px;
+.icon-duration {
+  color: #059669;
+}
+
+.divider {
+  height: 1px;
+  background: #f3f4f6;
   margin: 25px 0;
 }
 
-  .min-invest-box p {
-    margin: 0;
-    color: #6b7280;
-    font-size: 0.85rem;
-  }
-
-  .min-invest-box strong {
-    display: block;
-    font-size: 1.2rem;
-    color: #1a1a1a;
-    margin-top: 4px;
-  }
-
-/* زر الاستثمار */
-.btn-invest-now {
-  background: #0b4627;
-  color: #ffffff;
-  border: none;
-  padding: 18px;
-  border-radius: 50px; /* زرار بيضاوي زي الصورة */
+.section-title {
+  font-size: 1.2rem;
   font-weight: 700;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: 0.3s all;
+  color: #1a1a1a;
+  margin-bottom: 12px;
 }
 
-/* كارت المزارع (Farmer Card) */
+.description-text {
+  color: #4b5563;
+  line-height: 1.7;
+  font-size: 0.98rem;
+}
+
+/* Farmer Card */
 .farmer-card {
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px 20px;
+  background: #f9fafb;
+  border-radius: 16px;
   border: 1px solid #e5e7eb;
 }
 
-.section-label {
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 15px;
-  font-size: 1.1rem;
-}
-
 .farmer-avatar {
-  width: 55px;
-  height: 55px;
+  width: 50px;
+  height: 50px;
   background: #0b4627;
-  color: #fff;
+  color: #ffffff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 700;
 }
+
+.farmer-info .section-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.farmer-info h4 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* Sidebar & Cards */
+.stats-sidebar-card {
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 20px;
+}
+
+.sidebar-header {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+}
+
+.funding-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.label {
+  color: #6b7280;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.amount {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #0b4627;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.target {
+  color: #9ca3af;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Progress Bar */
+.progress-container {
+  background: #e5e7eb;
+  height: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  background: #28a745;
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.6s ease;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.progress-percent {
+  color: #28a745;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.metric-box {
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  padding: 14px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.metric-value {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.text-roi {
+  color: #1a1a1a;
+}
+
+.text-profit {
+  color: #0b4627;
+}
+
+.metric-label {
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+/* Summary Rows */
+.financial-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+  .summary-row strong {
+    color: #1a1a1a;
+  }

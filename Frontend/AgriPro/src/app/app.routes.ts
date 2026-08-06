@@ -125,7 +125,8 @@ export const routes: Routes = [
       { path: 'contracts', component: Contracts },       
       { path: 'profile', component: FarmerProfile2 },
       { path: 'project-details/:id', component: ProjectDetails },
-      { path: 'wallet', component: Wallet }
+      { path: 'wallet', component: Wallet },
+      
 
      /* {
         path: 'settings', component: Settings,
