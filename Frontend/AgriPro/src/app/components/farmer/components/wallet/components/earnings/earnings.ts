@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./earnings.css'],
 })
 export class Earnings {
+  @Input() totalReturns: number = 0;
+  @Input() pendingReturns: number = 0;
 
 }

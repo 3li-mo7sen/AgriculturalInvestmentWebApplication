@@ -3,6 +3,7 @@ import { environment } from '../../../environment/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FarmerWalletData } from '../../models/farmer-wallet-data';
 
 @Injectable({
   providedIn: 'root',
@@ -48,8 +49,8 @@ export class FarmerService {
     return this._http.post(`${environment.baseUrl}/api/Project/Create-Project`, formData);
   }
 
-  getWallet(): Observable<any> {
-    return this._http.get(`${environment.baseUrl}/api/Farmer/Get-Farmer-Wallet`);
+  getWallet(): Observable<FarmerWalletData> {
+    return this._http.get < FarmerWalletData>(`${environment.baseUrl}/api/Farmer/Get-Farmer-Wallet`);
   }
 
   getContracts(): Observable<any[]> {

@@ -1,4 +1,5 @@
 <section class="wallet-cards-grid">
+  <!-- Current Balance -->
   <article class="wallet-card card-green">
     <div class="wallet-card-action action-green">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -7,11 +8,12 @@
     </div>
     <div>
       <p class="wallet-card-label">Current Balance</p>
-      <h3>EGP 125,000</h3>
+      <h3>EGP {{ balance | number }}</h3>
       <p class="wallet-card-note">Available for withdrawal</p>
     </div>
   </article>
 
+  <!-- Total Raised -->
   <article class="wallet-card card-white">
     <div class="wallet-card-action action-success">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -20,12 +22,13 @@
       </svg>
     </div>
     <div>
-      <p class="wallet-card-label">Total Received</p>
-      <h3>EGP 472,500</h3>
+      <p class="wallet-card-label">Total Raised</p>
+      <h3>EGP {{ totalRaised | number }}</h3>
       <p class="wallet-card-note">From all investments</p>
     </div>
   </article>
 
+  <!-- Pending Returns -->
   <article class="wallet-card card-white">
     <div class="wallet-card-action action-amber">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -34,12 +37,13 @@
       </svg>
     </div>
     <div>
-      <p class="wallet-card-label">Pending Transfers</p>
-      <h3>EGP 25,000</h3>
+      <p class="wallet-card-label">Pending Returns</p>
+      <h3>EGP {{ pendingReturns | number }}</h3>
       <p class="wallet-card-note">Processing</p>
     </div>
   </article>
 
+  <!-- Total Returns -->
   <article class="wallet-card card-white">
     <div class="wallet-card-action action-muted">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -48,8 +52,8 @@
       </svg>
     </div>
     <div>
-      <p class="wallet-card-label">Total Withdrawn</p>
-      <h3>EGP 322,500</h3>
+      <p class="wallet-card-label">Total Returns</p>
+      <h3>EGP {{ totalReturns | number }}</h3>
       <p class="wallet-card-note">All time</p>
     </div>
   </article>

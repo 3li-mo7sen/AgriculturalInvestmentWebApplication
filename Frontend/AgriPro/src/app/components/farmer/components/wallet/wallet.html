@@ -1,47 +1,70 @@
 <section class="wallet-page">
-  <app-wallet-cards></app-wallet-cards>
 
-  <div class="wallet-layout">
-    <div class="wallet-main">
-      <app-transaction-history></app-transaction-history>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="wallet-skeleton">
+    <!-- Skeleton Cards Grid -->
+    <div class="skeleton-cards-grid">
+      <div class="skeleton-card" *ngFor="let i of [1,2,3,4]"></div>
     </div>
-    <aside class="wallet-sidebar">
-      <app-quick-actions (withdrawFunds)="openWithdraw()"></app-quick-actions>
-      <app-linked-bank></app-linked-bank>
-      <app-earnings></app-earnings>
-    </aside>
-  </div>
 
-  <div class="wallet-modal-backdrop" *ngIf="showWithdrawModal" (click)="closeModal()">
-    <div class="wallet-modal" (click)="$event.stopPropagation()">
-      <button class="modal-close" aria-label="Close" (click)="closeModal()">×</button>
-      <h2>Withdraw Funds</h2>
-      <p class="modal-subtitle">Transfer funds to your linked bank account</p>
-
-      <div class="balance-card">
-        <p>Available Balance</p>
-        <strong>EGP 125,000</strong>
+    <!-- Skeleton Layout -->
+    <div class="wallet-layout">
+      <div class="wallet-main">
+        <div class="skeleton-block skeleton-history"></div>
       </div>
-
-      <label class="field-label" for="withdraw-amount">Withdrawal Amount (EGP)</label>
-      <input id="withdraw-amount" type="number" placeholder="Enter amount" class="modal-input" />
-
-      <label class="field-label" for="bank-account">Withdraw To</label>
-      <button id="bank-account" class="account-select" type="button">
-        National Bank of Egypt - ****4521
-        <span class="select-arrow">▾</span>
-      </button>
-
-      <div class="modal-note">
-        Processing time: 2-3 business days
-        <br />
-        No withdrawal fees
-      </div>
-
-      <div class="modal-actions">
-        <button class="modal-btn modal-cancel" type="button" (click)="closeModal()">Cancel</button>
-        <button class="modal-btn modal-submit" type="button">Confirm Withdrawal</button>
-      </div>
+      <aside class="wallet-sidebar">
+        <div class="skeleton-block skeleton-earnings"></div>
+      </aside>
     </div>
   </div>
+
+  <ng-container *ngIf="!isLoading && walletData">
+    <app-wallet-cards [balance]="walletData.balance"
+                      [totalRaised]="walletData.totalRaised"
+                      [totalReturns]="walletData.totalReturns"
+                      [pendingReturns]="walletData.pendingReturns">
+    </app-wallet-cards>
+
+    <div class="wallet-layout">
+      <div class="wallet-main">
+        <app-transaction-history [transactions]="walletData.transactions">
+        </app-transaction-history>
+      </div>
+
+      <aside class="wallet-sidebar">
+        <!-- 🟢 محتوى الـ Sidebar المتبقي (الأرباح فقط) -->
+        <app-earnings [totalReturns]="walletData.totalReturns"
+                      [pendingReturns]="walletData.pendingReturns">
+        </app-earnings>
+      </aside>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div class="wallet-modal-backdrop" *ngIf="showWithdrawModal" (click)="closeModal()">
+      <div class="wallet-modal" (click)="$event.stopPropagation()">
+        <button class="modal-close" aria-label="Close" (click)="closeModal()">×</button>
+        <h2>Withdraw Funds</h2>
+        <p class="modal-subtitle">Transfer funds to your bank account</p>
+
+        <div class="balance-card">
+          <p>Available Balance</p>
+          <strong>EGP {{ walletData.balance | number }}</strong>
+        </div>
+
+        <label class="field-label" for="withdraw-amount">Withdrawal Amount (EGP)</label>
+        <input id="withdraw-amount" type="number" placeholder="Enter amount" class="modal-input" />
+
+        <div class="modal-note">
+          Processing time: 2-3 business days
+          <br />
+          No withdrawal fees
+        </div>
+
+        <div class="modal-actions">
+          <button class="modal-btn modal-cancel" type="button" (click)="closeModal()">Cancel</button>
+          <button class="modal-btn modal-submit" type="button">Confirm Withdrawal</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </section>

@@ -32,18 +32,23 @@
         <i class="fa-regular fa-file-lines"></i>
         <span *ngIf="!isCollapsed">Contracts</span>
       </a>
-      
+
+      <a routerLink="wallet" routerLinkActive="active-link">
+        <i class="fa-solid fa-wallet"></i>
+        <span *ngIf="!isCollapsed">My Wallet</span>
+      </a>
+
       <a routerLink="profile" routerLinkActive="active-link">
         <i class="fa-regular fa-user"></i>
         <span *ngIf="!isCollapsed">My Profile</span>
       </a>
-  
+
       <!--
-        <a routerLink="settings" routerLinkActive="active-link">
-          <i class="fa-solid fa-gear"></i>
-          <span *ngIf="!isCollapsed">Settings</span>
-        </a>
-    -->
+      <a routerLink="settings" routerLinkActive="active-link">
+        <i class="fa-solid fa-gear"></i>
+        <span *ngIf="!isCollapsed">Settings</span>
+      </a>
+  -->
     </nav>
 
     <div class="sidebar-footer">
