@@ -1,4 +1,17 @@
-<app-expert-dash-cards></app-expert-dash-cards>
-<app-expert-dash-reviews></app-expert-dash-reviews>
-<app-expert-dash-activity></app-expert-dash-activity>
-<app-expert-dash-performance></app-expert-dash-performance>
+<!-- Loading Spinner State -->
+<div *ngIf="isLoading" class="text-center p-5">
+  <div class="spinner-border text-success" role="status"></div>
+  <p class="mt-2 text-muted">Loading Expert Dashboard...</p>
+</div>
+
+<!-- Dashboard Data View -->
+<ng-container *ngIf="!isLoading && dashboardData">
+  <!-- Cards Metrics -->
+  <app-expert-dash-cards [data]="dashboardData"></app-expert-dash-cards>
+
+  <!-- Recent / Pending Reviews Table -->
+  <app-expert-dash-reviews [reviews]="dashboardData.recentReviews"></app-expert-dash-reviews>
+
+  <!-- Expert Performance Overview -->
+  <app-expert-dash-performance [data]="dashboardData"></app-expert-dash-performance>
+</ng-container>

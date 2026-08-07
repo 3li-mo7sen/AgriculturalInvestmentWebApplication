@@ -1,5 +1,24 @@
 <div class="verified-page-content">
-  <app-expert-verified-cards></app-expert-verified-cards>
-  <app-expert-verified-search></app-expert-verified-search>
-  <app-expert-verified-projects></app-expert-verified-projects>
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center p-5">
+    <div class="spinner-border text-success" role="status"></div>
+    <p class="mt-2 text-muted">Loading verified projects...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <!-- Cards Metrics -->
+    <app-expert-verified-cards [totalVerified]="totalVerified"
+                               [totalFunding]="totalFunding"
+                               [totalInvestors]="totalInvestors">
+    </app-expert-verified-cards>
+
+    <!-- Search & Filter Bar -->
+    <app-expert-verified-search (searchChange)="onSearchChange($event)"
+                                (filterChange)="onFilterChange($event)">
+    </app-expert-verified-search>
+
+    <!-- Projects Grid -->
+    <app-expert-verified-projects [projects]="filteredProjects">
+    </app-expert-verified-projects>
+  </ng-container>
 </div>

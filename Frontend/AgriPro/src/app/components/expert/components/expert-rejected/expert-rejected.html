@@ -1,16 +1,23 @@
 <section class="expert-rejected-page">
-  <app-expert-rejected-cards [cards]="summaryCards"></app-expert-rejected-cards>
+ 
+  <div *ngIf="isLoading" class="text-center p-5">
+    <div class="spinner-border text-danger" role="status"></div>
+    <p class="mt-2 text-muted">Loading rejected projects...</p>
+  </div>
 
-  <app-expert-rejected-search
-    [searchQuery]="searchQuery"
-    [selectedCrop]="selectedCrop"
-    [selectedDateRange]="selectedDateRange"
-    [cropOptions]="['All Crops', 'Wheat', 'Fruits', 'Rice', 'Maize']"
-    [dateRangeOptions]="['All Time', 'Last 30 Days', 'Last 90 Days']"
-    (searchChange)="onSearch($event)"
-    (cropChange)="onCrop($event)"
-    (dateRangeChange)="onDateRange($event)"
-  ></app-expert-rejected-search>
+  <ng-container *ngIf="!isLoading">
+    <app-expert-rejected-cards [cards]="summaryCards"></app-expert-rejected-cards>
 
-  <app-expert-rejected-list [projects]="filteredProjects"></app-expert-rejected-list>
+    <app-expert-rejected-search [searchQuery]="searchQuery"
+                                [selectedCrop]="selectedCrop"
+                                [selectedDateRange]="selectedDateRange"
+                                [cropOptions]="['All Crops', 'Wheat', 'Fruits', 'Rice', 'Maize']"
+                                [dateRangeOptions]="['All Time', 'Last 30 Days', 'Last 90 Days']"
+                                (searchChange)="onSearch($event)"
+                                (cropChange)="onCrop($event)"
+                                (dateRangeChange)="onDateRange($event)">
+    </app-expert-rejected-search>
+
+    <app-expert-rejected-list [projects]="filteredProjects"></app-expert-rejected-list>
+  </ng-container>
 </section>

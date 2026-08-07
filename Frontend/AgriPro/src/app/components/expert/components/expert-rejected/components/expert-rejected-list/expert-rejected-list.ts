@@ -1,24 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RejectedProject } from '../../../../../../models/expert-rejected';
 
-interface RejectedProject {
-  project: string;
-  location: string;
-  farmer: string;
-  email: string;
-  phone: string;
-  rejectedOn: string;
-  rejectedDaysAgo: number;
-  status: 'Rejected' | 'Under Appeal';
-  reason: string;
-  crop: string;
-  size: string;
-  fundingGoal: string;
-  expectedROI: string;
-  rejectionDetails: string;
-  documents: { pdf: number; images: number };
-  documentsList: { name: string; type: string }[];
-}
+
 
 @Component({
   standalone: true,

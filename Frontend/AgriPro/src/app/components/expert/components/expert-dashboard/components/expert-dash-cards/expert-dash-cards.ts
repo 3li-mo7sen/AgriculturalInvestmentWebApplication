@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, input, OnChanges } from '@angular/core';
+import { ExpertDashboardData } from '../../../../../../models/expert-dashboard';
 
 interface ExpertCard {
   title: string;
@@ -16,35 +17,43 @@ interface ExpertCard {
   templateUrl: './expert-dash-cards.html',
   styleUrls: ['./expert-dash-cards.css'],
 })
-export class ExpertDashCards {
-  cards: ExpertCard[] = [
-    {
-      title: 'Pending Reviews',
-      value: '8',
-      meta: '3 urgent',
-      icon: 'fa-regular fa-clock',
-      iconClass: 'icon-warning'
-    },
-    {
-      title: 'Verified This Month',
-      value: '24',
-      meta: '+6 from last month',
-      icon: 'fa-regular fa-circle-check',
-      iconClass: 'icon-success'
-    },
-    {
-      title: 'Rejected This Month',
-      value: '3',
-      meta: '12% rejection rate',
-      icon: 'fa-regular fa-circle-xmark',
-      iconClass: 'icon-danger'
-    },
-    {
-      title: 'In Progress',
-      value: '5',
-      meta: 'Currently reviewing',
-      icon: 'fa-regular fa-clipboard',
-      iconClass: 'icon-info'
+export class ExpertDashCards implements OnChanges{
+  @Input() data: ExpertDashboardData|null=null;
+
+  cards: ExpertCard[] = [];
+
+  ngOnChanges(): void {
+    if (this.data) {
+      this.cards = [
+        {
+          title: 'Pending Reviews',
+          value: String(this.data.pendingReviews ?? 0),
+          meta: 'Awaiting your review',
+          icon: 'fa-regular fa-clock',
+          iconClass: 'icon-warning'
+        },
+        {
+          title: 'Completed Reviews',
+          value: String(this.data.completedReviews ?? 0),
+          meta: 'Successfully processed',
+          icon: 'fa-regular fa-circle-check',
+          iconClass: 'icon-success'
+        },
+        {
+          title: 'Approval Rate',
+          value: this.data.approvalRate ?? '0%',
+          meta: 'Overall acceptance',
+          icon: 'fa-regular fa-chart-bar',
+          iconClass: 'icon-info'
+        },
+        {
+          title: 'Avg. Review Time',
+          value: `${this.data.averageReviewTime ?? 0} Days`,
+          meta: 'Average turnaround',
+          icon: 'fa-solid fa-hourglass-half',
+          iconClass: 'icon-muted'
+        }
+      ];
     }
-  ];
+  }
 }

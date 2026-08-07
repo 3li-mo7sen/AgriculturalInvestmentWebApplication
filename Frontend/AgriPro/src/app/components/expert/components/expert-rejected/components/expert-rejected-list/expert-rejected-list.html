@@ -12,29 +12,30 @@
       <span>Farmer</span>
       <span>Rejected On</span>
       <span>Reason</span>
-      <span>Status</span>
+      <span>Resubmission</span>
       <span>Actions</span>
     </div>
 
     <div class="rejected-row" *ngFor="let project of projects">
       <div class="project-cell">
-        <strong>{{ project.project }}</strong>
-        <span>{{ project.location }}</span>
+        <strong>{{ project.title }}</strong>
       </div>
       <div class="farmer-cell">
-        <strong>{{ project.farmer }}</strong>
-        <span>{{ project.phone }}</span>
+        <strong>{{ project.farmerName }}</strong>
       </div>
       <div class="date-cell">
-        <strong>{{ project.rejectedOn }}</strong>
-        <span>{{ project.crop }} • {{ project.size }}</span>
+        <strong>{{ project.rejectionDate | date: 'mediumDate' }}</strong>
       </div>
       <div class="reason-cell">
-        <span>{{ project.reason }}</span>
+        <span>{{ project.rejectionReason }}</span>
       </div>
       <div class="status-cell">
-        <span class="status-badge" [ngClass]="{ 'status-rejected': project.status === 'Rejected', 'status-appeal': project.status === 'Under Appeal' }">
-          {{ project.status }}
+        <span class="status-badge"
+              [ngClass]="{
+            'status-appeal': project.resubmissionAllowed,
+            'status-rejected': !project.resubmissionAllowed
+          }">
+          {{ project.resubmissionAllowed ? 'Allowed' : 'Not Allowed' }}
         </span>
       </div>
       <div class="actions-cell">
@@ -45,16 +46,19 @@
       </div>
     </div>
 
-    <div *ngIf="projects.length === 0" class="no-results">No rejected projects match the selected filters.</div>
+    <div *ngIf="projects.length === 0" class="no-results">
+      No rejected projects match the selected filters.
+    </div>
   </div>
 </section>
+
 
 <div class="rejected-modal-backdrop" *ngIf="selectedProject as project" (click)="closeProject()">
   <div class="rejected-modal" (click)="$event.stopPropagation()">
     <button class="modal-close" type="button" aria-label="Close" (click)="closeProject()">×</button>
     <div class="modal-heading">
       <div>
-        <h2>Rejected Project</h2>
+        <h2>Rejected Project Details</h2>
         <p>Review the details and reason for the rejected submission.</p>
       </div>
     </div>
@@ -63,19 +67,15 @@
       <h3>Project Information</h3>
       <div class="info-grid">
         <span>Project</span>
-        <strong>{{ project.project }}</strong>
+        <strong>{{ project.title }}</strong>
         <span>Farmer</span>
-        <strong>{{ project.farmer }}</strong>
-        <span>Email</span>
-        <strong>{{ project.email }}</strong>
-        <span>Location</span>
-        <strong>{{ project.location }}</strong>
-        <span>Land Size</span>
-        <strong>{{ project.size }}</strong>
-        <span>Crop Type</span>
-        <strong>{{ project.crop }}</strong>
-        <span>Rejected</span>
-        <strong>{{ project.rejectedOn }}</strong>
+        <strong>{{ project.farmerName }}</strong>
+        <span>Status</span>
+        <strong>{{ project.status }}</strong>
+        <span>Rejected Date</span>
+        <strong>{{ project.rejectionDate | date: 'mediumDate' }}</strong>
+        <span>Resubmission</span>
+        <strong>{{ project.resubmissionAllowed ? 'Allowed' : 'Not Allowed' }}</strong>
       </div>
     </div>
 
@@ -84,12 +84,7 @@
         <span class="rejection-icon">!</span>
         <h3>Rejection Reason</h3>
       </div>
-      <p>{{ project.reason }}</p>
-    </div>
-
-    <div class="modal-card">
-      <h3>Detailed notes</h3>
-      <p>{{ project.rejectionDetails }}</p>
+      <p>{{ project.rejectionReason }}</p>
     </div>
 
     <div class="modal-actions">

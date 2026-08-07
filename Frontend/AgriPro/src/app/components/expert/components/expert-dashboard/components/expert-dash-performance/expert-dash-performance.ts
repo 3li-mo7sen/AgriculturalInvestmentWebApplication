@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ExpertDashboardData } from '../../../../../../models/expert-dashboard';
 
 interface PerformanceMetric {
   label: string;
@@ -15,26 +16,34 @@ interface PerformanceMetric {
   styleUrls: ['./expert-dash-performance.css'],
 })
 export class ExpertDashPerformance {
-  metrics: PerformanceMetric[] = [
-    {
-      label: 'Avg. Review Time',
-      value: '2.4',
-      unit: 'hours'
-    },
-    {
-      label: 'Accuracy Rate',
-      value: '98.5',
-      unit: '%'
-    },
-    {
-      label: 'Total Reviewed',
-      value: '156',
-      unit: ''
-    },
-    {
-      label: 'Expert Rating',
-      value: '4.9',
-      unit: '/5'
+  @Input() data!: ExpertDashboardData;
+
+  metrics: PerformanceMetric[] = [];
+
+  ngOnChanges(): void {
+    if (this.data) {
+      this.metrics = [
+        {
+          label: 'Approval Rate',
+          value: this.data.approvalRate ?? '0%',
+          unit: ''
+        },
+        {
+          label: 'Avg. Review Time',
+          value: String(this.data.averageReviewTime ?? 0),
+          unit: 'Days'
+        },
+        {
+          label: 'Completed Reviews',
+          value: String(this.data.completedReviews ?? 0),
+          unit: 'Total'
+        },
+        {
+          label: 'Pending Queue',
+          value: String(this.data.pendingReviews ?? 0),
+          unit: 'Items'
+        }
+      ];
     }
-  ];
+  }
 }
