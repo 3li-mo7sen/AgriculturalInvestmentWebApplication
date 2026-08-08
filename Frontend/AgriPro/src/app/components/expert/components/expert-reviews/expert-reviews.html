@@ -1,14 +1,29 @@
 <section class="expert-reviews-page">
-  <app-expert-reviews-search
-    [searchQuery]="searchQuery"
-    [selectedUrgency]="urgencyFilter"
-    [selectedCrop]="cropFilter"
-    [urgencyOptions]="['All Urgency', 'High', 'Medium', 'Low']"
-    [cropOptions]="['All Crops', 'Wheat', 'Fruits', 'Rice']"
-    (searchChange)="onSearch($event)"
-    (urgencyChange)="onUrgency($event)"
-    (cropChange)="onCrop($event)"
-  ></app-expert-reviews-search>
 
-  <app-expert-reviews-list [reviews]="filteredReviews"></app-expert-reviews-list>
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner-wrapper">
+      <div class="custom-spinner"></div>
+      <p class="loading-text">Loading pending reviews...</p>
+    </div>
+
+    
+    <div class="skeleton-card header-skeleton"></div>
+    <div class="skeleton-card table-skeleton">
+      <div class="skeleton-row" *ngFor="let item of [1, 2, 3]"></div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <app-expert-reviews-search [searchQuery]="searchQuery"
+                               [selectedUrgency]="urgencyFilter"
+                               [selectedCrop]="cropFilter"
+                               [urgencyOptions]="['All Urgency', 'High', 'Medium', 'Low']"
+                               [cropOptions]="['All Crops', 'Wheat', 'Corn', 'Fruits', 'Rice']"
+                               (searchChange)="onSearch($event)"
+                               (urgencyChange)="onUrgency($event)"
+                               (cropChange)="onCrop($event)"></app-expert-reviews-search>
+
+    <app-expert-reviews-list [reviews]="filteredReviews"
+                             (actionSuccess)="onProjectActionSuccess()"></app-expert-reviews-list>
+  </ng-container>
 </section>

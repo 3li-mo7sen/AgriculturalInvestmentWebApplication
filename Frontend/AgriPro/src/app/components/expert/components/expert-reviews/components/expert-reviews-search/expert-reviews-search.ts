@@ -9,24 +9,24 @@ import { CommonModule } from '@angular/common';
 })
 export class ExpertReviewsSearch {
   @Input() searchQuery = '';
-  @Input() selectedUrgency: 'All Urgency' | 'High' | 'Medium' | 'Low' = 'All Urgency';
-  @Input() selectedCrop: 'All Crops' | 'Wheat' | 'Fruits' | 'Rice' = 'All Crops';
+  @Input() selectedUrgency = 'All Urgency';
+  @Input() selectedCrop = 'All Crops';
   @Input() urgencyOptions: string[] = [];
   @Input() cropOptions: string[] = [];
 
   @Output() searchChange = new EventEmitter<string>();
-  @Output() urgencyChange = new EventEmitter<'All Urgency' | 'High' | 'Medium' | 'Low'>();
-  @Output() cropChange = new EventEmitter<'All Crops' | 'Wheat' | 'Fruits' | 'Rice'>();
+  @Output() urgencyChange = new EventEmitter<any>();
+  @Output() cropChange = new EventEmitter<string>();
 
   updateSearch(value: string) {
     this.searchChange.emit(value);
   }
 
   updateUrgency(value: string) {
-    this.urgencyChange.emit(value as 'All Urgency' | 'High' | 'Medium' | 'Low');
+    this.urgencyChange.emit(value);
   }
 
   updateCrop(value: string) {
-    this.cropChange.emit(value as 'All Crops' | 'Wheat' | 'Fruits' | 'Rice');
+    this.cropChange.emit(value);
   }
 }

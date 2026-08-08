@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environment/environment';
 import { VerifiedProject } from '../../models/expert-verified';
 import { RejectedProject } from '../../models/expert-rejected';
+import { PendingProject, RejectProjectRequest, VerifyProjectRequest } from '../../models/expert-pending';
 
 @Injectable({
   providedIn: 'root',
@@ -29,5 +30,26 @@ export class ExpertService {
       `${environment.baseUrl}/api/Expert/Get-Rejected-Projects`
     );
   }
+
+  getPendingProjects(): Observable<PendingProject[]> {
+    return this.http.get<PendingProject[]>(
+      `${environment.baseUrl}/api/Expert/Get-Pending-Projects`
+    );
+  }
+
   
+  verifyProject(id: number, body: VerifyProjectRequest = {}): Observable<any> {
+    return this.http.put(
+      `${environment.baseUrl}/api/Expert/Verify-Project/${id}`,
+      body
+    );
+  }
+
+  
+  rejectProject(id: number, body: RejectProjectRequest): Observable<any> {
+    return this.http.put(
+      `${environment.baseUrl}/api/Expert/Reject-Project/${id}`,
+      body
+    );
+  }
 }

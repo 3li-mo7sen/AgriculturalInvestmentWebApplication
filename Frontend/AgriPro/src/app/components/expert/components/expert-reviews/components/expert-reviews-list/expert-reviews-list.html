@@ -12,37 +12,183 @@
       <span>Farmer</span>
       <span>Land Details</span>
       <span>Documents</span>
-      <span>Urgency</span>
+      <span>Status</span>
       <span>Actions</span>
     </div>
 
     <div class="reviews-row" *ngFor="let review of reviews">
       <div class="project-cell">
-        <strong>{{ review.project }}</strong>
-        <span>{{ review.location }}</span>
+        
+        <strong>{{ review.name }}</strong>
+        <span><i class="fa-solid fa-location-dot"></i>{{ review.governorate }} {{ review.district ? '- ' + review.district : '' }}</span>
       </div>
       <div class="farmer-cell">
-        <strong>{{ review.farmer }}</strong>
-        <span>{{ review.submitted }}</span>
+        <strong>{{ review.farmerName }}</strong>
+        
       </div>
       <div class="details-cell">
-        <strong>{{ review.landDetails }}</strong>
-        <span>{{ review.soilType }}</span>
+        <strong>{{ review.landSize }} Acres/Feddan</strong>
+        <span>{{ review.cropType }} ({{ review.soilType }})</span>
       </div>
       <div class="documents-cell">
-        <span class="doc-item">📄 {{ review.documents.pdf }}</span>
-        <span class="doc-item">🖼️ {{ review.documents.images }}</span>
+        <span class="doc-item" *ngIf="review.landOwnershipDocUrl"><i class="fa-regular fa-file-lines"></i> Deed</span>
+        <span class="doc-item" *ngIf="review.nationalIdDocUrl"><i class="fa-regular fa-id-card"></i> ID</span>
+        <span class="doc-item" *ngIf="review.agriculturalPermitDocUrl">📜 Permit</span>
+        <span class="doc-item" *ngIf="review.waterRightsDocUrl">💧 Water</span>
       </div>
       <div class="urgency-cell">
-        <span class="urgency-badge" [class.urgency-high]="review.urgency === 'High'" [class.urgency-medium]="review.urgency === 'Medium'" [class.urgency-low]="review.urgency === 'Low'">
-          {{ review.urgency }}
+        <span class="urgency-badge urgency-medium">
+          {{ review.status }}
         </span>
       </div>
       <div class="actions-cell">
-        <button type="button">Review</button>
+        <button type="button" class="btn-review" (click)="openReview(review)">Review</button>
       </div>
     </div>
 
     <div *ngIf="reviews.length === 0" class="no-results">No reviews match the selected filters.</div>
   </div>
 </section>
+
+
+<div class="modal-overlay" *ngIf="selectedReview" (click)="closeReview()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <button type="button" class="close-btn" (click)="closeReview()">✕</button>
+
+    <h2>{{ selectedReview.name }}</h2>
+    <p class="subtitle">{{ selectedReview.shortDescription || 'Review project details, documents, and make a decision' }}</p>
+
+    <div class="modal-scroll-body">
+      
+      <div class="info-section">
+        <h3>Farmer Information</h3>
+        <div class="info-grid">
+          <div><span class="label">Name:</span> <strong>{{ selectedReview.farmerName }}</strong></div>
+          <div><span class="label">Farmer ID:</span> <strong>#{{ selectedReview.farmerId }}</strong></div>
+        </div>
+      </div>
+
+     
+      <div class="info-section">
+        <h3>Land Details</h3>
+        <div class="info-grid">
+          <div><span class="label">Location:</span> <strong>{{ selectedReview.governorate }}, {{ selectedReview.district }}</strong></div>
+          <div><span class="label">Size:</span> <strong>{{ selectedReview.landSize }} Feddan/Acres</strong></div>
+          <div><span class="label">Crop:</span> <strong>{{ selectedReview.cropType }} ({{ selectedReview.expectedCropSeason }})</strong></div>
+          <div><span class="label">Soil / Water:</span> <strong>{{ selectedReview.soilType }} / {{ selectedReview.waterSource }}</strong></div>
+          <div><span class="label">Ownership:</span> <strong>{{ selectedReview.landOwnershipType }}</strong></div>
+          <div><span class="label">Duration:</span> <strong>{{ selectedReview.duration }} Months</strong></div>
+        </div>
+      </div>
+
+      
+      <div class="info-section">
+        <h3>Documents to Review</h3>
+
+        <div class="doc-item-row" *ngIf="selectedReview.landOwnershipDocUrl">
+          <div class="doc-title">
+            <span class="doc-type-icon"><i class="fa-regular fa-file-lines"></i></span>
+            <span>Land Ownership Document</span>
+          </div>
+          <a [href]="getDocUrl(selectedReview.landOwnershipDocUrl)" target="_blank" class="btn-doc-view">
+            <span class="view-icon">👁️</span> View Document
+          </a>
+        </div>
+
+        <div class="doc-item-row" *ngIf="selectedReview.nationalIdDocUrl">
+          <div class="doc-title">
+            <span class="doc-type-icon"><i class="fa-regular fa-id-card"></i></span>
+            <span>National ID Document</span>
+          </div>
+          <a [href]="getDocUrl(selectedReview.nationalIdDocUrl)" target="_blank" class="btn-doc-view">
+            <span class="view-icon">👁️</span> View Document
+          </a>
+        </div>
+
+        <div class="doc-item-row" *ngIf="selectedReview.agriculturalPermitDocUrl">
+          <div class="doc-title">
+            <span class="doc-type-icon">📜</span>
+            <span>Agricultural Permit</span>
+          </div>
+          <a [href]="getDocUrl(selectedReview.agriculturalPermitDocUrl)" target="_blank" class="btn-doc-view">
+            <span class="view-icon">👁️</span> View Document
+          </a>
+        </div>
+
+        <div class="doc-item-row" *ngIf="selectedReview.waterRightsDocUrl">
+          <div class="doc-title">
+            <span class="doc-type-icon">💧</span>
+            <span>Water Rights Document</span>
+          </div>
+          <a [href]="getDocUrl(selectedReview.waterRightsDocUrl)" target="_blank" class="btn-doc-view">
+            <span class="view-icon">👁️</span> View Document
+          </a>
+        </div>
+
+        <div *ngIf="!selectedReview.landOwnershipDocUrl && !selectedReview.nationalIdDocUrl && !selectedReview.agriculturalPermitDocUrl && !selectedReview.waterRightsDocUrl" class="no-docs-text">
+          No documents uploaded for this project.
+        </div>
+      </div>
+
+      
+      <div class="info-section">
+        <h3>Investment & Profit Details</h3>
+        <div class="info-grid">
+          <div><span class="label">Total Cost:</span> <strong>EGP {{ selectedReview.cost | number }}</strong></div>
+          <div><span class="label">Expected Profit:</span> <strong class="text-success">EGP {{ selectedReview.expectedProfit | number }}</strong></div>
+          <div><span class="label">Farmer Share:</span> <strong>{{ selectedReview.farmerProfitShare }}%</strong></div>
+          <div><span class="label">Investor Share:</span> <strong>{{ selectedReview.investorProfitShare }}%</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" (click)="closeReview()">Cancel</button>
+      <button type="button" class="btn-danger" (click)="openRejectModal()">ⓧ Reject</button>
+      <button type="button" class="btn-success" (click)="openVerifyModal()">📑 Verify</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-overlay sub-modal" *ngIf="showVerifyModal" (click)="closeVerifyModal()">
+  <div class="modal-card small-card" (click)="$event.stopPropagation()">
+    <button type="button" class="close-btn" (click)="closeVerifyModal()">✕</button>
+    <h2>Verify Project</h2>
+    <p class="subtitle">Are you sure you want to verify "{{ selectedReview?.name }}"?</p>
+
+    <div class="modal-footer mt-4">
+      <button type="button" class="btn-secondary" (click)="closeVerifyModal()">Cancel</button>
+      <button type="button" class="btn-success" [disabled]="isSubmitting" (click)="confirmVerify()">
+        {{ isSubmitting ? 'Verifying...' : '📑 Confirm Verification' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-overlay sub-modal" *ngIf="showRejectModal" (click)="closeRejectModal()">
+  <div class="modal-card small-card" (click)="$event.stopPropagation()">
+    <button type="button" class="close-btn" (click)="closeRejectModal()">✕</button>
+    <h2>Reject Project</h2>
+    <p class="subtitle">Provide rejection reason for "{{ selectedReview?.name }}"</p>
+
+    <div class="form-group my-3">
+      <label>Rejection Reason</label>
+      <textarea class="form-textarea"
+                rows="3"
+                [(ngModel)]="rejectionReason"
+                placeholder="e.g., Incomplete ownership documents..."></textarea>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" (click)="closeRejectModal()">Cancel</button>
+      <button type="button"
+              class="btn-danger"
+              [disabled]="isSubmitting || !rejectionReason.trim()"
+              (click)="confirmReject()">
+        {{ isSubmitting ? 'Rejecting...' : 'ⓧ Confirm Rejection' }}
+      </button>
+    </div>
+  </div>
+</div>

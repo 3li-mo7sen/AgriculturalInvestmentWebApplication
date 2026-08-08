@@ -1,125 +1,67 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ExpertReviewsSearch } from './components/expert-reviews-search/expert-reviews-search';
 import { ExpertReviewsList } from './components/expert-reviews-list/expert-reviews-list';
+import { CommonModule } from '@angular/common';
+import { PendingProject } from '../../../../models/expert-pending';
+import { ExpertService } from '../../../../services/expertService/expert.service';
 
-interface ReviewItem {
-  project: string;
-  location: string;
-  landDetails: string;
-  farmer: string;
-  phone: string;
-  submitted: string;
-  size: string;
-  crop: string;
-  soilType: string;
-  water: string;
-  ownership: string;
-  documents: { pdf: number; images: number };
-  documentsList: { name: string; type: string }[];
-  fundingGoal: string;
-  expectedROI: string;
-  urgency: 'High' | 'Medium' | 'Low';
-}
+
 
 @Component({
   selector: 'app-expert-reviews',
-  imports: [ExpertReviewsList, ExpertReviewsSearch],
+  imports: [ExpertReviewsList, ExpertReviewsSearch,CommonModule],
   templateUrl: './expert-reviews.html',
   styleUrls: ['./expert-reviews.css'],
 })
 export class ExpertReviews {
+  pendingProjects: PendingProject[] = [];
+  isLoading = true;
+
   searchQuery = '';
   urgencyFilter: 'All Urgency' | 'High' | 'Medium' | 'Low' = 'All Urgency';
-  cropFilter: 'All Crops' | 'Wheat' | 'Fruits' | 'Rice' = 'All Crops';
+  cropFilter: 'All Crops' | 'Wheat' | 'Fruits' | 'Rice' | string = 'All Crops';
 
-  reviews: ReviewItem[] = [
-    {
-      project: 'Wheat Farm Investment',
-      location: 'Kafr El-Sheikh, Beheira',
-      landDetails: '15 Feddan',
-      farmer: 'Ahmed Hassan',
-      phone: '+20 100 XXX XXXX',
-      submitted: '2 hours ago',
-      size: '15 Feddan',
-      crop: 'Wheat',
-      soilType: 'Fertile Black',
-      water: 'Nile Irrigation',
-      ownership: 'Owned',
-      documents: { pdf: 4, images: 6 },
-      documentsList: [
-        { name: 'Land Ownership.pdf', type: 'pdf' },
-        { name: 'National ID.jpg', type: 'image' },
-        { name: 'Agricultural Permit.pdf', type: 'pdf' },
-        { name: 'Water Rights.pdf', type: 'pdf' },
-      ],
-      fundingGoal: 'EGP 250,000',
-      expectedROI: '15-18%',
-      urgency: 'High',
-    },
-    {
-      project: 'Mango Orchard Project',
-      location: 'Abu Sultan, Ismailia',
-      landDetails: '8 Feddan',
-      farmer: 'Mohamed Ali',
-      phone: '+20 101 XXX XXXX',
-      submitted: '5 hours ago',
-      size: '8 Feddan',
-      crop: 'Fruits',
-      soilType: 'Sandy Loam',
-      water: 'Drip Irrigation',
-      ownership: 'Leased',
-      documents: { pdf: 3, images: 8 },
-      documentsList: [
-        { name: 'Ownership Contract.pdf', type: 'pdf' },
-        { name: 'Farmer ID.jpg', type: 'image' },
-        { name: 'Crop Plan.pdf', type: 'pdf' },
-      ],
-      fundingGoal: 'EGP 180,000',
-      expectedROI: '12-15%',
-      urgency: 'Medium',
-    },
-    {
-      project: 'Rice Paddy Investment',
-      location: 'Desouk, Kafr El-Sheikh',
-      landDetails: '12 Feddan',
-      farmer: 'Omar Mostafa',
-      phone: '+20 102 XXX XXXX',
-      submitted: '1 day ago',
-      size: '12 Feddan',
-      crop: 'Rice',
-      soilType: 'Clay',
-      water: 'Flood Irrigation',
-      ownership: 'Owned',
-      documents: { pdf: 5, images: 4 },
-      documentsList: [
-        { name: 'Title Deed.pdf', type: 'pdf' },
-        { name: 'Identity Card.jpg', type: 'image' },
-        { name: 'Irrigation Permit.pdf', type: 'pdf' },
-        { name: 'Soil Report.pdf', type: 'pdf' },
-        { name: 'Harvest Plan.pdf', type: 'pdf' },
-      ],
-      fundingGoal: 'EGP 220,000',
-      expectedROI: '14-17%',
-      urgency: 'Low',
-    },
-  ];
+  constructor(
+    private expertService: ExpertService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
-  get filteredReviews() {
-    return this.reviews.filter((review) => {
+  ngOnInit(): void {
+    this.fetchPendingProjects();
+  }
+
+  fetchPendingProjects(): void {
+    this.isLoading = true;
+    this.expertService.getPendingProjects().subscribe({
+      next: (data) => {
+        this.pendingProjects = data;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching pending projects:', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  get filteredReviews(): PendingProject[] {
+    return this.pendingProjects.filter((project) => {
       const query = this.searchQuery.trim().toLowerCase();
+
       const matchesSearch =
         !query ||
-        review.project.toLowerCase().includes(query) ||
-        review.location.toLowerCase().includes(query) ||
-        review.farmer.toLowerCase().includes(query) ||
-        review.crop.toLowerCase().includes(query);
+        project.name?.toLowerCase().includes(query) ||
+        project.governorate?.toLowerCase().includes(query) ||
+        project.farmerName?.toLowerCase().includes(query) ||
+        project.cropType?.toLowerCase().includes(query);
 
-      const matchesUrgency =
-        this.urgencyFilter === 'All Urgency' || review.urgency === this.urgencyFilter;
       const matchesCrop =
-        this.cropFilter === 'All Crops' || review.crop === this.cropFilter;
+        this.cropFilter === 'All Crops' ||
+        project.cropType?.toLowerCase() === this.cropFilter.toLowerCase();
 
-      return matchesSearch && matchesUrgency && matchesCrop;
+      return matchesSearch && matchesCrop;
     });
   }
 
@@ -131,7 +73,11 @@ export class ExpertReviews {
     this.urgencyFilter = value;
   }
 
-  onCrop(value: 'All Crops' | 'Wheat' | 'Fruits' | 'Rice') {
+  onCrop(value: string) {
     this.cropFilter = value;
+  }
+
+  onProjectActionSuccess() {
+    this.fetchPendingProjects();
   }
 }
