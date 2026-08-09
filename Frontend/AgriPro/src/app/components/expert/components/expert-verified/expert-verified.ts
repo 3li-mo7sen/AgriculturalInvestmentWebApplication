@@ -18,7 +18,7 @@ export class ExpertVerified {
   filteredProjects: VerifiedProject[] = [];
   isLoading = true;
 
-  // إحصائيات المحسوبة تلقائياً من الـ API
+ 
   totalVerified = 0;
   totalFunding = 0;
   totalInvestors = 0;
@@ -72,12 +72,13 @@ export class ExpertVerified {
   applyFilters(): void {
     this.filteredProjects = this.projects.filter((project) => {
       const matchesSearch =
-        project.title.toLowerCase().includes(this.searchTerm) ||
+        project.name.toLowerCase().includes(this.searchTerm) ||
         project.farmerName.toLowerCase().includes(this.searchTerm);
 
       const matchesCrop =
         this.selectedCrop === 'All Crops' ||
-        project.title.toLowerCase().includes(this.selectedCrop.toLowerCase());
+        (project.cropType && project.cropType.toLowerCase().includes(this.selectedCrop.toLowerCase())) ||
+        project.name.toLowerCase().includes(this.selectedCrop.toLowerCase());
 
       return matchesSearch && matchesCrop;
     });

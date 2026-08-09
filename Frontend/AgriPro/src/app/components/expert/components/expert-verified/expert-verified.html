@@ -1,23 +1,47 @@
 <div class="verified-page-content">
-  <!-- Loading Spinner -->
-  <div *ngIf="isLoading" class="text-center p-5">
-    <div class="spinner-border text-success" role="status"></div>
-    <p class="mt-2 text-muted">Loading verified projects...</p>
+  
+  <div *ngIf="isLoading" class="verified-loading-container">
+    <div class="spinner-wrapper">
+      <div class="custom-spinner"></div>
+      <p class="loading-text">Loading verified projects...</p>
+    </div>
+
+   
+    <div class="skeleton-metrics-grid">
+      <div class="skeleton-card metric-skeleton" *ngFor="let item of [1, 2, 3]"></div>
+    </div>
+
+   
+    <div class="skeleton-card search-skeleton"></div>
+
+   
+    <div class="skeleton-projects-grid">
+      <div class="skeleton-card project-card-skeleton" *ngFor="let item of [1, 2, 3, 4]">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-body">
+          <div class="skeleton-line title"></div>
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line progress"></div>
+          <div class="skeleton-line btn"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <ng-container *ngIf="!isLoading">
-    <!-- Cards Metrics -->
+   
     <app-expert-verified-cards [totalVerified]="totalVerified"
                                [totalFunding]="totalFunding"
                                [totalInvestors]="totalInvestors">
     </app-expert-verified-cards>
 
-    <!-- Search & Filter Bar -->
+    
     <app-expert-verified-search (searchChange)="onSearchChange($event)"
                                 (filterChange)="onFilterChange($event)">
     </app-expert-verified-search>
 
-    <!-- Projects Grid -->
+    
     <app-expert-verified-projects [projects]="filteredProjects">
     </app-expert-verified-projects>
   </ng-container>
