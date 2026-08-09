@@ -1,17 +1,30 @@
-<!-- Loading Spinner State -->
-<div *ngIf="isLoading" class="text-center p-5">
-  <div class="spinner-border text-success" role="status"></div>
-  <p class="mt-2 text-muted">Loading Expert Dashboard...</p>
+
+<div *ngIf="isLoading" class="dash-loading-container">
+  <div class="spinner-wrapper">
+    <div class="custom-spinner"></div>
+    <p class="loading-text">Loading Expert Dashboard...</p>
+  </div>
+
+  
+  <div class="skeleton-cards-grid">
+    <div class="skeleton-card metric-skeleton" *ngFor="let item of [1, 2, 3, 4]"></div>
+  </div>
+
+  
+  <div class="skeleton-card table-skeleton">
+    <div class="skeleton-row-header"></div>
+    <div class="skeleton-row" *ngFor="let item of [1, 2, 3]"></div>
+  </div>
 </div>
 
-<!-- Dashboard Data View -->
+
 <ng-container *ngIf="!isLoading && dashboardData">
-  <!-- Cards Metrics -->
+  
   <app-expert-dash-cards [data]="dashboardData"></app-expert-dash-cards>
 
-  <!-- Recent / Pending Reviews Table -->
+ 
   <app-expert-dash-reviews [reviews]="dashboardData.recentReviews"></app-expert-dash-reviews>
 
-  <!-- Expert Performance Overview -->
+ 
   <app-expert-dash-performance [data]="dashboardData"></app-expert-dash-performance>
 </ng-container>
