@@ -1,6 +1,11 @@
 <section class="summary-cards">
   <div class="card" *ngFor="let card of cards">
-    <div class="card-value">{{ card.value }}</div>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div class="card-value">{{ card.value }}</div>
+      <div class="icon-box">
+        <i class="fa-solid fa-ban text-danger fs-4"></i>
+      </div>
+    </div>
     <div class="card-title">{{ card.title }}</div>
     <div class="card-description">{{ card.description }}</div>
   </div>

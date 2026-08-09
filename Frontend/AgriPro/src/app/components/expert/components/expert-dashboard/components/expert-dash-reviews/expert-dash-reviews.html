@@ -18,10 +18,12 @@
 
           <div class="review-meta">
             <span class="meta-text">Farmer: {{ review.farmerName }}</span>
+            <!--
             <span class="meta-separator">•</span>
             <span class="meta-text">Submitted: {{ review.submissionDate | date:'mediumDate' }}</span>
             <span class="meta-separator" *ngIf="review.daysOld !== undefined">•</span>
             <span class="meta-text" *ngIf="review.daysOld !== undefined">{{ review.daysOld }} days ago</span>
+            -->
           </div>
         </div>
 

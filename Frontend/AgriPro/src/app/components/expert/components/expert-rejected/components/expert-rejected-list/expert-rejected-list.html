@@ -10,38 +10,36 @@
     <div class="rejected-table-header">
       <span>Project</span>
       <span>Farmer</span>
-      <span>Rejected On</span>
+      <span>Location</span>
       <span>Reason</span>
-      <span>Resubmission</span>
       <span>Actions</span>
     </div>
 
     <div class="rejected-row" *ngFor="let project of projects">
       <div class="project-cell">
-        <strong>{{ project.title }}</strong>
+        <strong class="d-flex align-items-center gap-2">
+          <i class="fa-solid fa-circle-xmark rejected-icon"></i>
+          {{ project.name || project.title || 'N/A' }}
+        </strong>
+
+        <span class="project-sub-info">
+          {{ project.cropType || 'N/A' }} • {{ project.landSize ? project.landSize + ' Feddans' : 'N/A' }}
+        </span>
+
       </div>
       <div class="farmer-cell">
         <strong>{{ project.farmerName }}</strong>
       </div>
-      <div class="date-cell">
-        <strong>{{ project.rejectionDate | date: 'mediumDate' }}</strong>
+      <div class="location-cell">
+        <span><i class="fa-solid fa-location-dot"></i>{{ project.governorate }}{{ project.district ? ', ' + project.district : '' }}</span>
       </div>
       <div class="reason-cell">
         <span>{{ project.rejectionReason }}</span>
       </div>
-      <div class="status-cell">
-        <span class="status-badge"
-              [ngClass]="{
-            'status-appeal': project.resubmissionAllowed,
-            'status-rejected': !project.resubmissionAllowed
-          }">
-          {{ project.resubmissionAllowed ? 'Allowed' : 'Not Allowed' }}
-        </span>
-      </div>
       <div class="actions-cell">
         <button type="button" class="view-btn" (click)="openProject(project)">
-          <span aria-hidden="true">👁️</span>
-          View
+          <i class="fa-regular fa-eye"></i>
+          <span>View</span>
         </button>
       </div>
     </div>
@@ -67,15 +65,19 @@
       <h3>Project Information</h3>
       <div class="info-grid">
         <span>Project</span>
-        <strong>{{ project.title }}</strong>
+        <strong>{{ project.name || project.title || 'N/A' }}</strong>
+
         <span>Farmer</span>
         <strong>{{ project.farmerName }}</strong>
-        <span>Status</span>
-        <strong>{{ project.status }}</strong>
-        <span>Rejected Date</span>
-        <strong>{{ project.rejectionDate | date: 'mediumDate' }}</strong>
-        <span>Resubmission</span>
-        <strong>{{ project.resubmissionAllowed ? 'Allowed' : 'Not Allowed' }}</strong>
+
+        <span>Location</span>
+        <strong>{{ project.governorate || 'N/A' }}{{ project.district ? ', ' + project.district : '' }}</strong>
+
+        <span>Land Size</span>
+        <strong>{{ project.landSize ? project.landSize + ' Feddans' : 'N/A' }}</strong>
+
+        <span>Crop Type</span>
+        <strong>{{ project.cropType || 'N/A' }}</strong>
       </div>
     </div>
 

@@ -1,9 +1,14 @@
 export interface RejectedProject {
   id: number;
-  title: string;
+  name?: string;
+  title?: string;
   farmerName: string;
-  status: string;
-  rejectionDate: string;
+  status?: string;
+  rejectionDate?: string;
+  rejectedAt?: string;
   rejectionReason: string;
-  resubmissionAllowed: boolean;
+  governorate?: string;
+  district?: string;
+  landSize?: number;
+  cropType?: string;
 }

@@ -45,13 +45,6 @@ export class ExpertDashCards implements OnChanges{
           meta: 'Overall acceptance',
           icon: 'fa-regular fa-chart-bar',
           iconClass: 'icon-info'
-        },
-        {
-          title: 'Avg. Review Time',
-          value: `${this.data.averageReviewTime ?? 0} Days`,
-          meta: 'Average turnaround',
-          icon: 'fa-solid fa-hourglass-half',
-          iconClass: 'icon-muted'
         }
       ];
     }

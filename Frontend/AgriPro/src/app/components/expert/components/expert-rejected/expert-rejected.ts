@@ -53,19 +53,33 @@ export class ExpertRejected implements OnInit {
     const now = new Date();
 
     return this.rejectedProjects.filter((project) => {
+      
+      const projectName = (project.name || project.title || '').toLowerCase();
+      const farmerName = (project.farmerName || '').toLowerCase();
+      const rejectionReason = (project.rejectionReason || '').toLowerCase();
+      const governorate = (project.governorate || '').toLowerCase();
+      const district = (project.district || '').toLowerCase();
+
+      
       const matchesSearch =
         !query ||
-        project.title?.toLowerCase().includes(query) ||
-        project.farmerName?.toLowerCase().includes(query) ||
-        project.rejectionReason?.toLowerCase().includes(query);
+        projectName.includes(query) ||
+        farmerName.includes(query) ||
+        rejectionReason.includes(query) ||
+        governorate.includes(query) ||
+        district.includes(query);
 
+    
       const matchesCrop =
         this.selectedCrop === 'All Crops' ||
-        project.title?.toLowerCase().includes(this.selectedCrop.toLowerCase());
+        projectName.includes(this.selectedCrop.toLowerCase()) ||
+        (project.cropType && project.cropType.toLowerCase().includes(this.selectedCrop.toLowerCase()));
 
+    
       let matchesDate = true;
-      if (project.rejectionDate && this.selectedDateRange !== 'All Time') {
-        const projDate = new Date(project.rejectionDate);
+      const targetDate = project.rejectionDate || project.rejectedAt;
+      if (targetDate && this.selectedDateRange !== 'All Time') {
+        const projDate = new Date(targetDate);
         const diffDays = Math.floor(
           (now.getTime() - projDate.getTime()) / (1000 * 3600 * 24)
         );
@@ -83,50 +97,19 @@ export class ExpertRejected implements OnInit {
 
   get summaryCards() {
     const totalCount = this.rejectedProjects.length;
-    const distinctFarmers = new Set(
-      this.rejectedProjects.map((item) => item.farmerName)
-    ).size;
-
-    const now = new Date();
-    const last30 = this.rejectedProjects.filter((item) => {
-      if (!item.rejectionDate) return false;
-      const projDate = new Date(item.rejectionDate);
-      const diffDays = Math.floor(
-        (now.getTime() - projDate.getTime()) / (1000 * 3600 * 24)
-      );
-      return diffDays <= 30;
-    }).length;
-
-    const resubmissionAllowedCount = this.rejectedProjects.filter(
-      (item) => item.resubmissionAllowed
-    ).length;
 
     return [
       {
         title: 'Rejected Projects',
         value: totalCount,
         description: 'Total projects declined by experts',
-      },
-      {
-        title: 'This Month',
-        value: last30,
-        description: 'Projects rejected in the last 30 days',
-      },
-      {
-        title: 'Farmers Affected',
-        value: distinctFarmers,
-        description: 'Distinct farmers impacted',
-      },
-      {
-        title: 'Resubmission Allowed',
-        value: resubmissionAllowedCount,
-        description: 'Projects allowed for re-evaluation',
-      },
+      }
     ];
   }
 
   onSearch(query: string) {
     this.searchQuery = query;
+    this.cdr.detectChanges(); 
   }
 
   onCrop(value: string) {

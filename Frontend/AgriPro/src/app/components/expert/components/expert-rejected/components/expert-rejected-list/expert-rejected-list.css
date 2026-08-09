@@ -33,10 +33,15 @@
 .rejected-table-header,
 .rejected-row {
   display: grid;
-  grid-template-columns: 2.2fr 1.5fr 1.4fr 2fr 0.9fr 0.9fr;
-  gap: 1rem;
+  grid-template-columns: 1.5fr 1.2fr 1.2fr 2fr 0.8fr;
   align-items: center;
+  gap: 1rem;
   padding: 0.85rem 1rem;
+}
+
+.location-cell {
+  color: #4b5563;
+  font-size: 0.9rem;
 }
 
 .rejected-table-header {
@@ -345,4 +350,70 @@
   .modal-summary {
     grid-template-columns: 1fr;
   }
+}
+
+
+/* Rejected Icon next to Project Name */
+.rejected-icon {
+  color: #ef4444;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.project-cell strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Styled View Button */
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #fca5a5;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+  .view-btn i {
+    font-size: 0.9rem;
+    color: #dc2626;
+    transition: transform 0.2s ease;
+  }
+
+  .view-btn:hover {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+    transform: translateY(-1px);
+  }
+
+    .view-btn:hover i {
+      color: #ffffff;
+      transform: scale(1.1);
+    }
+
+  .view-btn:active {
+    transform: translateY(0);
+  }
+
+.project-sub-info {
+  font-size: 0.8rem !important;
+  color: #6b7280 !important;
+  margin-top: 0.15rem;
+}
+
+.reason-cell span {
+  display: block;
+  color: #4b5563;
+  font-size: 0.9rem;
 }

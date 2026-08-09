@@ -1,8 +1,29 @@
 <section class="expert-rejected-page">
  
-  <div *ngIf="isLoading" class="text-center p-5">
-    <div class="spinner-border text-danger" role="status"></div>
-    <p class="mt-2 text-muted">Loading rejected projects...</p>
+  <div *ngIf="isLoading" class="rejected-loading-container">
+
+    <div class="spinner-wrapper">
+      <div class="custom-spinner"></div>
+      <p class="loading-text">Loading rejected projects...</p>
+    </div>
+
+    <div class="skeleton-metrics-grid">
+      <div class="skeleton-card metric-skeleton"></div>
+    </div>
+
+    <div class="skeleton-card search-skeleton"></div>
+
+   
+    <div class="skeleton-projects-list">
+      <div class="skeleton-card project-row-skeleton" *ngFor="let item of [1, 2, 3, 4]">
+        <div class="skeleton-body">
+          <div class="skeleton-line title"></div>
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line reason"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <ng-container *ngIf="!isLoading">
