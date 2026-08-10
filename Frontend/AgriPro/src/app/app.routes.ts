@@ -59,6 +59,7 @@ import { AddProjectForm } from './components/farmer/components/create-project/co
 import { CreateProjectForms } from './components/farmer/components/create-project/components/create-project-forms/create-project-forms';
 import { ProjectDetails } from './components/project-details/project-details';
 import { InvestorProfile2 } from './components/investor/components/investor-profile2/investor-profile2';
+import { ExpertProfile } from './components/expert/components/expert-profile/expert-profile';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -75,7 +76,7 @@ export const routes: Routes = [
       {
         path: 'reports', component: AdminReports,
         children: [
-          { path: '', redirectTo: 'reports', pathMatch: 'full' }, // لو دخل سيتنجز بس يفتح بروفايل
+          { path: '', redirectTo: 'reports', pathMatch: 'full' }, 
           { path: 'reports', component: AdminReportsReports },
           { path: 'alerts', component: AdminReportsAlerts },
         ]
@@ -84,7 +85,7 @@ export const routes: Routes = [
       {
         path: 'settings', component: AdminSettings,
         children: [
-          { path: '', redirectTo: 'general', pathMatch: 'full' }, // لو دخل سيتنجز بس يفتح بروفايل
+          { path: '', redirectTo: 'general', pathMatch: 'full' }, 
           { path: 'general', component: AdminSettingsGeneral },
           { path: 'notifications', component: AdminSettingsNotification },
           { path: 'security', component: AdminSettingsSecurity },
@@ -101,11 +102,12 @@ export const routes: Routes = [
       { path: 'pending-reviews', component: ExpertReviews },
       { path: 'verified-projects', component: ExpertVerified },
       { path: 'rejected-projects', component: ExpertRejected },
+      { path: 'profile', component:  ExpertProfile},
       
       {
         path: 'settings', component: ExpertSettings,
         children: [
-          { path: '', redirectTo: 'profile', pathMatch: 'full' }, // لو دخل سيتنجز بس يفتح بروفايل
+          { path: '', redirectTo: 'profile', pathMatch: 'full' }, 
           { path: 'profile', component:  ExpertSettingsProfile},
           { path: 'security', component: ExpertSettingsSecurity },
           { path: 'notifications', component: ExpertSettingsNotifications },

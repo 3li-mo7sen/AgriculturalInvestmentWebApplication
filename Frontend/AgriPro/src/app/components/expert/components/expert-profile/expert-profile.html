@@ -1,0 +1,236 @@
+<div class="profile-container">
+
+
+  <div *ngIf="isLoading" class="skeleton-profile-wrapper">
+    <div class="profile-card skeleton-card">
+      <div class="profile-content">
+        <div class="skeleton-avatar"></div>
+        <div class="skeleton-info">
+          <div class="skeleton-line title"></div>
+          <div class="skeleton-line subtitle"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-container">
+      <div class="stat-card skeleton-card" *ngFor="let i of [1, 2, 3, 4]">
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line text"></div>
+      </div>
+    </div>
+  </div>
+
+ 
+  <ng-container *ngIf="!isLoading && userProfile">
+  
+    <div class="profile-card">
+      <div class="profile-content">
+        
+        <div class="avatar-section">
+          <div class="avatar">{{ userInitials }}</div>
+        </div>
+
+        
+        <div class="user-info">
+          <div class="name-section">
+            <h2>{{ userProfile.name }}</h2>
+            <span class="verified-badge" *ngIf="userProfile.kycStatus === 'verified'">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="7" fill="#27AE60" />
+                <path d="M6 8L7 9L10 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              Verified Expert
+            </span>
+          </div>
+          <p class="role">{{ userProfile.role }}</p>
+          <div class="additional-info">
+            <span class="info-item" *ngIf="userProfile.location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+              </svg>
+              {{ userProfile.location }}
+            </span>
+            <span class="info-item" *ngIf="userProfile.specialization">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" />
+              </svg>
+              {{ userProfile.specialization }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="stats-container">
+     
+      <div class="stat-card">
+        <div class="stat-top">
+          <div>
+            <div class="stat-label">Total Reviews</div>
+            <div class="stat-value">{{ userProfile.stats.totalReviews ?? 0 }}</div>
+          </div>
+          <div class="stat-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+     
+      <div class="stat-card">
+        <div class="stat-top">
+          <div>
+            <div class="stat-label">Verified Projects</div>
+            <div class="stat-value text-success">{{ userProfile.stats.verifiedProjects ?? 0 }}</div>
+          </div>
+          <div class="stat-icon icon-success">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+     
+      <div class="stat-card">
+        <div class="stat-top">
+          <div>
+            <div class="stat-label">Rejected Projects</div>
+            <div class="stat-value text-danger">{{ userProfile.stats.rejectedProjects ?? 0 }}</div>
+          </div>
+          <div class="stat-icon icon-danger">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="15" y1="9" x2="9" y2="15" />
+              <line x1="9" y1="9" x2="15" y2="15" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+   
+      <div class="stat-card">
+        <div class="stat-top">
+          <div>
+            <div class="stat-label">Expert Rating</div>
+            <div class="stat-value">{{ userProfile.stats.rating ?? 0 }} <span class="star-icon">⭐</span></div>
+          </div>
+          <div class="stat-icon icon-warning">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ 
+    <div class="details-row">
+      
+      <div class="details-card">
+        <div class="details-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 12a4 4 0 1 0-8 0" />
+            <path d="M12 16v6" />
+            <path d="M9 7h6" />
+            <path d="M2 18c0-4.418 3.582-8 8-8h4c4.418 0 8 3.582 8 8" />
+          </svg>
+          <span>Contact Information</span>
+        </div>
+        <div class="details-list">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16v16H4z" />
+                <path d="M4 6l8 6 8-6" />
+              </svg>
+            </div>
+            <div class="detail-meta">
+              <div class="detail-label">Email</div>
+              <div class="detail-value">{{ userProfile.email }}</div>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92V19a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3 5.18 2 2 0 0 1 5 3h2.09a2 2 0 0 1 2 1.72c.12.92.33 1.81.62 2.66a2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6l1.44-1.08a2 2 0 0 1 2.11-.45c.85.29 1.74.5 2.66.62A2 2 0 0 1 22 16.92z" />
+              </svg>
+            </div>
+            <div class="detail-meta">
+              <div class="detail-label">Phone</div>
+              <div class="detail-value">{{ userProfile.phone || 'N/A' }}</div>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+              </svg>
+            </div>
+            <div class="detail-meta">
+              <div class="detail-label">Location</div>
+              <div class="detail-value">{{ userProfile.location || 'N/A' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="details-card">
+        <div class="details-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 5h18v6H3z" />
+            <path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8" />
+            <path d="M9 11V7h6v4" />
+          </svg>
+          <span>Account & Expertise</span>
+        </div>
+        <div class="details-list">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 4l1.5 4h4L15 12l1.5 4L12 14l-4.5 2L9 12 7.5 8h4L12 4z" />
+              </svg>
+            </div>
+            <div class="detail-meta">
+              <div class="detail-label">KYC Verification</div>
+              <div class="detail-value">{{ userProfile.kycStatus | titlecase }}</div>
+            </div>
+            <div class="detail-badge" [ngClass]="userProfile.kycStatus">{{ userProfile.kycStatus | titlecase }}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4z" />
+                <path d="M4 20a8 8 0 0 1 16 0" />
+              </svg>
+            </div>
+            <div class="detail-meta">
+              <div class="detail-label">Account Status</div>
+              <div class="detail-value">{{ userProfile.status | titlecase }}</div>
+            </div>
+            <div class="detail-badge">{{ userProfile.status | titlecase }}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" />
+              </svg>
+            </div>
+            <div class="detail-meta">
+              <div class="detail-label">Specialization</div>
+              <div class="detail-value">{{ userProfile.specialization || 'Not Specified' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

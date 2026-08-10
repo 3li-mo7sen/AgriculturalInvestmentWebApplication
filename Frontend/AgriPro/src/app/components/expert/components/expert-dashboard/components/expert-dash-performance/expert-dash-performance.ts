@@ -29,11 +29,6 @@ export class ExpertDashPerformance {
           unit: ''
         },
         {
-          label: 'Avg. Review Time',
-          value: String(this.data.averageReviewTime ?? 0),
-          unit: 'Days'
-        },
-        {
           label: 'Completed Reviews',
           value: String(this.data.completedReviews ?? 0),
           unit: 'Total'

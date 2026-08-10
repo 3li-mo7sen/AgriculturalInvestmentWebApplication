@@ -9,10 +9,17 @@ export interface UserProfile {
   phone: string;
   location: string;
   landDetails: string;
+  specialization?: string | null;
   stats: {
+    //farmer
     projectsCreated: number;
     totalFunding: number;
     avgRating: number;
+    //expert
+    totalReviews?: number;
+    verifiedProjects?: number;
+    rejectedProjects?: number;
+    rating?: number;
   };
 
 }
