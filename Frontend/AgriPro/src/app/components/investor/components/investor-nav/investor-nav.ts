@@ -45,7 +45,7 @@ export class InvestorNav {
     this.pageTitle = config?.title ?? 'Dashboard';
     this.pageSubtitle = config?.subtitle ?? '';
   }
-
+  
   toggleNotifications(event: MouseEvent) {
     event.stopPropagation();
     this.showNotificationsMenu = !this.showNotificationsMenu;
@@ -61,7 +61,7 @@ export class InvestorNav {
       this.showNotificationsMenu = false;
     }
   }
-
+  /*
   @HostListener('document:click', ['$event'])
   closeMenus(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -82,7 +82,7 @@ export class InvestorNav {
     this.showNotificationsMenu = false;
     this.router.navigate(['/investor/settings/notifications']);
   }
-
+  */
   goToProfile() {
     this.showAccountMenu = false;
     this.router.navigate(['/investor/profile']);

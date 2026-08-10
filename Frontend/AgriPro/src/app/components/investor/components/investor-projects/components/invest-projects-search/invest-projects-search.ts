@@ -1,42 +1,64 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { InvestorService } from '../../../../../../services/investorService/investor.service';
 
 @Component({
   selector: 'app-invest-projects-search',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './invest-projects-search.html',
   styleUrls: ['./invest-projects-search.css'],
 })
 export class InvestProjectsSearch {
-  openFilter: 'crop' | 'location' | 'risk' | null = null;
+  openFilter: 'crop' | 'location' | 'sort' | null = null;
   selectedCrop = 'Crop Type';
   selectedLocation = 'Location';
-  selectedRisk = 'Risk Level';
+  selectedSort = 'Sort by Progress';
+  searchQuery = '';
 
   cropOptions = ['All Crops', 'Wheat', 'Fruits', 'Vegetables', 'Rice', 'Cotton'];
-  locationOptions = ['All Locations', 'Beheira', 'Ismailia', 'Fayoum', 'Minya'];
-  riskOptions = ['All Levels', 'Low Risk', 'Medium Risk', 'High Risk'];
+  locationOptions = ['All Locations', 'Kafr El-Sheikh', 'Beheira', 'Ismailia', 'Fayoum', 'Minya', 'Nile Delta, Egypt'];
 
-  constructor(private elementRef: ElementRef) {}
+ 
+  sortOptions = [
+    { label: 'Default', value: null },
+    { label: 'Highest Progress', value: 'desc' },
+    { label: 'Lowest Progress', value: 'asc' },
+  ] as const;
 
-  toggleFilter(filter: 'crop' | 'location' | 'risk') {
+  constructor(
+    private elementRef: ElementRef,
+    private investorService: InvestorService
+  ) { }
+
+  ngOnInit(): void { }
+
+  toggleFilter(filter: 'crop' | 'location' | 'sort') {
     this.openFilter = this.openFilter === filter ? null : filter;
+  }
+
+  onSearchChange(): void {
+    this.investorService.updateFilter({ searchQuery: this.searchQuery });
   }
 
   selectCrop(option: string) {
     this.selectedCrop = option;
     this.openFilter = null;
+    this.investorService.updateFilter({ cropType: option });
   }
 
   selectLocation(option: string) {
     this.selectedLocation = option;
     this.openFilter = null;
+    this.investorService.updateFilter({ location: option });
   }
 
-  selectRisk(option: string) {
-    this.selectedRisk = option;
+ 
+  selectSort(option: { label: string; value: 'asc' | 'desc' | null }) {
+    this.selectedSort = option.label;
     this.openFilter = null;
+    this.investorService.updateFilter({ sortByProgress: option.value });
   }
 
   @HostListener('document:click', ['$event'])

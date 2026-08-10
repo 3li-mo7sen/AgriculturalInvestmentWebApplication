@@ -1,41 +1,49 @@
 <div class="projects-search-bar">
+  <!-- Search Field -->
   <div class="search-field">
     <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" placeholder="Search projects..." />
+    <input type="text"
+           [(ngModel)]="searchQuery"
+           (input)="onSearchChange()"
+           placeholder="Search projects by name, crop or location..." />
   </div>
 
+  <!-- Crop Filter -->
   <div class="filter-wrapper">
     <button type="button" class="filter-button" (click)="toggleFilter('crop')">
       {{ selectedCrop }}
       <i class="fa-solid fa-chevron-down"></i>
     </button>
     <ul *ngIf="openFilter === 'crop'" class="filter-menu">
-      <li *ngFor="let option of cropOptions" (click)="selectCrop(option)">{{ option }}</li>
+      <li *ngFor="let option of cropOptions" (click)="selectCrop(option)">
+        {{ option }}
+      </li>
     </ul>
   </div>
 
+  <!-- Location Filter -->
   <div class="filter-wrapper">
     <button type="button" class="filter-button" (click)="toggleFilter('location')">
       {{ selectedLocation }}
       <i class="fa-solid fa-chevron-down"></i>
     </button>
     <ul *ngIf="openFilter === 'location'" class="filter-menu">
-      <li *ngFor="let option of locationOptions" (click)="selectLocation(option)">{{ option }}</li>
+      <li *ngFor="let option of locationOptions" (click)="selectLocation(option)">
+        {{ option }}
+      </li>
     </ul>
   </div>
 
+  <!-- Sort By Progress -->
   <div class="filter-wrapper">
-    <button type="button" class="filter-button" (click)="toggleFilter('risk')">
-      {{ selectedRisk }}
+    <button type="button" class="filter-button" (click)="toggleFilter('sort')">
+      {{ selectedSort }}
       <i class="fa-solid fa-chevron-down"></i>
     </button>
-    <ul *ngIf="openFilter === 'risk'" class="filter-menu">
-      <li *ngFor="let option of riskOptions" (click)="selectRisk(option)">{{ option }}</li>
+    <ul *ngIf="openFilter === 'sort'" class="filter-menu">
+      <li *ngFor="let option of sortOptions" (click)="selectSort(option)">
+        {{ option.label }}
+      </li>
     </ul>
   </div>
-
-  <button class="more-filters-button">
-    <i class="fa-solid fa-filter"></i>
-    More Filters
-  </button>
 </div>
