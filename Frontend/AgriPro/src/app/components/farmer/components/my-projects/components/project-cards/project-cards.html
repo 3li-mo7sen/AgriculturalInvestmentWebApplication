@@ -28,20 +28,28 @@
     @for (project of filteredProjects; track project.id) {
     <article class="project-card">
       <div class="project-card-top">
-        <span class="project-status" [ngClass]="{
-            'badge-active': project.status === 'Published',
-            'badge-review': project.status === 'Pending'
-          }">
-          <i class="fa-solid" [ngClass]="project.status === 'Published' ? 'fa-arrow-trend-up' : 'fa-clock'"></i>
+        <img class="project-image"
+             [src]="apiUrl + project.imageUrl"
+             [alt]="project.title" />
+
+        <span class="project-status"
+              [ngClass]="{
+      'badge-active': project.status === 'Published',
+      'badge-review': project.status === 'Pending'
+    }">
+          <i class="fa-solid"
+             [ngClass]="project.status === 'Published'
+        ? 'fa-arrow-trend-up'
+        : 'fa-clock'"></i>
         </span>
       </div>
       <div class="project-card-body">
         <h3>{{ project.title }}</h3>
         <!--   <p class="project-location"><i class="fa-solid fa-location-dot"></i> Kafr El-Sheikh, Beheira</p> -->
         <!--   <div class="project-meta">
-          <span class="project-tag">Wheat</span>
-          <span>15 Feddan</span>
-        </div>-->
+      <span class="project-tag">Wheat</span>
+      <span>15 Feddan</span>
+    </div>-->
         <div class="project-progress-bar">
           <div class="project-progress-fill" [style.width.%]="project.fundingProgress"></div>
         </div>
@@ -50,16 +58,16 @@
           <span>{{ project.fundingProgress }}%</span>
         </div>
         <div class="project-footer">
-          
+
           <button class="btn-view-details" [routerLink]="['/farmer/project-details', project.id]">
             View Details
           </button>
-          
+
           <!--
-          <span class="project-duration">
-            <i class="fa-solid fa-calendar-days"></i> {{ project.duration }} Months
-          </span>
-          -->
+      <span class="project-duration">
+        <i class="fa-solid fa-calendar-days"></i> {{ project.duration }} Months
+      </span>
+      -->
           <span class="project-return"><i class="fa-solid fa-arrow-trend-up"></i> EGP {{ project.expectedProfit | number }}</span>
           <span class="project-investors">{{ project.investorsCount }} investors</span>
         </div>

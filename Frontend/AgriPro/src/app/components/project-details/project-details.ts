@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FarmerService } from '../../services/farmerService/farmer.service';
+import { environment } from '../../../environment/environment';
 
 @Component({
   selector: 'app-project-details',
@@ -13,6 +14,7 @@ export class ProjectDetails implements OnInit {
   project: any = null;
   isLoading = true;
   errorMessage = '';
+  apiUrl: string = environment.baseUrl;
 
   constructor(
     private route: ActivatedRoute,

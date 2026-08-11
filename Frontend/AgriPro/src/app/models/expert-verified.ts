@@ -31,4 +31,5 @@ export interface SummaryCard {
   label: string;
   value: string;
   icon: string;
+
 }

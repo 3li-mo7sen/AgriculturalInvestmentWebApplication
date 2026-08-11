@@ -1,6 +1,6 @@
 <div class="project-details-container">
 
-  <!-- Back Navigation -->
+ 
   <div class="details-header mb-4">
     <a routerLink="/farmer/my-projects" class="btn-back">
       <i class="fa-solid fa-arrow-left"></i>
@@ -8,27 +8,32 @@
     </a>
   </div>
 
-  <!-- Loading State -->
+ 
   <div *ngIf="isLoading" class="text-center p-5">
     <div class="spinner-border text-success" role="status"></div>
     <p class="mt-2 text-muted">Loading project details...</p>
   </div>
 
-  <!-- Error / 404 State -->
+  
   <div *ngIf="!isLoading && errorMessage" class="alert alert-danger text-center my-4">
     <i class="fa-solid fa-triangle-exclamation me-2"></i>
     {{ errorMessage }}
   </div>
 
-  <!-- Project Content Grid -->
+  
   <div class="project-grid" *ngIf="!isLoading && project">
 
-    <!-- Main Content (Left) -->
+    
     <div class="main-content">
 
-      <!-- Main Card -->
+     
       <div class="main-card">
-        <!-- Status Badge Header -->
+
+        <div class="project-details-image">
+          <img [src]="apiUrl + project.imageUrl"
+               [alt]="project.name" />
+        </div>
+
         <div class="card-status-bar">
           <span class="badge badge-status" [ngClass]="project.status === 'Published' ? 'status-published' : 'status-pending'">
             <i class="fa-solid" [ngClass]="project.status === 'Published' ? 'fa-circle-check' : 'fa-clock'"></i>
@@ -40,16 +45,16 @@
         </div>
 
         <div class="content-padding">
-          <!-- Title & Subtitle -->
+
           <h1 class="project-title">{{ project.name }}</h1>
           <p class="project-subtitle" *ngIf="project.title && project.title !== project.name">{{ project.title }}</p>
 
-          <!-- Short Description Quote -->
+
           <div class="short-desc-box" *ngIf="project.shortDescription">
             <p>{{ project.shortDescription }}</p>
           </div>
 
-          <!-- Meta Pills -->
+
           <div class="project-meta-pills">
             <div class="meta-pill">
               <i class="fa-solid fa-location-dot icon-location"></i>
@@ -67,13 +72,13 @@
 
           <div class="divider"></div>
 
-          <!-- Full Description -->
+
           <h3 class="section-title">About This Project</h3>
           <p class="description-text">{{ project.fullDescription }}</p>
 
           <div class="divider"></div>
 
-          <!-- Farmer Details Card -->
+
           <h3 class="section-title">Project Ownership</h3>
           <div class="farmer-card">
             <div class="farmer-avatar">
@@ -89,12 +94,12 @@
       </div>
     </div>
 
-    <!-- Sidebar Financial Stats (Right) -->
+   
     <div class="sidebar-content">
       <div class="stats-sidebar-card">
         <h4 class="sidebar-header">Funding Status</h4>
 
-        <!-- Funding Progress -->
+        
         <div class="funding-info">
           <div class="funding-header">
             <div>
@@ -106,7 +111,7 @@
             </div>
           </div>
 
-          <!-- Custom Animated Progress Bar -->
+         
           <div class="progress-container my-3">
             <div class="progress-bar-fill" [style.width.%]="project.fundingProgress"></div>
           </div>
@@ -119,7 +124,7 @@
 
         <div class="divider"></div>
 
-        <!-- ROI & Profit Grid Cards -->
+       
         <div class="metrics-grid">
           <div class="metric-box">
             <span class="metric-value text-roi">{{ project.expectedRoi }}</span>
@@ -131,7 +136,7 @@
           </div>
         </div>
 
-        <!-- Extra Details -->
+       
         <div class="financial-summary-list">
           <div class="summary-row">
             <span>Total Project Cost</span>

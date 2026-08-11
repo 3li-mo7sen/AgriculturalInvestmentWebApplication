@@ -12,7 +12,7 @@ import { environment } from '../../../../../../../environment/environment';
 })
 export class ExpertVerifiedProjects {
   @Input() projects: VerifiedProject[] = [];
-
+  apiUrl: string = environment.baseUrl;
   openProjectDetails(project: VerifiedProject): void {
     const baseUrl = environment.baseUrl;
 

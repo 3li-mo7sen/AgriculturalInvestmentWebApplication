@@ -1,4 +1,4 @@
-/* Container & Background */
+
 .project-details-container {
   padding: 30px 40px;
   background-color: #f4f7f2;
@@ -6,7 +6,7 @@
   font-family: inherit;
 }
 
-/* Button Back */
+
 .btn-back {
   display: inline-flex;
   align-items: center;
@@ -26,7 +26,7 @@
     color: #ffffff;
   }
 
-/* Custom Grid Layout */
+
 .project-grid {
   display: grid;
   grid-template-columns: 1fr 360px;
@@ -40,7 +40,7 @@
   }
 }
 
-/* Main Content Card */
+
 .main-card {
   background: #ffffff;
   border-radius: 24px;
@@ -102,7 +102,7 @@
   margin-top: 4px;
 }
 
-/* Short Description Box */
+
 .short-desc-box {
   background: #f8faf7;
   border-left: 4px solid #0b4627;
@@ -118,7 +118,7 @@
     font-size: 0.95rem;
   }
 
-/* Meta Pills */
+
 .project-meta-pills {
   display: flex;
   flex-wrap: wrap;
@@ -170,7 +170,7 @@
   font-size: 0.98rem;
 }
 
-/* Farmer Card */
+
 .farmer-card {
   display: flex;
   align-items: center;
@@ -210,7 +210,7 @@
   color: #1a1a1a;
 }
 
-/* Sidebar & Cards */
+
 .stats-sidebar-card {
   background: #ffffff;
   padding: 28px;
@@ -255,7 +255,7 @@
   margin: 0;
 }
 
-/* Progress Bar */
+
 .progress-container {
   background: #e5e7eb;
   height: 10px;
@@ -282,7 +282,7 @@
   color: #28a745;
 }
 
-/* Metrics Grid */
+
 .metrics-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -317,7 +317,7 @@
   color: #6b7280;
 }
 
-/* Summary Rows */
+
 .financial-summary-list {
   display: flex;
   flex-direction: column;
@@ -334,3 +334,23 @@
   .summary-row strong {
     color: #1a1a1a;
   }
+
+
+.project-details-image {
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+}
+
+  .project-details-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+@media (max-width: 767px) {
+  .project-details-image {
+    height: 220px;
+  }
+}

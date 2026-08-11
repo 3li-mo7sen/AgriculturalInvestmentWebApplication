@@ -4,11 +4,11 @@
 
       
       <div class="project-card-image">
-        <!--
-        <img [src]="project.imageUrl ? ('https://localhost:7187' + project.imageUrl) : 'assets/images/default-farm.jpg'"
+        
+        <img [src]="project.imageUrl ? (apiUrl + project.imageUrl) : 'assets/images/default-farm.jpg'"
              alt="{{ project.name }}"
              class="card-img" />
-        -->
+        
         <div class="image-badge badge-verified">
           <i class="fa-solid fa-circle-check"></i> {{ project.status }}
         </div>

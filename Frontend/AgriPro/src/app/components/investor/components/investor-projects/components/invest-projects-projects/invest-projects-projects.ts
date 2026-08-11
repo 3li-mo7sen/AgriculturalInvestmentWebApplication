@@ -3,6 +3,8 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { Project, ProjectFilter } from '../../../../../../models/investor-projects';
 import { combineLatest, Subscription } from 'rxjs';
 import { InvestorService } from '../../../../../../services/investorService/investor.service';
+import { Router } from '@angular/router';
+import { environment } from '../../../../../../../environment/environment';
 
 @Component({
   selector: 'app-invest-projects-projects',
@@ -14,12 +16,13 @@ export class InvestProjectsProjects {
   allProjects: Project[] = [];
   filteredProjects: Project[] = [];
   isLoading: boolean = true;
-
+  apiUrl: string = environment.baseUrl;
   private sub: Subscription = new Subscription();
 
   constructor(
     private investorService: InvestorService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -99,4 +102,9 @@ export class InvestProjectsProjects {
     this.sub.unsubscribe();
   }
 
+  goToDetails(projectId: number): void {
+    
+    this.router.navigate(['/investor/available-projects/project-details', projectId]);
+ 
+  }
 }

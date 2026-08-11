@@ -24,9 +24,9 @@
 
    
     <div class="project-image" [class.empty]="!project.imageUrl">
-      <!--
-      <img *ngIf="project.imageUrl" [src]="'http://localhost:5000' + project.imageUrl" [alt]="project.name" style="width:100%; height:100%; object-fit:cover;" />
-      -->
+      
+      <img *ngIf="project.imageUrl" [src]="apiUrl + project.imageUrl" [alt]="project.name" style="width:100%; height:100%; object-fit:cover;" />
+      
     </div>
 
     <div class="project-details">
@@ -76,7 +76,7 @@
         </div>
       </div>
 
-      <button class="project-action">Invest Now</button>
+      <button class="project-action" (click)="goToDetails(project.id)">Invest Now</button>
     </div>
   </div>
 </div>

@@ -20,6 +20,7 @@ export class InvestorNav {
   private readonly pageMap = new Map<string, { title: string; subtitle: string }>([
     ['dashboard', { title: 'Dashboard', subtitle: 'Track your agricultural investments and returns' }],
     ['available-projects', { title: 'Available Projects', subtitle: 'Browse and invest in verified agricultural projects' }],
+    ['project-details/:id', { title: 'Project Details', subtitle: 'Review and invest in this project' }],
     ['my-investments', { title: 'My Investments', subtitle: 'Track and manage your agricultural investments' }],
     ['investment-history', { title: 'Investment History', subtitle: 'View your complete investment transaction history' }],
     ['wallet', { title: 'Wallet', subtitle: 'Manage your investment funds' }],
@@ -36,6 +37,13 @@ export class InvestorNav {
   }
 
   private updateHeader(url: string) {
+    if (url.includes('project-details')) {
+      this.pageTitle = 'Project Details';
+      this.pageSubtitle = 'Review and invest in this project';
+      return;
+    }
+
+
     const segments = url.split('/').filter(Boolean);
     const pageKey = segments.length ? segments[segments.length - 1] : 'dashboard';
     const effectiveKey = ['profile', 'security', 'notifications', 'preferences'].includes(pageKey)

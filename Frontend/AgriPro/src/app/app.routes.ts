@@ -60,6 +60,7 @@ import { CreateProjectForms } from './components/farmer/components/create-projec
 import { ProjectDetails } from './components/project-details/project-details';
 import { InvestorProfile2 } from './components/investor/components/investor-profile2/investor-profile2';
 import { ExpertProfile } from './components/expert/components/expert-profile/expert-profile';
+import { InvestorProjectDetails } from './components/investor/components/investor-project-details/investor-project-details';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -146,7 +147,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: InvestorDashboard },
-      { path: 'available-projects', component:InvestorProjects  },
+      { path: 'available-projects', component: InvestorProjects },
+      { path: 'available-projects/project-details/:id', component: InvestorProjectDetails },
       { path: 'my-investments', component: InvestorInvestments },
       { path: 'investment-history', component: InvestorHistory },
       

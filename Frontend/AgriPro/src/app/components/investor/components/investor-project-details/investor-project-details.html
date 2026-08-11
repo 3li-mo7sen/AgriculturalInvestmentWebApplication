@@ -1,0 +1,103 @@
+<div class="details-container">
+
+  <div class="mb-3">
+    <a routerLink="/investor/available-projects" class="back-link">
+      <i class="fa-solid fa-arrow-left me-1"></i> Back to Available Projects
+    </a>
+  </div>
+
+  <div *ngIf="isLoading" class="skeleton-wrapper">
+    <div class="skeleton-header"></div>
+    <div class="details-grid">
+      <div class="main-info">
+        <div class="skeleton-box image"></div>
+        <div class="skeleton-box text-block"></div>
+        <div class="skeleton-box text-block"></div>
+      </div>
+      <div class="side-info">
+        <div class="skeleton-box card"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="!isLoading && errorMessage" class="error-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <p>{{ errorMessage }}</p>
+  </div>
+
+
+  <div *ngIf="!isLoading && project" class="project-details-wrapper">
+
+    <div class="details-header">
+      <h2>{{ project.name }}</h2>
+      <span class="badge status">{{ project.status }}</span>
+    </div>
+
+
+    <div class="details-grid">
+
+      <div class="main-info">
+        <div class="image-container" [class.empty]="!project.imageUrl">
+          
+          <img *ngIf="project.imageUrl"
+               [src]=" apiUrl  + project.imageUrl"
+               [alt]="project.name" />
+          
+        </div>
+
+        <div class="section-box">
+          <h3>Description</h3>
+          <p>{{ project.fullDescription || project.shortDescription || 'No description provided.' }}</p>
+        </div>
+
+        <div class="section-box">
+          <h3>Agricultural Details</h3>
+          <div class="info-grid">
+            <div><strong>Crop Type:</strong> {{ project.cropType || 'N/A' }}</div>
+            <div><strong>Land Size:</strong> {{ project.landSize }} Acres</div>
+            <div><strong>Soil Type:</strong> {{ project.soilType || 'N/A' }}</div>
+            <div><strong>Water Source:</strong> {{ project.waterSource || 'N/A' }}</div>
+            <div><strong>Season:</strong> {{ project.expectedCropSeason || 'N/A' }}</div>
+            <div><strong>Location:</strong> {{ project.governorate }}<span *ngIf="project.district">, {{ project.district }}</span></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="side-info">
+        <div class="card-summary">
+          <p class="farmer-name">Farmer: <strong>{{ project.farmerName }}</strong></p>
+
+          <div class="financial-item">
+            <span>Target Cost</span>
+            <strong>EGP {{ project.cost | number }}</strong>
+          </div>
+
+          <div class="financial-item">
+            <span>Minimum Investment</span>
+            <strong>EGP {{ project.minimumInvestment | number }}</strong>
+          </div>
+
+          <div class="financial-item">
+            <span>Expected ROI</span>
+            <strong>{{ calculateRoi(project.expectedProfit, project.cost) }}</strong>
+          </div>
+
+          <div class="financial-item">
+            <span>Duration</span>
+            <strong>{{ project.duration }} Months</strong>
+          </div>
+
+          <div class="financial-item">
+            <span>Investor Profit Share</span>
+            <strong>{{ project.investorProfitShare }}%</strong>
+          </div>
+
+
+          <button class="btn-invest" (click)="onInvest()">Invest Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

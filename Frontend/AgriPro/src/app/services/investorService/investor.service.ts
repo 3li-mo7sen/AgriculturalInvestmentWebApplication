@@ -41,5 +41,8 @@ export class InvestorService {
       ...newFilter,
     });
   }
-  
+
+  getProjectById(id: number): Observable<Project> {
+    return this.http.get<Project>(`${environment.baseUrl}/api/Project/Get-Project-By-Id/${id}`);
+  }
 }
