@@ -45,4 +45,8 @@ export class InvestorService {
   getProjectById(id: number): Observable<Project> {
     return this.http.get<Project>(`${environment.baseUrl}/api/Project/Get-Project-By-Id/${id}`);
   }
+
+  createInvestment(data: { projectId: number; amount: number }): Observable<any> {
+    return this.http.post<any>(`${environment.baseUrl}/api/Investment`, data);
+  }
 }

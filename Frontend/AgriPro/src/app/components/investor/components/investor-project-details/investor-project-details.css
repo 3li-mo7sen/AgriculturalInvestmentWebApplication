@@ -166,3 +166,247 @@
     color: #0b5e40;
     text-decoration: underline;
   }
+
+  /*----wizard----*/
+
+.wizard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+  scroll-margin-top: 20px; 
+}
+
+.wizard-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 650px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+  animation: pulseHighlight 0.6s ease-out;
+}
+
+@keyframes pulseHighlight {
+  0% {
+    box-shadow: 0 0 0 0 rgba(6, 64, 43, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 15px rgba(6, 64, 43, 0);
+  }
+
+  100% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+}
+
+
+.wizard-progress {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+  .wizard-progress span {
+    width: 45px;
+    height: 6px;
+    background-color: #e2e8f0;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+  }
+
+    .wizard-progress span.active {
+      background-color: #06402b;
+    }
+
+.wizard-step h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+
+.wizard-step .subtitle {
+  color: #64748b;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.wizard-input {
+  width: 100%;
+  padding: 0.85rem 1.2rem;
+  border: 2px solid #06402b;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  text-align: center;
+  outline: none;
+  font-weight: 600;
+}
+
+.roi-box {
+  background-color: #eaf5ee;
+  border-radius: 14px;
+  padding: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.roi-title {
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.roi-amount {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #06402b;
+  margin-top: 0.3rem;
+}
+
+
+.contract-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.2rem;
+  max-height: 220px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  color: #334155;
+  text-align: left;
+}
+
+
+.payment-info-box {
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+  .info-row:last-child {
+    border-bottom: none;
+  }
+
+.alert-box {
+  background-color: #fffbeb;
+  border: 1px solid #fef3c7;
+  color: #92400e;
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+
+.upload-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fafafa;
+  transition: border-color 0.2s;
+}
+
+  .upload-box:hover {
+    border-color: #06402b;
+  }
+
+.upload-icon {
+  font-size: 2.2rem;
+  color: #475569;
+  margin-bottom: 0.8rem;
+}
+
+.upload-title {
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.2rem;
+}
+
+.upload-subtitle {
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+
+.success-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background-color: #06402b;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin: 0 auto;
+}
+
+.status-badge-box {
+  background-color: #f8fafc;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.status-label {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.status-value {
+  color: #d97706;
+  font-weight: 700;
+}
+
+
+.wizard-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.8rem;
+}
+
+.btn-wizard-primary {
+  flex: 1;
+  background-color: #06402b;
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+  .btn-wizard-primary:disabled {
+    background-color: #8fa89d;
+    cursor: not-allowed;
+  }
+
+.btn-wizard-secondary {
+  flex: 1;
+  background-color: #ffffff;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  padding: 0.85rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+  .btn-wizard-secondary:hover {
+    background-color: #f8fafc;
+  }
