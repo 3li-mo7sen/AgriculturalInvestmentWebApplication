@@ -4,8 +4,10 @@ import { InvestDashInvestments } from './components/invest-dash-investments/inve
 import { InvestDashProjects } from './components/invest-dash-projects/invest-dash-projects';
 import { CommonModule } from '@angular/common';
 import { InvestorService } from '../../../../services/investorService/investor.service';
-import { InvestorDashboardResponse } from '../../../../models/investor-dashboard';
-import { finalize } from 'rxjs';
+import { AvailableProjectItem, InvestorDashboardResponse } from '../../../../models/investor-dashboard';
+import { finalize, forkJoin } from 'rxjs';
+import { environment } from '../../../../../environment/environment';
+import { Project } from '../../../../models/investor-projects';
 
 @Component({
   standalone: true,
@@ -16,6 +18,7 @@ import { finalize } from 'rxjs';
 })
 export class InvestorDashboard {
   dashboardData: InvestorDashboardResponse | null = null;
+  featuredProjects: AvailableProjectItem[] = [];
   isLoading: boolean = true;
   errorMessage: string = '';
 
@@ -32,7 +35,11 @@ export class InvestorDashboard {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.investorService.getInvestorDashboard()
+   
+    forkJoin({
+      dashboard: this.investorService.getInvestorDashboard(),
+      approvedProjects: this.investorService.getAllProjects()
+    })
       .pipe(
         finalize(() => {
           this.isLoading = false;
@@ -40,8 +47,21 @@ export class InvestorDashboard {
         })
       )
       .subscribe({
-        next: (data) => {
-          this.dashboardData = data;
+        next: ({ dashboard, approvedProjects }) => {
+          this.dashboardData = dashboard;
+
+         
+          this.featuredProjects = approvedProjects.map((proj: Project) => ({
+            id: proj.id,
+            title: proj.name,
+            location: proj.governorate ? `${proj.governorate}${proj.district ? ', ' + proj.district : ''}` : '',
+            cropType: proj.cropType ?? undefined, 
+            expectedRoi: proj.expectedProfit ? `${proj.expectedProfit}%` : 'N/A',
+            minInvestment: proj.minimumInvestment || proj.cost,
+            fundingProgress: proj.fundingProgress || 0,
+            imageUrl: proj.imageUrl ? `${environment.baseUrl}${proj.imageUrl}` : undefined
+          }));
+
           this.cdr.detectChanges();
         },
         error: (err) => {
@@ -52,3 +72,4 @@ export class InvestorDashboard {
       });
   }
 }
+

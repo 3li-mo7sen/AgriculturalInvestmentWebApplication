@@ -6,7 +6,12 @@
 
   <div class="projects-grid" *ngIf="projects && projects.length > 0; else emptyProjects">
     <div class="project-card" *ngFor="let proj of projects">
-      <div class="project-image" [ngStyle]="{'background-image': proj.imageUrl ? 'url(' + proj.imageUrl + ')' : 'none'}" [class.empty]="!proj.imageUrl"></div>
+      <div class="project-image" [class.empty]="!proj.imageUrl">
+        <img *ngIf="proj.imageUrl" [src]="proj.imageUrl" [alt]="proj.title" />
+        <div *ngIf="!proj.imageUrl" class="no-image-placeholder">
+          <i class="fa-solid fa-image"></i>
+        </div>
+      </div>
       <div class="project-info">
         <h3>{{ proj.title || 'Agricultural Project' }}</h3>
         <p class="location" *ngIf="proj.location"><i class="fa-solid fa-location-dot"></i> {{ proj.location }}</p>

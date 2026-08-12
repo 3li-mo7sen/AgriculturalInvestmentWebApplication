@@ -49,6 +49,6 @@
   <ng-container *ngIf="!isLoading && !errorMessage">
     <app-invest-dash-cards [stats]="dashboardData?.stats || []"></app-invest-dash-cards>
     <app-invest-dash-investments [investments]="dashboardData?.recentItems || []"></app-invest-dash-investments>
-    <app-invest-dash-projects [projects]="dashboardData?.extra?.availableProjects || []"></app-invest-dash-projects>
+    <app-invest-dash-projects [projects]="featuredProjects"></app-invest-dash-projects>
   </ng-container>
 </div>
