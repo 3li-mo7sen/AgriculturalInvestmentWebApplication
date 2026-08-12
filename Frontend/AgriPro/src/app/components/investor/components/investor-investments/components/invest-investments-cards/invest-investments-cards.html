@@ -2,34 +2,37 @@
   <div class="summary-card">
     <div>
       <p class="summary-label">Total Invested</p>
-      <h3>EGP 410,000</h3>
+      <h3>EGP {{ totalInvested | number }}</h3>
     </div>
     <div class="summary-icon">
       <i class="fa-solid fa-dollar-sign"></i>
     </div>
   </div>
+
   <div class="summary-card">
     <div>
       <p class="summary-label">Expected Returns</p>
-      <h3>EGP 76,950</h3>
+      <h3>EGP {{ expectedReturns | number }}</h3>
     </div>
     <div class="summary-icon">
       <i class="fa-solid fa-chart-line"></i>
     </div>
   </div>
+
   <div class="summary-card">
     <div>
       <p class="summary-label">Active Investments</p>
-      <h3>3</h3>
+      <h3>{{ activeInvestmentsCount }}</h3>
     </div>
     <div class="summary-icon">
       <i class="fa-solid fa-circle-check"></i>
     </div>
   </div>
+
   <div class="summary-card">
     <div>
       <p class="summary-label">Total Projects</p>
-      <h3>5</h3>
+      <h3>{{ totalProjectsCount }}</h3>
     </div>
     <div class="summary-icon">
       <i class="fa-solid fa-calendar-days"></i>

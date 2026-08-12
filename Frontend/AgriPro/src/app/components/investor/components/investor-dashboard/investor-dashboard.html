@@ -1,5 +1,54 @@
 <div class="investor-dashboard-page">
-  <app-invest-dash-cards></app-invest-dash-cards>
-  <app-invest-dash-investments></app-invest-dash-investments>
-  <app-invest-dash-projects></app-invest-dash-projects>
+  
+  <div *ngIf="isLoading" class="skeleton-container">
+
+   
+    <div class="skeleton-cards">
+      <div class="skeleton-card" *ngFor="let i of [1,2,3,4]">
+        <div class="skeleton-line title"></div>
+        <div class="skeleton-line value"></div>
+        <div class="skeleton-line detail"></div>
+      </div>
+    </div>
+
+   
+    <div class="skeleton-section">
+      <div class="skeleton-line header"></div>
+      <div class="skeleton-list">
+        <div class="skeleton-item" *ngFor="let i of [1,2,3]">
+          <div class="skeleton-circle"></div>
+          <div class="skeleton-content">
+            <div class="skeleton-line medium"></div>
+            <div class="skeleton-line short"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="skeleton-section">
+      <div class="skeleton-line header"></div>
+      <div class="skeleton-projects-grid">
+        <div class="skeleton-project-card" *ngFor="let i of [1,2]">
+          <div class="skeleton-image"></div>
+          <div class="skeleton-line medium mt-2"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div *ngIf="!isLoading && errorMessage" class="alert alert-danger my-4 text-center">
+    {{ errorMessage }}
+    <button class="btn btn-sm btn-outline-danger ms-3" (click)="fetchDashboardData()">Retry</button>
+  </div>
+
+
+  <ng-container *ngIf="!isLoading && !errorMessage">
+    <app-invest-dash-cards [stats]="dashboardData?.stats || []"></app-invest-dash-cards>
+    <app-invest-dash-investments [investments]="dashboardData?.recentItems || []"></app-invest-dash-investments>
+    <app-invest-dash-projects [projects]="dashboardData?.extra?.availableProjects || []"></app-invest-dash-projects>
+  </ng-container>
 </div>

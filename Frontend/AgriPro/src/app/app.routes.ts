@@ -151,7 +151,8 @@ export const routes: Routes = [
       { path: 'available-projects/project-details/:id', component: InvestorProjectDetails },
       { path: 'my-investments', component: InvestorInvestments },
       { path: 'investment-history', component: InvestorHistory },
-      
+      { path: 'wallet', component: InvestorWallet },
+
       {path:'profile',component:InvestorProfile2}
       ]
   }

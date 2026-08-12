@@ -1,108 +1,42 @@
 <div class="investments-section">
   <div class="section-header">
-    <h2>My Investments</h2>
-    <a href="#" class="view-all">View All <i class="fa-solid fa-arrow-up-right"></i></a>
+    <h2>My Recent Investments</h2>
+    <a routerLink="/investor/my-investments" class="view-all">View All <i class="fa-solid fa-arrow-up-right"></i></a>
   </div>
 
-  <div class="investments-list">
-    <!-- Investment 1: Wheat Farm -->
-    <div class="investment-card">
+  <div class="investments-list" *ngIf="investments && investments.length > 0; else emptyState">
+    <div class="investment-card" *ngFor="let item of investments">
       <div class="card-content">
         <div class="project-info">
-          <h3>Wheat Farm - Beheira</h3>
-          <div class="status-badge active"><i class="fa-solid fa-check"></i> Active</div>
-          <p class="farmer-name">Farmer: Ahmed Hassan</p>
+          <h3>{{ item.projectName || 'Investment Project' }}</h3>
+          <div class="status-badge" [ngClass]="(item.status || 'active') | lowercase">
+            <i class="fa-solid" [ngClass]="item.status?.toLowerCase() === 'active' ? 'fa-check' : 'fa-circle-notch'"></i>
+            {{ item.status || 'Active' }}
+          </div>
+          <p class="farmer-name" *ngIf="item.farmerName">Farmer: {{ item.farmerName }}</p>
         </div>
         <div class="investment-details">
-          <div class="detail-group">
+          <div class="detail-group" *ngIf="item.amountInvested">
             <span class="label">Invested:</span>
-            <span class="value"><strong>EGP 75,000</strong></span>
+            <span class="value"><strong>EGP {{ item.amountInvested | number }}</strong></span>
           </div>
-          <div class="detail-group">
+          <div class="detail-group" *ngIf="item.expectedReturn">
             <span class="label">Expected:</span>
-            <span class="value success"><strong>EGP 12,750</strong></span>
+            <span class="value success"><strong>EGP {{ item.expectedReturn | number }}</strong></span>
           </div>
         </div>
       </div>
       <div class="card-stats">
-        <div class="roi">17%<br><span class="roi-label">ROI</span></div>
-        <div class="due-date">Due: Aug 2024</div>
-      </div>
-    </div>
-
-    <!-- Investment 2: Mango Orchard -->
-    <div class="investment-card">
-      <div class="card-content">
-        <div class="project-info">
-          <h3>Mango Orchard - Ismailia</h3>
-          <div class="status-badge pending"><i class="fa-solid fa-circle-notch"></i> Pending</div>
-          <p class="farmer-name">Farmer: Mohamed Ali</p>
-        </div>
-        <div class="investment-details">
-          <div class="detail-group">
-            <span class="label">Invested:</span>
-            <span class="value"><strong>EGP 100,000</strong></span>
-          </div>
-          <div class="detail-group">
-            <span class="label">Expected:</span>
-            <span class="value success"><strong>EGP 22,000</strong></span>
-          </div>
-        </div>
-      </div>
-      <div class="card-stats">
-        <div class="roi">22%<br><span class="roi-label">ROI</span></div>
-        <div class="due-date">Due: Oct 2024</div>
-      </div>
-    </div>
-
-    <!-- Investment 3: Organic Vegetables -->
-    <div class="investment-card">
-      <div class="card-content">
-        <div class="project-info">
-          <h3>Organic Vegetables - Fayoum</h3>
-          <div class="status-badge active"><i class="fa-solid fa-check"></i> Active</div>
-          <p class="farmer-name">Farmer: Fatma El-Sayed</p>
-        </div>
-        <div class="investment-details">
-          <div class="detail-group">
-            <span class="label">Invested:</span>
-            <span class="value"><strong>EGP 50,000</strong></span>
-          </div>
-          <div class="detail-group">
-            <span class="label">Expected:</span>
-            <span class="value success"><strong>EGP 7,000</strong></span>
-          </div>
-        </div>
-      </div>
-      <div class="card-stats">
-        <div class="roi">14%<br><span class="roi-label">ROI</span></div>
-        <div class="due-date">Due: Jun 2024</div>
-      </div>
-    </div>
-
-    <!-- Investment 4: Cotton Plantation -->
-    <div class="investment-card">
-      <div class="card-content">
-        <div class="project-info">
-          <h3>Cotton Plantation - Minya</h3>
-          <div class="status-badge active"><i class="fa-solid fa-check"></i> Active</div>
-          <p class="farmer-name">Farmer: Omar Mostafa</p>
-        </div>
-        <div class="investment-details">
-          <div class="detail-group">
-            <span class="label">Invested:</span>
-            <span class="value"><strong>EGP 125,000</strong></span>
-          </div>
-          <div class="detail-group">
-            <span class="label">Expected:</span>
-            <span class="value success"><strong>EGP 25,000</strong></span>
-          </div>
-        </div>
-      </div>
-      <div class="card-stats">
-        <div class="roi">20%<br><span class="roi-label">ROI</span></div>
-        <div class="due-date">Due: Nov 2024</div>
+        <div class="roi" *ngIf="item.roi">{{ item.roi }}<br><span class="roi-label">ROI</span></div>
+        <div class="due-date" *ngIf="item.dueDate">Due: {{ item.dueDate | date:'mediumDate' }}</div>
       </div>
     </div>
   </div>
+
+  <ng-template #emptyState>
+    <div class="p-4 text-center text-muted bg-white rounded-3 shadow-sm my-3">
+      <i class="fa-solid fa-folder-open mb-2 fs-3 text-secondary"></i>
+      <p class="m-0">No recent investments found.</p>
+    </div>
+  </ng-template>
 </div>

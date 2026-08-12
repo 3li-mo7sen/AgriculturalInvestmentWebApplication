@@ -1,44 +1,44 @@
 <div class="transactions-table-container">
-  <table class="transactions-table">
+  <table class="transactions-table" *ngIf="historyItems && historyItems.length > 0">
     <thead>
       <tr class="table-header">
-        <th>Project</th>
-        <th>Type</th>
+        <th>Project Name</th>
         <th>Amount</th>
+        <th>Profit</th>
         <th>ROI</th>
-        <th>Date</th>
+        <th>Completion Date</th>
         <th>Status</th>
-        <th>Payment</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let transaction of transactions" class="table-row">
+      <tr *ngFor="let item of historyItems" class="table-row">
         <td class="project-cell">
-          <span class="project-name">{{ transaction.project }}</span>
-        </td>
-        <td>
-          <span class="type-badge" [ngClass]="transaction.typeClass">
-            {{ transaction.type }}
-          </span>
+          <span class="project-name">{{ item?.projectName }}</span>
         </td>
         <td class="amount-cell">
-          <span class="amount-value">{{ transaction.amount }}</span>
+          <span class="amount-value">EGP {{ item?.amount | number }}</span>
+        </td>
+        <td class="amount-cell text-success">
+          <span class="amount-value">EGP {{ item?.profit | number }}</span>
         </td>
         <td>
-          <span class="roi-value">{{ transaction.roi }}</span>
+          <span class="roi-value">{{ item?.roi }}</span>
         </td>
-        <td>{{ transaction.date }}</td>
+        <td>{{ item?.completionDate ? (item?.completionDate | date:'mediumDate') : 'In Progress' }}</td>
         <td>
-          <span class="status-badge" [ngClass]="transaction.statusClass">
-            {{ transaction.status }}
-          </span>
-        </td>
-        <td>
-          <span class="payment-badge" [ngClass]="transaction.paymentClass">
-            {{ transaction.payment }}
+          <span class="status-badge" [ngClass]="item?.status ? (item.status | lowercase) : ''">
+            {{ item?.status }}
           </span>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <div *ngIf="!historyItems || historyItems.length === 0" class="empty-state-container">
+    <div class="empty-state-icon">
+      <i class="fa-solid fa-folder-open"></i>
+    </div>
+    <h3 class="empty-state-title">No Investment History Found</h3>
+    <p class="empty-state-description">There are no investment records matching your current filter criteria.</p>
+  </div>
 </div>

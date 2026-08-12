@@ -1,6 +1,8 @@
-import { Component, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, HostListener, ElementRef, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-invest-history-search',
@@ -10,52 +12,38 @@ import { FormsModule } from '@angular/forms';
   standalone: true
 })
 export class InvestHistorySearch {
+  @Output() searchChanged = new EventEmitter<string>();
+  @Output() statusChanged = new EventEmitter<string>();
+
   showStatusDropdown = false;
-  showTypesDropdown = false;
   selectedStatus = 'All Status';
-  selectedType = 'All Types';
   searchText = '';
 
-  statuses = ['All Status', 'Active', 'Completed', 'Pending'];
-  types = ['All Types', 'Investment', 'Return'];
+  statuses = ['All Status', 'Active', 'Completed'];
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) { }
 
-  toggleStatusDropdown() {
+  onSearchInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.searchText = input.value;
+    this.searchChanged.emit(this.searchText);
+  }
+
+  toggleStatusDropdown(): void {
     this.showStatusDropdown = !this.showStatusDropdown;
-    if (this.showStatusDropdown) {
-      this.showTypesDropdown = false;
-    }
   }
 
-  toggleTypesDropdown() {
-    this.showTypesDropdown = !this.showTypesDropdown;
-    if (this.showTypesDropdown) {
-      this.showStatusDropdown = false;
-    }
-  }
-
-  selectStatus(status: string) {
+  selectStatus(status: string): void {
     this.selectedStatus = status;
     this.showStatusDropdown = false;
-  }
-
-  selectType(type: string) {
-    this.selectedType = type;
-    this.showTypesDropdown = false;
+    this.statusChanged.emit(status);
   }
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event) {
-    const clickedInside = this.elementRef.nativeElement.contains(event.target);
-    if (!clickedInside) {
+  onDocumentClick(event: Event): void {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
       this.showStatusDropdown = false;
-      this.showTypesDropdown = false;
     }
-  }
-
-  exportData() {
-    console.log('Exporting data...');
   }
 }
 

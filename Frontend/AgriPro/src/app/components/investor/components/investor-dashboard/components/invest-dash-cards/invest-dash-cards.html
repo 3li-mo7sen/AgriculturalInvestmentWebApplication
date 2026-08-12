@@ -1,37 +1,10 @@
 <div class="cards-container">
-  <div class="stat-card">
+  <div class="stat-card" *ngFor="let stat of stats">
     <div class="card-header">
-      <span class="card-label">Total Invested</span>
-      <i class="fa-solid fa-landmark icon-1"></i>
+      <span class="card-label">{{ stat.title }}</span>
+      <i class="fa-solid {{ getIconClass(stat.title) }}"></i>
     </div>
-    <div class="card-value">EGP 350,000</div>
-    <div class="card-detail">+EGP 50,000 this month</div>
-  </div>
-
-  <div class="stat-card">
-    <div class="card-header">
-      <span class="card-label">Expected Returns</span>
-      <i class="fa-solid fa-arrow-trend-up icon-2"></i>
-    </div>
-    <div class="card-value">EGP 59,500</div>
-    <div class="card-detail">17% average ROI</div>
-  </div>
-
-  <div class="stat-card">
-    <div class="card-header">
-      <span class="card-label">Active Investments</span>
-      <i class="fa-solid fa-chart-bar icon-3"></i>
-    </div>
-    <div class="card-value">5</div>
-    <div class="card-detail">2 pending verification</div>
-  </div>
-
-  <div class="stat-card">
-    <div class="card-header">
-      <span class="card-label">Available Balance</span>
-      <i class="fa-solid fa-wallet icon-4"></i>
-    </div>
-    <div class="card-value">EGP 75,000</div>
-    <div class="card-detail">Ready to invest</div>
+    <div class="card-value">{{ stat.value }}</div>
+    <div class="card-detail" *ngIf="stat.description">{{ stat.description }}</div>
   </div>
 </div>

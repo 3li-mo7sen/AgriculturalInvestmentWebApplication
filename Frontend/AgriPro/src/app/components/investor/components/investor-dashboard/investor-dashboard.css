@@ -18,3 +18,138 @@
     padding: 1rem 0.8rem 1.5rem;
   }
 }
+
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+
+.skeleton-line,
+.skeleton-card,
+.skeleton-circle,
+.skeleton-image {
+  background: #f6f7f8;
+  background-image: linear-gradient( 90deg, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100% );
+  background-repeat: no-repeat;
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 8px;
+}
+
+
+.skeleton-line {
+  height: 14px;
+  margin-bottom: 8px;
+}
+
+  .skeleton-line.title {
+    width: 40%;
+    height: 16px;
+  }
+
+  .skeleton-line.value {
+    width: 70%;
+    height: 28px;
+    margin: 12px 0;
+  }
+
+  .skeleton-line.detail {
+    width: 50%;
+    height: 12px;
+  }
+
+  .skeleton-line.header {
+    width: 25%;
+    height: 22px;
+    margin-bottom: 1.5rem;
+  }
+
+  .skeleton-line.medium {
+    width: 60%;
+  }
+
+  .skeleton-line.short {
+    width: 35%;
+  }
+
+
+.skeleton-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.skeleton-card {
+  padding: 1.25rem;
+  background-color: #fff;
+  border-radius: 12px;
+  border: 1px solid #eef2f5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+
+.skeleton-section {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #eef2f5;
+}
+
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeleton-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.skeleton-circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-content {
+  flex: 1;
+}
+
+
+.skeleton-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.skeleton-project-card {
+  padding: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 140px;
+  border-radius: 8px;
+}

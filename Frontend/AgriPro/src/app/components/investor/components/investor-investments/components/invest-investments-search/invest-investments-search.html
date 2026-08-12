@@ -1,7 +1,10 @@
 <div class="investments-search-bar">
   <div class="search-input">
     <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" placeholder="Search investments..." />
+    <input type="text"
+           placeholder="Search investments..."
+           [(ngModel)]="searchTerm"
+           (input)="onInputSearch()" />
   </div>
   <div class="status-dropdown">
     <button type="button" class="status-button" (click)="toggleStatus()">

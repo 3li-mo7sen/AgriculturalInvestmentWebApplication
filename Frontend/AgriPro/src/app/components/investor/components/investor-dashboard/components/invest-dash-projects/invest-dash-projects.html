@@ -1,47 +1,30 @@
 <div class="projects-section">
   <div class="section-header">
     <h2>Featured Projects</h2>
-    <a href="#" class="view-all">Browse All <i class="fa-solid fa-arrow-up-right"></i></a>
+    <a routerLink="/investor/available-projects" class="view-all">Browse All <i class="fa-solid fa-arrow-up-right"></i></a>
   </div>
 
-  <div class="projects-grid">
-    <!-- Project 1: Rice Paddy -->
-    <div class="project-card">
-      <div class="project-image empty"></div>
+  <div class="projects-grid" *ngIf="projects && projects.length > 0; else emptyProjects">
+    <div class="project-card" *ngFor="let proj of projects">
+      <div class="project-image" [ngStyle]="{'background-image': proj.imageUrl ? 'url(' + proj.imageUrl + ')' : 'none'}" [class.empty]="!proj.imageUrl"></div>
       <div class="project-info">
-        <h3>Rice Paddy Investment</h3>
-        <p class="location"><i class="fa-solid fa-location-dot"></i> Kafr El-Sheikh</p>
-        <div class="roi-range">16-20% <span class="label">min. EGP 10,000</span></div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 75%"></div>
+        <h3>{{ proj.title || 'Agricultural Project' }}</h3>
+        <p class="location" *ngIf="proj.location"><i class="fa-solid fa-location-dot"></i> {{ proj.location }}</p>
+        <div class="roi-range">
+          {{ proj.expectedRoi || 'N/A' }}
+          <span class="label" *ngIf="proj.minInvestment">min. EGP {{ proj.minInvestment | number }}</span>
         </div>
-      </div>
-    </div>
-
-    <!-- Project 2: Sugarcane Farm -->
-    <div class="project-card">
-      <div class="project-image empty"></div>
-      <div class="project-info">
-        <h3>Sugarcane Farm</h3>
-        <p class="location"><i class="fa-solid fa-location-dot"></i> Qena</p>
-        <div class="roi-range">18-22% <span class="label">min. EGP 15,000</span></div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 85%"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 3: Citrus Orchard -->
-    <div class="project-card">
-      <div class="project-image empty"></div>
-      <div class="project-info">
-        <h3>Citrus Orchard</h3>
-        <p class="location"><i class="fa-solid fa-location-dot"></i> Sharqia</p>
-        <div class="roi-range">15-18% <span class="label">min. EGP 8,000</span></div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 60%"></div>
+        <div class="progress-bar" *ngIf="proj.fundingProgress !== undefined">
+          <div class="progress-fill" [style.width.%]="proj.fundingProgress"></div>
         </div>
       </div>
     </div>
   </div>
+
+  <ng-template #emptyProjects>
+    <div class="p-4 text-center text-muted bg-white rounded-3 shadow-sm my-3">
+      <i class="fa-solid fa-wheat-awn-circle-exclamation mb-2 fs-3 text-secondary"></i>
+      <p class="m-0">No available projects at the moment.</p>
+    </div>
+  </ng-template>
 </div>

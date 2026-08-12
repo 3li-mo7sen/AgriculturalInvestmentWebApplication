@@ -3,6 +3,9 @@ import { environment } from '../../../environment/environment';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Project, ProjectFilter } from '../../models/investor-projects';
 import { HttpClient } from '@angular/common/http';
+import { Investment } from '../../models/investor-my-investments';
+import { InvestmentHistoryResponse } from '../../models/investor-history';
+import { InvestorDashboardResponse } from '../../models/investor-dashboard';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +28,10 @@ export class InvestorService {
   getAllProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(`${environment.baseUrl}/api/Project/Get-All-Projects`).pipe(
       map((projects) =>
-        
+
         projects.filter(
           (p) =>
-            
+
             p.status?.toLowerCase() === 'approved'
         )
       )
@@ -48,5 +51,19 @@ export class InvestorService {
 
   createInvestment(data: { projectId: number; amount: number }): Observable<any> {
     return this.http.post<any>(`${environment.baseUrl}/api/Investment`, data);
+  }
+
+  getMyInvestments(): Observable<Investment[]> {
+    return this.http.get<Investment[]>(`${environment.baseUrl}/api/Investment/my-investments`);
+  }
+
+  getInvestmentHistory(): Observable<InvestmentHistoryResponse> {
+    return this.http.get<InvestmentHistoryResponse>(`${environment.baseUrl}/api/Investment/history`);
+  }
+
+  getInvestorDashboard(): Observable<InvestorDashboardResponse> {
+    return this.http.get<InvestorDashboardResponse>(
+      `${environment.baseUrl}/api/Investor/Get-Investor-Dashboard`
+    );
   }
 }
