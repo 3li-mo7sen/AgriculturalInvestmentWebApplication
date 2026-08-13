@@ -20,6 +20,12 @@ export interface UserProfile {
     verifiedProjects?: number;
     rejectedProjects?: number;
     rating?: number;
+    //investor
+    totalInvested: number;
+    activeInvestments: number;
+    totalReturns: number;
+    averageRoi: number;
+
   };
 
 }

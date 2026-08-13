@@ -161,3 +161,143 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+
+.skeleton-line,
+.skeleton-icon,
+.skeleton-circle,
+.skeleton-card {
+  background: #f6f7f8;
+  background-image: linear-gradient( 90deg, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100% );
+  background-repeat: no-repeat;
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+
+.skeleton-line {
+  height: 12px;
+  border-radius: 4px;
+}
+
+  .skeleton-line.short {
+    width: 35%;
+  }
+
+  .skeleton-line.medium {
+    width: 60%;
+  }
+
+  .skeleton-line.value {
+    width: 55%;
+    height: 24px;
+    margin: 8px 0;
+  }
+
+  .skeleton-line.detail {
+    width: 40%;
+    height: 10px;
+  }
+
+  .skeleton-line.header {
+    width: 22%;
+    height: 20px;
+    margin-bottom: 1.5rem;
+  }
+
+  .skeleton-line.badge {
+    width: 65px;
+    height: 14px;
+    border-radius: 12px;
+    margin-left: auto;
+  }
+
+
+.skeleton-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.skeleton-card {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 16px;
+  border: 1px solid #eef2f5;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.skeleton-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.skeleton-info {
+  flex: 1;
+}
+
+
+.skeleton-section {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid #eef2f5;
+}
+
+.skeleton-transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.skeleton-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-row-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeleton-row-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  width: 100px;
+}

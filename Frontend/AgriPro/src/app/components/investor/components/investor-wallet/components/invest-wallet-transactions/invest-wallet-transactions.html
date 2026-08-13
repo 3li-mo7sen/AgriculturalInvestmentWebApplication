@@ -1,96 +1,48 @@
 <section class="history-card">
   <div class="history-header">
     <h2>Recent Transactions</h2>
-    <button class="history-export">
-      <i class="fa-solid fa-download"></i>
-      Export
-    </button>
   </div>
 
-  <div class="transaction-list">
-    <article class="transaction-row">
-      <div class="transaction-icon icon-green">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <div class="transaction-list" *ngIf="transactions && transactions.length > 0; else noTransactions">
+    <article class="transaction-row" *ngFor="let item of transactions">
+
+    
+      <div class="transaction-icon" [ngClass]="item.amount >= 0 ? 'icon-green' : 'icon-muted'">
+        <svg *ngIf="item.amount >= 0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M18 6 6 18" />
           <path d="M6 6v12h12" />
         </svg>
-      </div>
-      <div class="transaction-info">
-        <h3>Returns - Organic Vegetables</h3>
-        <p>Apr 15, 2024 • RET-2024-001</p>
-      </div>
-      <div class="transaction-meta">
-        <span class="amount positive">+EGP 57,000</span>
-        <span class="status completed"><i class="fa-regular fa-circle-check"></i> Completed</span>
-      </div>
-    </article>
-
-    <article class="transaction-row">
-      <div class="transaction-icon icon-muted">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg *ngIf="item.amount < 0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M6 18 18 6" />
           <path d="M6 18h12V6" />
         </svg>
       </div>
-      <div class="transaction-info">
-        <h3>Investment - Wheat Farm</h3>
-        <p>Jan 16, 2024 • INV-2024-001</p>
-      </div>
-      <div class="transaction-meta">
-        <span class="amount negative">-EGP 75,000</span>
-        <span class="status completed"><i class="fa-regular fa-circle-check"></i> Completed</span>
-      </div>
-    </article>
 
-    <article class="transaction-row">
-      <div class="transaction-icon icon-green">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M18 6 6 18" />
-          <path d="M6 6v12h12" />
-        </svg>
-      </div>
+    
       <div class="transaction-info">
-        <h3>Returns - Rice Paddy</h3>
-        <p>Apr 20, 2024 • RET-2024-002</p>
+        <h3>{{ item.description }}</h3>
+        <p>
+          {{ item.date | date: 'mediumDate' }}
+          <span *ngIf="item.projectName"> • {{ item.projectName }}</span>
+        </p>
       </div>
-      <div class="transaction-meta">
-        <span class="amount positive">+EGP 70,200</span>
-        <span class="status completed"><i class="fa-regular fa-circle-check"></i> Completed</span>
-      </div>
-    </article>
 
-    <article class="transaction-row">
-      <div class="transaction-icon icon-muted">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M6 18 18 6" />
-          <path d="M6 18h12V6" />
-        </svg>
-      </div>
-      <div class="transaction-info">
-        <h3>Investment - Cotton Plantation</h3>
-        <p>Jan 10, 2024 • INV-2024-002</p>
-      </div>
+      
       <div class="transaction-meta">
-        <span class="amount negative">-EGP 125,000</span>
-        <span class="status completed"><i class="fa-regular fa-circle-check"></i> Completed</span>
-      </div>
-    </article>
-
-    <article class="transaction-row">
-      <div class="transaction-icon icon-green">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M18 6 6 18" />
-          <path d="M6 6v12h12" />
-        </svg>
-      </div>
-      <div class="transaction-info">
-        <h3>Deposit from bank</h3>
-        <p>Jan 05, 2024 • DEP-2024-001</p>
-      </div>
-      <div class="transaction-meta">
-        <span class="amount positive">+EGP 200,000</span>
-        <span class="status completed"><i class="fa-regular fa-circle-check"></i> Completed</span>
+        <span class="amount" [ngClass]="item.amount >= 0 ? 'positive' : 'negative'">
+          {{ item.amount >= 0 ? '+' : '' }}EGP {{ item.amount | number }}
+        </span>
+        <span class="status completed">
+          <i class="fa-regular fa-circle-check"></i> {{ item.status }}
+        </span>
       </div>
     </article>
   </div>
+
+  <ng-template #noTransactions>
+    <div class="p-4 text-center text-muted">
+      <i class="fa-solid fa-receipt fs-3 mb-2 text-secondary"></i>
+      <p class="m-0">No transactions recorded yet.</p>
+    </div>
+  </ng-template>
 </section>

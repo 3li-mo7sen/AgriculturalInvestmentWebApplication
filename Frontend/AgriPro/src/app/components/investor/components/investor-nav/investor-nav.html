@@ -58,9 +58,9 @@
       -->
 
       <div class="dropdown-wrapper" (click)="$event.stopPropagation()">
-        <button class="btn btn-user d-flex align-items-center gap-2" type="button" (click)="toggleAccount($event)">
-          <span class="user-avatar"><i class="fa-solid fa-user"></i></span>
-          <span class="user-name">Ahmed Hassan</span>
+        <button class="btn btn-user d-flex align-items-center gap-2" type="button" (click)="goToProfile()">
+          <span class="user-avatar"><div class="avatar">{{ userInitials }}</div></span>
+          <span class="user-name">{{ userProfile?.name }}</span>
         </button>
         <!--
         <div class="dropdown-card account-menu shadow-sm" *ngIf="showAccountMenu">

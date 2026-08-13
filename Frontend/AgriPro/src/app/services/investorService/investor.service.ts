@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Investment } from '../../models/investor-my-investments';
 import { InvestmentHistoryResponse } from '../../models/investor-history';
 import { InvestorDashboardResponse } from '../../models/investor-dashboard';
+import { InvestorWalletResponse } from '../../models/investor-wallet';
 
 @Injectable({
   providedIn: 'root',
@@ -64,6 +65,12 @@ export class InvestorService {
   getInvestorDashboard(): Observable<InvestorDashboardResponse> {
     return this.http.get<InvestorDashboardResponse>(
       `${environment.baseUrl}/api/Investor/Get-Investor-Dashboard`
+    );
+  }
+
+  getWalletData(): Observable<InvestorWalletResponse> {
+    return this.http.get<InvestorWalletResponse>(
+      `${environment.baseUrl}/api/Investor/Get-Investor-Wallet`
     );
   }
 }

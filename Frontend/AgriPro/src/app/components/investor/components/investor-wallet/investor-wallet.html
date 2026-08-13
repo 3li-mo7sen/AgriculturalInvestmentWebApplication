@@ -1,8 +1,52 @@
 <div class="investor-wallet-page">
-  <section class="wallet-section">
-    <app-invest-wallet-cards></app-invest-wallet-cards>
-  </section>
 
+  <div *ngIf="isLoading" class="skeleton-container">
+
+    
+    <div class="skeleton-cards-grid">
+      <div class="skeleton-card" *ngFor="let i of [1, 2, 3]">
+        <div class="skeleton-icon"></div>
+        <div class="skeleton-info">
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line value"></div>
+          <div class="skeleton-line detail"></div>
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="skeleton-section">
+      <div class="skeleton-line header"></div>
+      <div class="skeleton-transactions-list">
+        <div class="skeleton-row" *ngFor="let i of [1, 2, 3, 4]">
+          <div class="skeleton-circle"></div>
+          <div class="skeleton-row-content">
+            <div class="skeleton-line medium"></div>
+            <div class="skeleton-line short"></div>
+          </div>
+          <div class="skeleton-row-meta">
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-line badge"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="!isLoading && errorMessage" class="alert alert-danger my-4 text-center">
+    {{ errorMessage }}
+    <button class="btn btn-sm btn-outline-danger ms-3" (click)="fetchWalletData()">Retry</button>
+  </div>
+
+  <ng-container *ngIf="!isLoading && !errorMessage">
+    <section class="wallet-section">
+      <app-invest-wallet-cards
+       [balance]="walletData?.balance || 0"
+       [totalInvested]="walletData?.totalInvested || 0"
+       [totalReturns]="walletData?.totalReturns || 0"></app-invest-wallet-cards>
+    </section>
+    <!--
   <section class="wallet-section wallet-actions-section">
     <div class="wallet-small-grid">
       <app-invest-wallet-quick
@@ -12,49 +56,51 @@
       <app-invest-wallet-bank></app-invest-wallet-bank>
     </div>
   </section>
+  -->
 
-  <section class="wallet-section">
-    <app-invest-wallet-transactions></app-invest-wallet-transactions>
-  </section>
+    <section class="wallet-section">
+      <app-invest-wallet-transactions [transactions]="walletData?.transactions || []"></app-invest-wallet-transactions>
+    </section>
 
-  <section class="wallet-section wallet-tip-section">
-    <app-invest-wallet-tip></app-invest-wallet-tip>
-  </section>
+    <section class="wallet-section wallet-tip-section">
+      <app-invest-wallet-tip></app-invest-wallet-tip>
+    </section>
+  </ng-container>
 
-  <div class="wallet-modal-backdrop" *ngIf="showAddFundsModal || showWithdrawModal" (click)="closeModal()">
-    <div class="wallet-modal" (click)="$event.stopPropagation()">
-      <button class="modal-close" aria-label="Close" (click)="closeModal()">×</button>
-      <h2>{{ showAddFundsModal ? 'Add Funds' : 'Withdraw Earnings' }}</h2>
-      <p class="modal-subtitle">
-        {{ showAddFundsModal ? 'Transfer funds to your investment wallet' : 'Transfer funds to your bank account' }}
-      </p>
+    <div class="wallet-modal-backdrop" *ngIf="showAddFundsModal || showWithdrawModal" (click)="closeModal()">
+      <div class="wallet-modal" (click)="$event.stopPropagation()">
+        <button class="modal-close" aria-label="Close" (click)="closeModal()">×</button>
+        <h2>{{ showAddFundsModal ? 'Add Funds' : 'Withdraw Earnings' }}</h2>
+        <p class="modal-subtitle">
+          {{ showAddFundsModal ? 'Transfer funds to your investment wallet' : 'Transfer funds to your bank account' }}
+        </p>
 
-      <div *ngIf="showWithdrawModal" class="balance-card">
-        <p>Available Balance</p>
-        <strong>EGP 75,000</strong>
-      </div>
+        <div *ngIf="showWithdrawModal" class="balance-card">
+          <p>Available Balance</p>
+          <strong>EGP 75,000</strong>
+        </div>
 
-      <label class="field-label" for="amount">Amount (EGP)</label>
-      <input id="amount" type="number" placeholder="Enter amount" class="modal-input" />
+        <label class="field-label" for="amount">Amount (EGP)</label>
+        <input id="amount" type="number" placeholder="Enter amount" class="modal-input" />
 
-      <label class="field-label" for="account">
-        {{ showAddFundsModal ? 'From Account' : 'To Account' }}
-      </label>
-      <button id="account" class="account-select" type="button">
-        CIB - ****7823
-        <span class="select-arrow">▾</span>
-      </button>
-
-      <div class="modal-note">
-        {{ showAddFundsModal ? 'Funds will be available immediately after bank confirmation' : 'Processing time: 2-3 business days' }}
-      </div>
-
-      <div class="modal-actions">
-        <button class="modal-btn modal-cancel" type="button" (click)="closeModal()">Cancel</button>
-        <button class="modal-btn modal-submit" type="button">
-          {{ showAddFundsModal ? 'Add Funds' : 'Withdraw' }}
+        <label class="field-label" for="account">
+          {{ showAddFundsModal ? 'From Account' : 'To Account' }}
+        </label>
+        <button id="account" class="account-select" type="button">
+          CIB - ****7823
+          <span class="select-arrow">▾</span>
         </button>
+
+        <div class="modal-note">
+          {{ showAddFundsModal ? 'Funds will be available immediately after bank confirmation' : 'Processing time: 2-3 business days' }}
+        </div>
+
+        <div class="modal-actions">
+          <button class="modal-btn modal-cancel" type="button" (click)="closeModal()">Cancel</button>
+          <button class="modal-btn modal-submit" type="button">
+            {{ showAddFundsModal ? 'Add Funds' : 'Withdraw' }}
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 </div>

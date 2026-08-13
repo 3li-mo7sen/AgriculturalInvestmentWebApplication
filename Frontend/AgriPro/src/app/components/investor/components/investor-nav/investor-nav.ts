@@ -1,6 +1,8 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
+import { UserProfile } from '../../../../models/user-profile';
+import { AccountService } from '../../../../services/account/account.service';
 
 @Component({
   standalone: true,
@@ -15,6 +17,10 @@ export class InvestorNav {
   showNotificationsMenu = false;
   showAccountMenu = false;
 
+  userProfile: UserProfile | null = null;
+  isLoading: boolean = true;
+  userInitials: string = '';
+
   private router = inject(Router);
 
   private readonly pageMap = new Map<string, { title: string; subtitle: string }>([
@@ -27,7 +33,8 @@ export class InvestorNav {
     ['settings', { title: 'My Profile', subtitle: 'Manage your account preferences' }],
   ]);
 
-  constructor() {
+  constructor(private accountService: AccountService,
+              private cdr: ChangeDetectorRef) {
     this.updateHeader(this.router.url);
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -35,6 +42,38 @@ export class InvestorNav {
       }
     });
   }
+
+  ngOnInit(): void {
+    this.fetchUserProfile();
+  }
+
+  fetchUserProfile(): void {
+    this.isLoading = true;
+    this.accountService.getUserProfile().subscribe({
+      next: (data) => {
+        this.userProfile = data;
+        this.generateInitials(data.name);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error loading expert profile data:', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  private generateInitials(name: string): void {
+    if (!name) return;
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      this.userInitials = (parts[0][0] + parts[1][0]).toUpperCase();
+    } else {
+      this.userInitials = name.substring(0, 2).toUpperCase();
+    }
+  }
+
 
   private updateHeader(url: string) {
     if (url.includes('project-details')) {
