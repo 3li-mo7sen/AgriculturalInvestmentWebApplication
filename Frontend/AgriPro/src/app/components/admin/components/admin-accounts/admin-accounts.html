@@ -1,2 +1,7 @@
-<app-admin-accounts-cards></app-admin-accounts-cards>
-<app-admin-accounts-list></app-admin-accounts-list>
+<app-admin-accounts-cards [totalUsers]="totalUsers"
+                          [activeUsers]="activeUsers"
+                          [pendingKycUsers]="pendingKycUsers"
+                          [suspendedUsers]="suspendedUsers">
+</app-admin-accounts-cards>
+
+<app-admin-accounts-list (userCreated)="onUserAdded()"></app-admin-accounts-list>

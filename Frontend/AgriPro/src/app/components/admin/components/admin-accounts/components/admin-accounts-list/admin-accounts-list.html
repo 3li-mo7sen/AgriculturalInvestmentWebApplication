@@ -1,11 +1,17 @@
 <section class="accounts-table-card">
   <div class="accounts-toolbar">
+
     <div class="search-field">
       <span class="search-icon">🔍</span>
-      <input type="text" placeholder="Search users..." />
+      <input type="text"
+             placeholder="Search users by name or email..."
+             [(ngModel)]="searchQuery"
+             (input)="onSearchChange()" />
     </div>
 
+
     <div class="filter-group">
+
       <details class="dropdown-filter">
         <summary>
           <span>{{ getDisplayRole() }}</span>
@@ -16,24 +22,25 @@
             <span>All Roles</span>
             <span class="checkmark" *ngIf="selectedRole === 'All Roles'">✔</span>
           </div>
-          <div class="dropdown-item" (click)="selectRole('farmer')" [class.selected]="selectedRole === 'farmer'">
+          <div class="dropdown-item" (click)="selectRole('Farmer')" [class.selected]="selectedRole === 'Farmer'">
             <span>Farmers</span>
-            <span class="checkmark" *ngIf="selectedRole === 'farmer'">✔</span>
+            <span class="checkmark" *ngIf="selectedRole === 'Farmer'">✔</span>
           </div>
-          <div class="dropdown-item" (click)="selectRole('investor')" [class.selected]="selectedRole === 'investor'">
+          <div class="dropdown-item" (click)="selectRole('Investor')" [class.selected]="selectedRole === 'Investor'">
             <span>Investors</span>
-            <span class="checkmark" *ngIf="selectedRole === 'investor'">✔</span>
+            <span class="checkmark" *ngIf="selectedRole === 'Investor'">✔</span>
           </div>
-          <div class="dropdown-item" (click)="selectRole('expert')" [class.selected]="selectedRole === 'expert'">
+          <div class="dropdown-item" (click)="selectRole('Expert')" [class.selected]="selectedRole === 'Expert'">
             <span>Experts</span>
-            <span class="checkmark" *ngIf="selectedRole === 'expert'">✔</span>
+            <span class="checkmark" *ngIf="selectedRole === 'Expert'">✔</span>
           </div>
-          <div class="dropdown-item" (click)="selectRole('admin')" [class.selected]="selectedRole === 'admin'">
+          <div class="dropdown-item" (click)="selectRole('Admin')" [class.selected]="selectedRole === 'Admin'">
             <span>Admins</span>
-            <span class="checkmark" *ngIf="selectedRole === 'admin'">✔</span>
+            <span class="checkmark" *ngIf="selectedRole === 'Admin'">✔</span>
           </div>
         </div>
       </details>
+
 
       <details class="dropdown-filter">
         <summary>
@@ -61,13 +68,19 @@
       </details>
     </div>
 
+
     <div class="action-buttons">
-      <button class="btn-export" type="button">Export</button>
-      <button class="btn-add" type="button">Add User</button>
+      <button class="btn-add" type="button" (click)="openAddUserModal()">+ Add User</button>
     </div>
   </div>
 
-  <div class="table-wrapper">
+
+  <div *ngIf="isLoading" class="p-4 text-center">
+    <p>Loading accounts...</p>
+  </div>
+
+
+  <div class="table-wrapper" *ngIf="!isLoading">
     <table class="accounts-table">
       <thead>
         <tr>
@@ -75,30 +88,128 @@
           <th>Role</th>
           <th>Status</th>
           <th>KYC</th>
+          <th>Phone</th>
           <th>Location</th>
-          <th>Join Date</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of getFilteredUsers()">
+        <tr *ngFor="let user of users">
           <td>
             <div class="user-cell">
-              <div class="user-avatar">{{ user.avatar }}</div>
+              <div class="user-avatar">{{ getInitials(user.name) }}</div>
               <div>
                 <div class="user-name">{{ user.name }}</div>
                 <div class="user-email">{{ user.email }}</div>
               </div>
             </div>
           </td>
-          <td><span class="badge" [ngClass]="getRoleBadgeClass(user.role)">{{ user.role }}</span></td>
-          <td><span class="badge" [ngClass]="getStatusBadgeClass(user.status)">{{ user.status }}</span></td>
-          <td><span class="badge" [ngClass]="getStatusBadgeClass(user.kyc)">{{ user.kyc }}</span></td>
-          <td>{{ user.location }}</td>
-          <td>{{ user.joinDate }}</td>
-          <td class="actions-cell">...</td>
+          <td><span class="badge" [ngClass]="getRoleBadgeClass(user.role)">{{ user.role | titlecase }}</span></td>
+          <td><span class="badge" [ngClass]="getStatusBadgeClass(user.status)">{{ user.status | titlecase }}</span></td>
+          <td><span class="badge" [ngClass]="getStatusBadgeClass(user.kycStatus)">{{ user.kycStatus | titlecase }}</span></td>
+          <td>{{ user.phone || 'N/A' }}</td>
+          <td>{{ user.location || 'N/A' }}</td>
+        </tr>
+
+        <tr *ngIf="users.length === 0">
+          <td colspan="6" class="text-center py-4">No users found.</td>
         </tr>
       </tbody>
     </table>
   </div>
 </section>
+
+
+<!--  User Modal -->
+<div class="modal-backdrop" *ngIf="showAddUserModal" (click)="closeAddUserModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+
+   
+    <div class="modal-header">
+      <div class="header-title">
+        <span class="header-icon">👤</span>
+        <div>
+          <h3>Create New User</h3>
+          <p class="header-subtitle">Add a new account directly to the platform</p>
+        </div>
+      </div>
+      <button class="close-btn" (click)="closeAddUserModal()" aria-label="Close modal">✕</button>
+    </div>
+
+  
+    <div class="modal-body">
+      
+      <div *ngIf="modalErrorMessage" class="alert-error">
+        <span class="alert-icon">⚠️</span>
+        <span>{{ modalErrorMessage }}</span>
+      </div>
+
+      <div class="form-grid">
+       
+        <div class="form-group">
+          <label class="form-label">Full Name <span class="required">*</span></label>
+          <input type="text"
+                 [(ngModel)]="newUser.name"
+                 class="custom-input"
+                 placeholder="e.g. Ahmed Hassan" />
+        </div>
+
+      
+        <div class="form-group">
+          <label class="form-label">Email Address <span class="required">*</span></label>
+          <input type="email"
+                 [(ngModel)]="newUser.email"
+                 class="custom-input"
+                 placeholder="e.g. ahmed@example.com" />
+        </div>
+
+       
+        <div class="form-group">
+          <label class="form-label">Password <span class="required">*</span></label>
+          <input type="password"
+                 [(ngModel)]="newUser.password"
+                 class="custom-input"
+                 placeholder="••••••••" />
+        </div>
+
+       
+        <div class="form-group">
+          <label class="form-label">Role <span class="required">*</span></label>
+          <select [(ngModel)]="newUser.role" class="custom-input select-input">
+            <option value="Farmer">Farmer</option>
+            <option value="Investor">Investor</option>
+            <option value="Expert">Expert</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div>
+
+        
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel"
+                 [(ngModel)]="newUser.phoneNumber"
+                 class="custom-input"
+                 placeholder="e.g. +201012345678" />
+        </div>
+
+        
+        <div class="form-group" *ngIf="newUser.role === 'Farmer'">
+          <label class="form-label">Land Details</label>
+          <input type="text"
+                 [(ngModel)]="newUser.landDetails"
+                 class="custom-input"
+                 placeholder="e.g. 5 Feddans in Fayoum" />
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeAddUserModal()" type="button">Cancel</button>
+      <button class="btn-primary" [disabled]="isSubmitting" (click)="submitCreateUser()" type="button">
+        <span *ngIf="isSubmitting" class="spinner"></span>
+        <span>{{ isSubmitting ? 'Creating...' : 'Create Account' }}</span>
+      </button>
+    </div>
+
+  </div>
+</div>
