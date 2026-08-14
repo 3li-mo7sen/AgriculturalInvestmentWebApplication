@@ -28,7 +28,23 @@ export class AdminService {
     return this.http.get<AdminUser[]>(`${this.baseUrl}/api/Admin/users`, { params });
   }
 
+  getUserById(id: number): Observable<AdminUser> {
+    return this.http.get<AdminUser>(`${this.baseUrl}/api/Admin/users/${id}`);
+  }
+
   createUser(userData: CreateUserData): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/api/Admin/users`, userData);
+  }
+
+  updateUser(id: number, userData: Partial<AdminUser>): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/api/Admin/users/${id}`, userData);
+  }
+
+  updateUserStatus(id: number, status: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/api/Admin/users/${id}/status`, { status });
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/api/Admin/users/${id}`);
   }
 }

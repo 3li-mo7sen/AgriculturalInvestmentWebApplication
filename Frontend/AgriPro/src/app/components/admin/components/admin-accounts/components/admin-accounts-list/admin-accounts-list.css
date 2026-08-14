@@ -584,3 +584,239 @@
     grid-column: span 2;
   }
 }
+
+
+.actions-cell {
+  position: relative;
+  text-align: center;
+  width: 60px;
+}
+
+.actions-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dots-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #374151;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+  .dots-btn:hover {
+    background: rgba(15, 23, 42, 0.06);
+  }
+
+.actions-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 0.3rem;
+  width: 170px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 0.35rem 0;
+  z-index: 100;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.action-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  background: transparent;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+  .action-item:hover {
+    background: #f8faf6;
+  }
+
+  .action-item.danger {
+    color: #dc2626;
+  }
+
+    .action-item.danger:hover {
+      background: #fef2f2;
+    }
+
+  .action-item .icon {
+    font-size: 0.95rem;
+  }
+
+.dropdown-divider {
+  height: 1px;
+  background-color: rgba(15, 23, 42, 0.06);
+  margin: 0.25rem 0;
+}
+
+.details-grid p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+
+/* Delete Modal Custom Styling */
+.delete-modal-card {
+  max-width: 420px;
+  text-align: center;
+  padding: 2rem 1.5rem 1.5rem;
+}
+
+.delete-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background-color: #fef2f2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+}
+
+.delete-warning-icon {
+  font-size: 1.8rem;
+}
+
+.delete-modal-content h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+  color: #111827;
+}
+
+.delete-modal-content p {
+  color: #4b5563;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.delete-subtext {
+  font-size: 0.85rem !important;
+  color: #9ca3af !important;
+}
+
+.delete-footer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 1.5rem;
+  border-top: none;
+  padding-top: 0;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+  .btn-danger:hover {
+    background-color: #b91c1c;
+  }
+
+  .btn-danger:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+
+
+
+
+
+
+/*loader*/
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+.skeleton-line,
+.skeleton-avatar {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 6px;
+}
+
+
+.skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.skeleton-line {
+  height: 14px;
+}
+
+.skeleton-title {
+  width: 130px;
+  height: 16px;
+}
+
+.skeleton-sub {
+  width: 180px;
+  height: 12px;
+}
+
+.skeleton-badge {
+  width: 70px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+.skeleton-text {
+  width: 90px;
+}
+
+.skeleton-action {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.skeleton-table td {
+  vertical-align: middle;
+  padding: 1rem 0.75rem;
+}

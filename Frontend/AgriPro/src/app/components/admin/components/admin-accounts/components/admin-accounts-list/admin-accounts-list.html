@@ -9,9 +9,7 @@
              (input)="onSearchChange()" />
     </div>
 
-
     <div class="filter-group">
-
       <details class="dropdown-filter">
         <summary>
           <span>{{ getDisplayRole() }}</span>
@@ -41,7 +39,6 @@
         </div>
       </details>
 
-
       <details class="dropdown-filter">
         <summary>
           <span>{{ selectedStatus }}</span>
@@ -68,17 +65,46 @@
       </details>
     </div>
 
-
     <div class="action-buttons">
       <button class="btn-add" type="button" (click)="openAddUserModal()">+ Add User</button>
     </div>
   </div>
 
-
-  <div *ngIf="isLoading" class="p-4 text-center">
-    <p>Loading accounts...</p>
+  <!--  Loader  -->
+  <div class="table-wrapper" *ngIf="isLoading">
+    <table class="accounts-table skeleton-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>KYC</th>
+          <th>Phone</th>
+          <th>Location</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of [1, 2, 3, 4, 5]">
+          <td>
+            <div class="user-cell">
+              <div class="skeleton-avatar"></div>
+              <div class="skeleton-text-group">
+                <div class="skeleton-line skeleton-title"></div>
+                <div class="skeleton-line skeleton-sub"></div>
+              </div>
+            </div>
+          </td>
+          <td><div class="skeleton-line skeleton-badge"></div></td>
+          <td><div class="skeleton-line skeleton-badge"></div></td>
+          <td><div class="skeleton-line skeleton-badge"></div></td>
+          <td><div class="skeleton-line skeleton-text"></div></td>
+          <td><div class="skeleton-line skeleton-text"></div></td>
+          <td class="text-center"><div class="skeleton-line skeleton-action"></div></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
 
   <div class="table-wrapper" *ngIf="!isLoading">
     <table class="accounts-table">
@@ -90,6 +116,7 @@
           <th>KYC</th>
           <th>Phone</th>
           <th>Location</th>
+          <th class="text-center">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -108,22 +135,137 @@
           <td><span class="badge" [ngClass]="getStatusBadgeClass(user.kycStatus)">{{ user.kycStatus | titlecase }}</span></td>
           <td>{{ user.phone || 'N/A' }}</td>
           <td>{{ user.location || 'N/A' }}</td>
+
+          <!-- Actions Column -->
+          <td class="actions-cell">
+            <div class="actions-dropdown-wrapper">
+              <button class="dots-btn" (click)="toggleActionsMenu(user.id, $event)">•••</button>
+
+              <div class="actions-menu" *ngIf="activeMenuUserId === user.id">
+                <button class="action-item" (click)="openViewDetails(user)">
+                  <span class="icon">👁</span> View Details
+                </button>
+                <button class="action-item" (click)="openEditUser(user)">
+                  <span class="icon">✏️</span> Edit User
+                </button>
+                <button class="action-item" (click)="openChangeStatus(user)">
+                  <span class="icon">🔄</span> Change Status
+                </button>
+                <div class="dropdown-divider"></div>
+                <button class="action-item danger" (click)="confirmDeleteUser(user)">
+                  <span class="icon">🚫</span> Delete User
+                </button>
+              </div>
+            </div>
+          </td>
         </tr>
 
         <tr *ngIf="users.length === 0">
-          <td colspan="6" class="text-center py-4">No users found.</td>
+          <td colspan="7" class="text-center py-4">No users found.</td>
         </tr>
       </tbody>
     </table>
   </div>
 </section>
 
+<!-- View Details Modal -->
+<div class="modal-backdrop" *ngIf="showViewDetailsModal" (click)="closeViewDetailsModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="header-title">
+        <span class="header-icon">👁</span>
+        <div>
+          <h3>User Details</h3>
+          <p class="header-subtitle">Full overview of user profile</p>
+        </div>
+      </div>
+      <button class="close-btn" (click)="closeViewDetailsModal()">✕</button>
+    </div>
+    <div class="modal-body" *ngIf="selectedUser">
+      <div class="details-grid">
+        <p><strong>ID:</strong> {{ selectedUser.id }}</p>
+        <p><strong>Name:</strong> {{ selectedUser.name }}</p>
+        <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+        <p><strong>Role:</strong> {{ selectedUser.role }}</p>
+        <p><strong>Status:</strong> {{ selectedUser.status }}</p>
+        <p><strong>KYC Status:</strong> {{ selectedUser.kycStatus }}</p>
+        <p><strong>Phone:</strong> {{ selectedUser.phone || 'N/A' }}</p>
+        <p><strong>Location:</strong> {{ selectedUser.location || 'N/A' }}</p>
+        <p><strong>Projects Count:</strong> {{ selectedUser.projectsCount }}</p>
+        <p><strong>Investments Count:</strong> {{ selectedUser.investmentsCount }}</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeViewDetailsModal()">Close</button>
+    </div>
+  </div>
+</div>
 
-<!--  User Modal -->
+<!-- Edit User Modal -->
+<div class="modal-backdrop" *ngIf="showEditUserModal" (click)="closeEditUserModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Edit User Profile</h3>
+      <button class="close-btn" (click)="closeEditUserModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="modalErrorMessage" class="alert-error">⚠️ {{ modalErrorMessage }}</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" [(ngModel)]="editUserData.name" class="custom-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" [(ngModel)]="editUserData.email" class="custom-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="text" [(ngModel)]="editUserData.phone" class="custom-input" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeEditUserModal()">Cancel</button>
+      <button class="btn-primary" [disabled]="isSubmitting" (click)="submitEditUser()">
+        {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Change Status Modal -->
+<div class="modal-backdrop" *ngIf="showStatusModal" (click)="closeStatusModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Update User Status</h3>
+      <button class="close-btn" (click)="closeStatusModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="modalErrorMessage" class="alert-error">⚠️ {{ modalErrorMessage }}</div>
+      <div class="form-group">
+        <label class="form-label">Account Status</label>
+        <select [(ngModel)]="newStatusValue" class="custom-input select-input">
+          <option value="active">Active</option>
+          <!--
+          <option value="inactive">Inactive</option>
+          -->
+          <option value="suspended">Suspended</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeStatusModal()">Cancel</button>
+      <button class="btn-primary" [disabled]="isSubmitting" (click)="submitChangeStatus()">
+        {{ isSubmitting ? 'Updating...' : 'Update Status' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Create User Modal -->
 <div class="modal-backdrop" *ngIf="showAddUserModal" (click)="closeAddUserModal()">
   <div class="modal-card" (click)="$event.stopPropagation()">
-
-   
     <div class="modal-header">
       <div class="header-title">
         <span class="header-icon">👤</span>
@@ -132,46 +274,23 @@
           <p class="header-subtitle">Add a new account directly to the platform</p>
         </div>
       </div>
-      <button class="close-btn" (click)="closeAddUserModal()" aria-label="Close modal">✕</button>
+      <button class="close-btn" (click)="closeAddUserModal()">✕</button>
     </div>
-
-  
     <div class="modal-body">
-      
-      <div *ngIf="modalErrorMessage" class="alert-error">
-        <span class="alert-icon">⚠️</span>
-        <span>{{ modalErrorMessage }}</span>
-      </div>
-
+      <div *ngIf="modalErrorMessage" class="alert-error">⚠️ {{ modalErrorMessage }}</div>
       <div class="form-grid">
-       
         <div class="form-group">
           <label class="form-label">Full Name <span class="required">*</span></label>
-          <input type="text"
-                 [(ngModel)]="newUser.name"
-                 class="custom-input"
-                 placeholder="e.g. Ahmed Hassan" />
+          <input type="text" [(ngModel)]="newUser.name" class="custom-input" placeholder="e.g. Ahmed Hassan" />
         </div>
-
-      
         <div class="form-group">
           <label class="form-label">Email Address <span class="required">*</span></label>
-          <input type="email"
-                 [(ngModel)]="newUser.email"
-                 class="custom-input"
-                 placeholder="e.g. ahmed@example.com" />
+          <input type="email" [(ngModel)]="newUser.email" class="custom-input" placeholder="e.g. ahmed@example.com" />
         </div>
-
-       
         <div class="form-group">
           <label class="form-label">Password <span class="required">*</span></label>
-          <input type="password"
-                 [(ngModel)]="newUser.password"
-                 class="custom-input"
-                 placeholder="••••••••" />
+          <input type="password" [(ngModel)]="newUser.password" class="custom-input" placeholder="••••••••" />
         </div>
-
-       
         <div class="form-group">
           <label class="form-label">Role <span class="required">*</span></label>
           <select [(ngModel)]="newUser.role" class="custom-input select-input">
@@ -181,35 +300,50 @@
             <option value="Admin">Admin</option>
           </select>
         </div>
-
-        
         <div class="form-group">
           <label class="form-label">Phone Number</label>
-          <input type="tel"
-                 [(ngModel)]="newUser.phoneNumber"
-                 class="custom-input"
-                 placeholder="e.g. +201012345678" />
+          <input type="tel" [(ngModel)]="newUser.phoneNumber" class="custom-input" placeholder="e.g. +201012345678" />
         </div>
-
-        
         <div class="form-group" *ngIf="newUser.role === 'Farmer'">
           <label class="form-label">Land Details</label>
-          <input type="text"
-                 [(ngModel)]="newUser.landDetails"
-                 class="custom-input"
-                 placeholder="e.g. 5 Feddans in Fayoum" />
+          <input type="text" [(ngModel)]="newUser.landDetails" class="custom-input" placeholder="e.g. 5 Feddans in Fayoum" />
         </div>
       </div>
     </div>
-
-   
     <div class="modal-footer">
-      <button class="btn-secondary" (click)="closeAddUserModal()" type="button">Cancel</button>
-      <button class="btn-primary" [disabled]="isSubmitting" (click)="submitCreateUser()" type="button">
+      <button class="btn-secondary" (click)="closeAddUserModal()">Cancel</button>
+      <button class="btn-primary" [disabled]="isSubmitting" (click)="submitCreateUser()">
         <span *ngIf="isSubmitting" class="spinner"></span>
         <span>{{ isSubmitting ? 'Creating...' : 'Create Account' }}</span>
       </button>
     </div>
+  </div>
+</div>
 
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-backdrop" *ngIf="showDeleteModal" (click)="closeDeleteModal()">
+  <div class="modal-card delete-modal-card" (click)="$event.stopPropagation()">
+    <div class="delete-icon-wrapper">
+      <span class="delete-warning-icon">⚠️</span>
+    </div>
+
+    <div class="delete-modal-content">
+      <h3>Delete Account</h3>
+      <p>Are you sure you want to delete account <strong>"{{ userToDelete?.name }}"</strong>?</p>
+      <p class="delete-subtext">This action cannot be undone.</p>
+    </div>
+
+    <div *ngIf="modalErrorMessage" class="alert-error mt-2">
+      ⚠️ {{ modalErrorMessage }}
+    </div>
+
+    <div class="modal-footer delete-footer">
+      <button class="btn-secondary" (click)="closeDeleteModal()" [disabled]="isSubmitting">Cancel</button>
+      <button class="btn-danger" [disabled]="isSubmitting" (click)="submitDeleteUser()">
+        <span *ngIf="isSubmitting" class="spinner"></span>
+        <span>{{ isSubmitting ? 'Deleting...' : 'Yes, Delete' }}</span>
+      </button>
+    </div>
   </div>
 </div>
