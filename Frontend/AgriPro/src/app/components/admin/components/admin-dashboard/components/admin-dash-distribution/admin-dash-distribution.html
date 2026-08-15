@@ -1,33 +1,36 @@
 <section class="distribution-card">
-  <h3>User Distribution</h3>
-  <p class="muted">Platform users by role</p>
-
-  <div class="dist-row">
-    <div class="dist-label">Farmers</div>
-    <div class="dist-bar"><div class="bar" style="width:44%"></div></div>
-    <div class="dist-value">1,245 (44%)</div>
+  <div class="card-header">
+    <h3>User Distribution</h3>
+    <p class="muted">Platform users breakdown by role</p>
   </div>
 
-  <div class="dist-row">
-    <div class="dist-label">Investors</div>
-    <div class="dist-bar"><div class="bar" style="width:39%"></div></div>
-    <div class="dist-value">1,102 (39%)</div>
+  <div *ngIf="distribution && distribution.length > 0; else noData">
+    <div class="dist-list">
+      <div class="dist-row" *ngFor="let item of distribution">
+        <div class="dist-info">
+          <span class="dist-label">{{ item.role }}s</span>
+          <span class="dist-value">{{ item.count | number }} <small>({{ getPercentage(item.count) }}%)</small></span>
+        </div>
+
+        <div class="dist-bar-track">
+          <div class="dist-bar-fill"
+               [ngClass]="getRoleColorClass(item.role)"
+               [style.width.%]="getPercentage(item.count)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="total-section">
+      <span class="total-label">Total Platform Users</span>
+      <span class="total-value">{{ getTotalUsers() | number }}</span>
+    </div>
   </div>
 
-  <div class="dist-row">
-    <div class="dist-label">Experts</div>
-    <div class="dist-bar"><div class="bar" style="width:12%"></div></div>
-    <div class="dist-value">342 (12%)</div>
-  </div>
-
-  <div class="dist-row">
-    <div class="dist-label">Admins</div>
-    <div class="dist-bar"><div class="bar" style="width:5%"></div></div>
-    <div class="dist-value">158 (5%)</div>
-  </div>
-
-  <div class="total">
-    <div>Total Users</div>
-    <div class="total-value">2,847</div>
-  </div>
+  <ng-template #noData>
+    <div class="empty-dist">
+      <span class="empty-icon">📊</span>
+      <p>No user distribution data available</p>
+    </div>
+  </ng-template>
 </section>

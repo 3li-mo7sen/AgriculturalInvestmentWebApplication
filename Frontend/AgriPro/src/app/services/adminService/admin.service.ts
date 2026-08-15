@@ -3,6 +3,7 @@ import { environment } from '../../../environment/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AdminUser, CreateUserData } from '../../models/admin-accounts';
 import { Observable } from 'rxjs';
+import { AdminDashboardResponse } from '../../models/admin-dashboard';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +47,9 @@ export class AdminService {
 
   deleteUser(id: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/api/Admin/users/${id}`);
+  }
+
+  getDashboardData(): Observable<AdminDashboardResponse> {
+    return this.http.get<AdminDashboardResponse>(`${this.baseUrl}/api/Admin/dashboard`);
   }
 }

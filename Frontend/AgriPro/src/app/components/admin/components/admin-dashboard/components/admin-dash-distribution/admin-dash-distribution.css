@@ -1,15 +1,130 @@
 .distribution-card {
   background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid #e2e8f0;
   border-radius: 1.25rem;
-  padding: 1.25rem;
+  padding: 1.35rem 1.5rem;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
 }
-.distribution-card h3 { margin:0 0 0.25rem 0 }
-.muted { color:#6b7280 }
-.dist-row { display:flex; align-items:center; gap:0.75rem; margin:0.8rem 0 }
-.dist-label { flex:0 0 90px; color:#111827 }
-.dist-bar { flex:1; background:#eef3ee; height:10px; border-radius:999px; position:relative }
-.dist-bar .bar { height:100%; background:#0f5132; border-radius:999px }
-.dist-value { flex:0 0 110px; text-align:right; color:#0f5132; font-weight:700 }
-.total { display:flex; align-items:center; justify-content:space-between; margin-top:1rem }
-.total-value { font-size:1.45rem; font-weight:800; color:#0f5132 }
+
+.card-header h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.muted {
+  margin: 0 0 1.25rem 0;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+
+.dist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.dist-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.dist-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dist-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #334155;
+  text-transform: capitalize;
+}
+
+.dist-value {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+
+  .dist-value small {
+    color: #64748b;
+    font-weight: 500;
+    font-size: 0.8rem;
+  }
+
+
+.dist-bar-track {
+  width: 100%;
+  height: 10px;
+  background: #f1f5f9;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.dist-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+.bar-admin {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+}
+
+.bar-expert {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.bar-farmer {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.bar-default {
+  background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+}
+
+
+.total-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.total-label {
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.total-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+
+.empty-dist {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  background: #f8fafc;
+  border-radius: 0.85rem;
+  border: 1px dashed #cbd5e1;
+}
+
+.empty-icon {
+  font-size: 1.8rem;
+  display: block;
+  margin-bottom: 0.35rem;
+}

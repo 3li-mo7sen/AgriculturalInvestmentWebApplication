@@ -1,6 +1,8 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
+import { UserProfile } from '../../../../models/user-profile';
+import { AccountService } from '../../../../services/account/account.service';
 
 @Component({
   selector: 'app-admin-nav',
@@ -14,6 +16,10 @@ export class AdminNav {
   showNotificationsMenu = false;
   showAccountMenu = false;
 
+  userProfile: UserProfile | null = null;
+  isLoading: boolean = true;
+  userInitials: string = '';
+
   private router = inject(Router);
 
   private readonly pageMap = new Map<string, { title: string; subtitle: string }>([
@@ -21,10 +27,11 @@ export class AdminNav {
     ['manage-accounts', { title: 'Manage Accounts', subtitle: 'Manage user accounts and roles' }],
     ['approve-documents', { title: 'Approve Documents', subtitle: 'Review and approve user documents' }],
     ['reports', { title: 'Reports', subtitle: 'View system reports and alerts' }],
+    ['profile', { title: 'My Profile', subtitle: 'View and manage your account details' }],
     ['settings', { title: 'Settings', subtitle: 'Manage admin preferences' }],
   ]);
 
-  constructor() {
+  constructor(private accountService: AccountService, private cdr: ChangeDetectorRef) {
     this.updateHeader(this.router.url);
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -36,7 +43,7 @@ export class AdminNav {
   private updateHeader(url: string) {
     const segments = url.split('/').filter(Boolean);
     const pageKey = segments.length ? segments[segments.length - 1] : 'dashboard';
-    const effectiveKey = ['profile', 'security', 'notifications', 'preferences'].includes(pageKey)
+    const effectiveKey = ['security', 'notifications', 'preferences'].includes(pageKey)
       ? 'settings'
       : pageKey;
     const config = this.pageMap.get(effectiveKey) ?? this.pageMap.get('dashboard');
@@ -67,6 +74,37 @@ export class AdminNav {
     this.showAccountMenu = false;
   }
 
+  ngOnInit(): void {
+    this.fetchUserProfile();
+  }
+
+  fetchUserProfile(): void {
+    this.isLoading = true;
+    this.accountService.getUserProfile().subscribe({
+      next: (data) => {
+        this.userProfile = data;
+        this.generateInitials(data.name);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error loading expert profile data:', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  private generateInitials(name: string): void {
+    if (!name) return;
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      this.userInitials = (parts[0][0] + parts[1][0]).toUpperCase();
+    } else {
+      this.userInitials = name.substring(0, 2).toUpperCase();
+    }
+  }
+  /*
   markAllRead(event: MouseEvent) {
     event.stopPropagation();
     this.showNotificationsMenu = false;
@@ -76,12 +114,12 @@ export class AdminNav {
     this.showNotificationsMenu = false;
     this.router.navigate(['/admin/settings/notifications']);
   }
-
+  */
   goToProfile() {
     this.showAccountMenu = false;
-    this.router.navigate(['/admin/settings/profile']);
+    this.router.navigate(['/admin/profile']);
   }
-
+  /*
   goToSettings() {
     this.showAccountMenu = false;
     this.router.navigate(['/admin/settings']);
@@ -90,9 +128,10 @@ export class AdminNav {
   goToHelpCenter() {
     this.showAccountMenu = false;
   }
-
+  
   logout() {
     this.showAccountMenu = false;
     this.router.navigate(['/login']);
   }
+  */
 }

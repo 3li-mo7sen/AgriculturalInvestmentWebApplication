@@ -1,41 +1,25 @@
 <section class="dash-cards">
-  <article class="dash-card">
-    <div class="dash-card-top">
-      <span>Total Users</span>
-      <div class="dash-icon">👥</div>
+  <article class="dash-card"
+           *ngFor="let card of stats"
+           [ngClass]="getCardThemeClass(card.title)">
+    <div class="dash-card-header">
+      <span class="card-title">{{ card.title }}</span>
+      <div class="dash-icon">
+        <span>{{ getCardIcon(card.title) }}</span>
+      </div>
     </div>
-    <h2>2,847</h2>
-    <p class="dash-change positive">+12.5% <span>vs last month</span></p>
-    <p class="dash-note">Active platform users</p>
-  </article>
 
-  <article class="dash-card">
-    <div class="dash-card-top">
-      <span>Active Projects</span>
-      <div class="dash-icon">📁</div>
-    </div>
-    <h2>156</h2>
-    <p class="dash-change positive">+8.2% <span>vs last month</span></p>
-    <p class="dash-note">Live investment projects</p>
-  </article>
+    <div class="dash-card-body">
+      <h2 class="card-value">{{ card.value }}</h2>
 
-  <article class="dash-card">
-    <div class="dash-card-top">
-      <span>Total Investments</span>
-      <div class="dash-icon">💰</div>
-    </div>
-    <h2>EGP 45.2M</h2>
-    <p class="dash-change positive">+23.1% <span>vs last month</span></p>
-    <p class="dash-note">Platform-wide investments</p>
-  </article>
+      <p class="dash-change" *ngIf="card.change" [ngClass]="card.changeType === 'positive' ? 'positive' : 'negative'">
+        <span class="change-badge">
+          {{ card.changeType === 'positive' ? '↑' : '↓' }} {{ card.change }}
+        </span>
+        <span class="change-period">vs last month</span>
+      </p>
 
-  <article class="dash-card">
-    <div class="dash-card-top">
-      <span>Pending Reviews</span>
-      <div class="dash-icon">⏳</div>
+      <p class="dash-note" *ngIf="card.description">{{ card.description }}</p>
     </div>
-    <h2>23</h2>
-    <p class="dash-change negative">-5.3% <span>vs last month</span></p>
-    <p class="dash-note">Awaiting expert review</p>
   </article>
 </section>

@@ -20,3 +20,45 @@
 .icon { width:44px; height:44px; border-radius:50%; background:#eef7ef; display:flex; align-items:center; justify-content:center }
 .activity-title { font-weight:600 }
 .activity-time { color:#6b7280; font-size:0.9rem }
+
+
+.empty-activity {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  background-color: #fafafa;
+  border: 1px dashed #e2e8f0;
+  border-radius: 1rem;
+  margin-top: 0.5rem;
+}
+
+.empty-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  background-color: #f1f5f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.empty-icon {
+  font-size: 1.6rem;
+}
+
+.empty-activity h4 {
+  margin: 0 0 0.35rem 0;
+  color: #1e293b;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.empty-activity p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.875rem;
+  max-width: 320px;
+  margin: 0 auto;
+  line-height: 1.4;
+}

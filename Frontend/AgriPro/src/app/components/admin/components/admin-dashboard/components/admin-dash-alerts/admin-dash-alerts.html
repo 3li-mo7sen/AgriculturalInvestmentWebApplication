@@ -1,21 +1,35 @@
 <section class="dash-alerts">
   <div class="alerts-header">
-    <h2>System Alerts</h2>
-    <span class="alert-pill">3 active</span>
+    <div class="header-left">
+      <h2>System Alerts</h2>
+      <span class="alert-pill" *ngIf="alerts && alerts.length > 0">
+        {{ alerts.length }} Active
+      </span>
+    </div>
   </div>
 
-  <div class="alert-card alert-info">
-    <p>5 projects have been in review for more than 7 days</p>
-    <a class="alert-link" href="#">View Projects</a>
+  <div class="alerts-list" *ngIf="alerts && alerts.length > 0; else noAlerts">
+    <div *ngFor="let alert of alerts" class="alert-card" [ngClass]="getAlertClass(alert.type)">
+      <div class="alert-icon-badge">
+        <span>{{ getAlertIcon(alert.type) }}</span>
+      </div>
+
+      <div class="alert-content">
+        <p class="alert-message">{{ alert.message }}</p>
+        <!--
+        <span class="alert-time" *ngIf="alert.createdAt">
+          {{ alert.createdAt | date:'mediumTime' }} • {{ alert.createdAt | date:'mediumDate' }}
+        </span>
+        -->
+      </div>
+    </div>
   </div>
 
-  <div class="alert-card alert-success">
-    <p>System backup completed successfully</p>
-    <a class="alert-link" href="#">View Logs</a>
-  </div>
-
-  <div class="alert-card alert-danger">
-    <p>Payment gateway timeout detected - 3 failed transactions</p>
-    <a class="alert-link" href="#">Investigate</a>
-  </div>
+  <ng-template #noAlerts>
+    <div class="empty-alerts">
+      <div class="empty-icon">🛡️</div>
+      <p class="empty-title">All Systems Normal</p>
+      <p class="empty-sub">There are no active system alerts or issues detected at this time.</p>
+    </div>
+  </ng-template>
 </section>

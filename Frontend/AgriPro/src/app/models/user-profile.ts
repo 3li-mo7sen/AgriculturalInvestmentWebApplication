@@ -25,6 +25,11 @@ export interface UserProfile {
     activeInvestments: number;
     totalReturns: number;
     averageRoi: number;
+    // Admin
+    totalUsers?: number;
+    activeProjects?: number;
+    totalInvestments?: number;
+    pendingApprovals?: number;
 
   };
 

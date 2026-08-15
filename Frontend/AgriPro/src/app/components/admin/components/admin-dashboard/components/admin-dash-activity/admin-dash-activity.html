@@ -1,30 +1,26 @@
 <section class="recent-activity">
   <div class="activity-header">
     <h3>Recent Activity</h3>
-    <button class="btn-view">View All Activity</button>
   </div>
 
-  <ul class="activity-list">
-    <li>
-      <div class="icon">👤</div>
+  <ul class="activity-list" *ngIf="activities && activities.length > 0; else noActivity">
+    <li *ngFor="let act of activities">
+      <div class="icon">📌</div>
       <div>
-        <div class="activity-title">New investor registered: Ahmed Hassan</div>
-        <div class="activity-time">2 minutes ago</div>
-      </div>
-    </li>
-    <li>
-      <div class="icon">📁</div>
-      <div>
-        <div class="activity-title">New project submitted: Organic Tomato Farm - Fayoum</div>
-        <div class="activity-time">15 minutes ago</div>
-      </div>
-    </li>
-    <li>
-      <div class="icon">💵</div>
-      <div>
-        <div class="activity-title">Investment of EGP 250,000 in Wheat Production Project</div>
-        <div class="activity-time">32 minutes ago</div>
+        <div class="activity-title">{{ act.title }}</div>
+        <div class="activity-time">{{ act.timestamp }}</div>
       </div>
     </li>
   </ul>
+
+  
+  <ng-template #noActivity>
+    <div class="empty-activity">
+      <div class="empty-icon-wrapper">
+        <span class="empty-icon">🔕</span>
+      </div>
+      <h4>No Recent Activity</h4>
+      <p>There are no new updates or system actions recorded at the moment.</p>
+    </div>
+  </ng-template>
 </section>
