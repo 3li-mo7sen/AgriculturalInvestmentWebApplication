@@ -12,9 +12,10 @@ export interface UserProfile {
   specialization?: string | null;
   stats: {
     //farmer
-    projectsCreated: number;
-    totalFunding: number;
-    avgRating: number;
+    totalProjects: number;
+    
+    totalInvestment: number;
+    
     //expert
     totalReviews?: number;
     verifiedProjects?: number;

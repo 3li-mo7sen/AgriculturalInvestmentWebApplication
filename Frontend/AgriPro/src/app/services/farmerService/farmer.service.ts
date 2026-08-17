@@ -129,7 +129,9 @@ export class FarmerService {
       targetAmount: project.targetAmount ?? project.cost ?? 0,
       fundingRaised: project.fundingRaised ?? 0,
       fundingProgress: project.fundingProgress ?? 0,
-      investorsCount: project.investorsCount ?? project.investorCount ?? 0
+      investorsCount: project.investorsCount ?? project.investorCount ?? 0,
+
+      imageUrl: project.imageUrl ? (project.imageUrl.startsWith('/') ? project.imageUrl : '/' + project.imageUrl) : ''
     };
   }
   

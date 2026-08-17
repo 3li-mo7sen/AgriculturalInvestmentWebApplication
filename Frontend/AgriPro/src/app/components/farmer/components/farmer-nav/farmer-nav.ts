@@ -27,6 +27,7 @@ export class FarmerNav {
     ['dashboard', { title: 'Dashboard', subtitle: "Welcome back, Ahmed! Here's your farming overview." }],
     ['create-project', { title: 'Create New Project', subtitle: 'Register your agricultural land for investment' }],
     ['my-projects', { title: 'My Projects', subtitle: 'Manage your agricultural investment projects' }],
+    ['project-details', { title: 'Project Details', subtitle: 'View detailed information and status of your project' }],
     ['wallet', { title: 'Wallet', subtitle: 'Manage your funds and transactions' }],
     ['contracts', { title: 'Contracts', subtitle: 'Manage your investment contracts' }],
     ['profile', { title: 'My Profile', subtitle: 'Manage your farmer profile and account details' }],
@@ -87,6 +88,14 @@ export class FarmerNav {
   }
 
   private updateHeader(url: string) {
+
+    if (url.includes('project-details')) {
+      const config = this.pageMap.get('project-details');
+      this.pageTitle = config?.title ?? 'Project Details';
+      this.pageSubtitle = config?.subtitle ?? '';
+      return;
+    }
+
     const segments = url.split('/').filter(Boolean);
     const pageKey = segments.length ? segments[segments.length - 1] : 'dashboard';
     const effectiveKey = ['security', 'notifications', 'preferences'].includes(pageKey) ? 'settings' : pageKey;

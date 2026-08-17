@@ -63,11 +63,13 @@
 
     <!-- Stats Cards -->
     <div class="stats-container">
+
+      <!-- 1. Total Projects Card -->
       <div class="stat-card">
         <div class="stat-top">
           <div>
             <div class="stat-label">Total Projects</div>
-            <div class="stat-value">{{ userProfile.stats.projectsCreated }}</div>
+            <div class="stat-value">{{ userProfile.stats?.totalProjects ?? 0 }}</div>
           </div>
           <div class="stat-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -77,14 +79,16 @@
         </div>
       </div>
 
+      <!-- 2. Total Funding / Investment Card -->
       <div class="stat-card">
         <div class="stat-top">
           <div>
-            <div class="stat-label">Total Funding</div>
-            <div class="stat-value">EGP</div>
-            <div class="stat-sub-value">{{ userProfile.stats.totalFunding | number }}</div>
+            <div class="stat-label">Total Investment</div>
+            <div class="stat-value text-success">
+              EGP {{ (userProfile.stats?.totalInvestment ?? 0) | number }}
+            </div>
           </div>
-          <div class="stat-icon" style="color: #1a7a4a;">
+          <div class="stat-icon icon-success">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M2 8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8z" />
               <path d="M2 12h20" />
@@ -94,11 +98,14 @@
         </div>
       </div>
 
+      <!-- 3. Rating Card -->
       <div class="stat-card">
         <div class="stat-top">
           <div>
             <div class="stat-label">Rating</div>
-            <div class="stat-value">{{ userProfile.stats.avgRating }} <span class="star-icon">⭐</span></div>
+            <div class="stat-value">
+              {{ userProfile.stats?.rating ?? 0 }} <span class="star-icon">⭐</span>
+            </div>
           </div>
           <div class="stat-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -107,6 +114,7 @@
           </div>
         </div>
       </div>
+
     </div>
 
     <!-- Details Row -->

@@ -93,6 +93,20 @@
 }
 
 /* 2. Stats Grid */
+.stat-value.text-success {
+  color: #1a7a4a;
+}
+
+.stat-icon.icon-success {
+  color: #1a7a4a;
+  background-color: #e8f5e9;
+}
+
+.star-icon {
+  font-size: 18px;
+  margin-left: 2px;
+}
+
 .stats-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));

@@ -1,70 +1,99 @@
 <div class="project-details-container">
 
- 
-  <div class="details-header mb-4">
+  
+  <div class="details-header">
     <a routerLink="/farmer/my-projects" class="btn-back">
-      <i class="fa-solid fa-arrow-left"></i>
+      <i class="fa-solid fa-arrow-left-long"></i>
       <span>Back to My Projects</span>
     </a>
   </div>
 
  
-  <div *ngIf="isLoading" class="text-center p-5">
-    <div class="spinner-border text-success" role="status"></div>
-    <p class="mt-2 text-muted">Loading project details...</p>
+  <div *ngIf="!isLoading && errorMessage" class="alert-error-box">
+    <i class="fa-solid fa-circle-exclamation me-2"></i>
+    <span>{{ errorMessage }}</span>
   </div>
 
   
-  <div *ngIf="!isLoading && errorMessage" class="alert alert-danger text-center my-4">
-    <i class="fa-solid fa-triangle-exclamation me-2"></i>
-    {{ errorMessage }}
+  <div *ngIf="isLoading" class="project-grid">
+    <div class="main-content">
+      <div class="main-card skeleton-card">
+        <div class="skeleton-image"></div>
+        <div class="content-padding">
+          <div class="skeleton-line title"></div>
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-pills">
+            <div class="skeleton-pill"></div>
+            <div class="skeleton-pill"></div>
+            <div class="skeleton-pill"></div>
+          </div>
+          <div class="skeleton-line paragraph"></div>
+          <div class="skeleton-line paragraph"></div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-content">
+      <div class="stats-sidebar-card skeleton-card">
+        <div class="skeleton-line header"></div>
+        <div class="skeleton-line big"></div>
+        <div class="skeleton-line bar"></div>
+        <div class="skeleton-grid-boxes">
+          <div class="skeleton-box"></div>
+          <div class="skeleton-box"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   
   <div class="project-grid" *ngIf="!isLoading && project">
 
-    
+ 
     <div class="main-content">
-
-     
       <div class="main-card">
 
+       
         <div class="project-details-image">
           <img [src]="apiUrl + project.imageUrl"
-               [alt]="project.name" />
-        </div>
+               [alt]="project.name"
+               (error)="onImageError($event)" />
 
-        <div class="card-status-bar">
-          <span class="badge badge-status" [ngClass]="project.status === 'Published' ? 'status-published' : 'status-pending'">
-            <i class="fa-solid" [ngClass]="project.status === 'Published' ? 'fa-circle-check' : 'fa-clock'"></i>
-            {{ project.status }}
-          </span>
-          <span class="crop-badge">
-            <i class="fa-solid fa-seedling me-1"></i> {{ project.cropType }}
-          </span>
+          <div class="overlay-badges">
+            <span class="badge badge-status" [ngClass]="getStatusClass(project.status)">
+              <i class="fa-solid" [ngClass]="getStatusIcon(project.status)"></i>
+              <span>{{ project.status }}</span>
+            </span>
+
+            <span class="crop-badge" *ngIf="project.cropType">
+              <i class="fa-solid fa-seedling me-1"></i> {{ project.cropType }}
+            </span>
+          </div>
         </div>
 
         <div class="content-padding">
+          <h1 class="project-title">{{ project.name || project.title }}</h1>
 
-          <h1 class="project-title">{{ project.name }}</h1>
-          <p class="project-subtitle" *ngIf="project.title && project.title !== project.name">{{ project.title }}</p>
+          <p class="project-subtitle" *ngIf="project.title && project.name && project.title !== project.name">
+            {{ project.title }}
+          </p>
 
-
+       
           <div class="short-desc-box" *ngIf="project.shortDescription">
+            <i class="fa-solid fa-quote-left quote-icon"></i>
             <p>{{ project.shortDescription }}</p>
           </div>
 
-
+        
           <div class="project-meta-pills">
-            <div class="meta-pill">
+            <div class="meta-pill" *ngIf="project.location">
               <i class="fa-solid fa-location-dot icon-location"></i>
               <span>{{ project.location }}</span>
             </div>
             <div class="meta-pill">
               <i class="fa-solid fa-users icon-users"></i>
-              <span>{{ project.investorsCount }} Investors</span>
+              <span>{{ project.investorsCount || 0 }} Investors</span>
             </div>
-            <div class="meta-pill">
+            <div class="meta-pill" *ngIf="project.duration">
               <i class="fa-solid fa-calendar-days icon-duration"></i>
               <span>{{ project.duration }} Months Duration</span>
             </div>
@@ -72,21 +101,25 @@
 
           <div class="divider"></div>
 
-
-          <h3 class="section-title">About This Project</h3>
-          <p class="description-text">{{ project.fullDescription }}</p>
+        
+          <h3 class="section-title">
+            <i class="fa-solid fa-align-left me-2 text-success-dark"></i>About This Project
+          </h3>
+          <p class="description-text">{{ project.fullDescription || 'No full description provided for this project.' }}</p>
 
           <div class="divider"></div>
 
-
-          <h3 class="section-title">Project Ownership</h3>
+        
+          <h3 class="section-title">
+            <i class="fa-solid fa-user-shield me-2 text-success-dark"></i>Project Leadership
+          </h3>
           <div class="farmer-card">
             <div class="farmer-avatar">
               {{ project.farmerName ? project.farmerName.charAt(0).toUpperCase() : 'F' }}
             </div>
             <div class="farmer-info">
-              <span class="section-label">Farmer / Project Manager</span>
-              <h4>{{ project.farmerName }}</h4>
+              <span class="section-label">Farmer / Project Owner</span>
+              <h4>{{ project.farmerName || 'Owner Name' }}</h4>
             </div>
           </div>
 
@@ -94,56 +127,60 @@
       </div>
     </div>
 
-   
+  
     <div class="sidebar-content">
       <div class="stats-sidebar-card">
-        <h4 class="sidebar-header">Funding Status</h4>
+        <h4 class="sidebar-header">
+          <i class="fa-solid fa-chart-pie me-2"></i>Funding Progress
+        </h4>
 
-        
+       
         <div class="funding-info">
           <div class="funding-header">
             <div>
-              <p class="label">EGP Raised</p>
-              <h2 class="amount">EGP {{ project.fundingRaised | number }}</h2>
+              <p class="label">Raised Amount</p>
+              <h2 class="amount">EGP {{ (project.fundingRaised || 0) | number }}</h2>
             </div>
             <div class="text-end">
-              <p class="target">Goal: EGP {{ project.cost | number }}</p>
+              <p class="target">Target: EGP {{ (project.cost || project.targetAmount || 0) | number }}</p>
             </div>
           </div>
 
-         
+          
           <div class="progress-container my-3">
-            <div class="progress-bar-fill" [style.width.%]="project.fundingProgress"></div>
+            <div class="progress-bar-fill" [style.width.%]="project.fundingProgress || 0"></div>
           </div>
 
           <div class="progress-meta">
-            <span class="progress-percent">{{ project.fundingProgress }}% Funded</span>
-            <span class="backers-count"><i class="fa-solid fa-user-group me-1"></i>{{ project.investorsCount }} Backers</span>
+            <span class="progress-percent">{{ project.fundingProgress || 0 }}% Funded</span>
+            <span class="backers-count">
+              <i class="fa-solid fa-user-group me-1"></i>{{ project.investorsCount || 0 }} Investors
+            </span>
           </div>
         </div>
 
         <div class="divider"></div>
 
-       
+     
         <div class="metrics-grid">
           <div class="metric-box">
-            <span class="metric-value text-roi">{{ project.expectedRoi }}</span>
+            <span class="metric-value text-roi">{{ project.expectedRoi || 'N/A' }}</span>
             <span class="metric-label">Expected ROI</span>
           </div>
           <div class="metric-box">
-            <span class="metric-value text-profit">EGP {{ project.expectedProfit | number }}</span>
-            <span class="metric-label">Expected Profit</span>
+            <span class="metric-value text-profit">EGP {{ (project.expectedProfit || 0) | number }}</span>
+            <span class="metric-label">Est. Profit</span>
           </div>
         </div>
 
        
         <div class="financial-summary-list">
           <div class="summary-row">
-            <span>Total Project Cost</span>
-            <strong>EGP {{ project.cost | number }}</strong>
+            <span>Total Cost</span>
+            <strong>EGP {{ (project.cost || project.targetAmount || 0) | number }}</strong>
           </div>
-          <div class="summary-row">
-            <span>Contract Duration</span>
+          <div class="summary-row" *ngIf="project.duration">
+            <span>Duration</span>
             <strong>{{ project.duration }} Months</strong>
           </div>
         </div>

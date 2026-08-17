@@ -1,29 +1,39 @@
 <section class="projects-section">
+ 
   <div class="projects-header">
     <div class="projects-tabs" role="tablist">
-      <button class="tab" [class.active]="activeTab === 'All'" (click)="filterProjects('All')">All Projects</button>
-      <button class="tab" [class.active]="activeTab === 'Published'" (click)="filterProjects('Published')">Active</button>
-      <button class="tab" [class.active]="activeTab === 'Pending'" (click)="filterProjects('Pending')">Under Review</button>
+      <button class="tab" [class.active]="activeTab === 'All'" (click)="loadProjects('All')">
+        All Projects
+      </button>
+      <button class="tab" [class.active]="activeTab === 'Approved'" (click)="loadProjects('Approved')">
+        Approved
+      </button>
+      <button class="tab" [class.active]="activeTab === 'Pending'" (click)="loadProjects('Pending')">
+        Under Review
+      </button>
+      <button class="tab" [class.active]="activeTab === 'Rejected'" (click)="loadProjects('Rejected')">
+        Rejected
+      </button>
     </div>
+
     <button class="btn-create" routerLink="/farmer/create-project">
       <i class="fa-solid fa-folder-plus"></i>
       Create New Project
     </button>
   </div>
 
+
   <div *ngIf="isLoading" class="projects-grid">
     <div class="project-card skeleton-card" *ngFor="let item of [1, 2, 3]">
-      <div class="skeleton-badge"></div>
+      <div class="skeleton-image"></div>
       <div class="skeleton-title"></div>
       <div class="skeleton-progress"></div>
       <div class="skeleton-info"></div>
-      <div class="skeleton-footer">
-        <div class="skeleton-btn"></div>
-        <div class="skeleton-pill"></div>
-      </div>
+      <div class="skeleton-btn"></div>
     </div>
   </div>
 
+  
   <div class="projects-grid" *ngIf="!isLoading">
     @for (project of filteredProjects; track project.id) {
     <article class="project-card">
@@ -32,52 +42,51 @@
              [src]="apiUrl + project.imageUrl"
              [alt]="project.title" />
 
-        <span class="project-status"
-              [ngClass]="{
-      'badge-active': project.status === 'Published',
-      'badge-review': project.status === 'Pending'
-    }">
-          <i class="fa-solid"
-             [ngClass]="project.status === 'Published'
-        ? 'fa-arrow-trend-up'
-        : 'fa-clock'"></i>
+        <span class="project-status" [ngClass]="getStatusClass(project.status)">
+          <i class="fa-solid" [ngClass]="getStatusIcon(project.status)"></i>
+          <span>{{ project.status }}</span>
         </span>
       </div>
+
       <div class="project-card-body">
-        <h3>{{ project.title }}</h3>
-        <!--   <p class="project-location"><i class="fa-solid fa-location-dot"></i> Kafr El-Sheikh, Beheira</p> -->
-        <!--   <div class="project-meta">
-      <span class="project-tag">Wheat</span>
-      <span>15 Feddan</span>
-    </div>-->
-        <div class="project-progress-bar">
-          <div class="project-progress-fill" [style.width.%]="project.fundingProgress"></div>
-        </div>
-        <div class="project-progress-info">
-          <span>EGP {{ project.fundingRaised | number }} / EGP {{ project.targetAmount | number }}</span>
-          <span>{{ project.fundingProgress }}%</span>
-        </div>
-        <div class="project-footer">
+        <h3 class="project-title" [title]="project.title">{{ project.title }}</h3>
 
-          <button class="btn-view-details" [routerLink]="['/farmer/project-details', project.id]">
-            View Details
-          </button>
-
-          <!--
-      <span class="project-duration">
-        <i class="fa-solid fa-calendar-days"></i> {{ project.duration }} Months
-      </span>
-      -->
-          <span class="project-return"><i class="fa-solid fa-arrow-trend-up"></i> EGP {{ project.expectedProfit | number }}</span>
-          <span class="project-investors">{{ project.investorsCount }} investors</span>
+        
+        <div class="progress-container">
+          <div class="project-progress-bar">
+            <div class="project-progress-fill" [style.width.%]="project.fundingProgress || 0"></div>
+          </div>
+          <div class="project-progress-info">
+            <span>EGP {{ (project.fundingRaised || 0) | number }} / EGP {{ (project.targetAmount || 0) | number }}</span>
+            <span class="progress-percent">{{ project.fundingProgress || 0 }}%</span>
+          </div>
         </div>
+
+       
+        <div class="project-meta-stats">
+          <span class="project-return">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            EGP {{ (project.expectedProfit || 0) | number }} Est. Profit
+          </span>
+          <span class="project-investors">
+            <i class="fa-solid fa-users"></i>
+            {{ project.investorsCount || 0 }} Investors
+          </span>
+        </div>
+
+       
+        <button class="btn-view-details" [routerLink]="['/farmer/project-details', project.id]">
+          View Details
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
       </div>
     </article>
     }
     @empty {
-    <div class="no-data">No projects found in this section.</div>
+    <div class="no-data-box">
+      <i class="fa-solid fa-folder-open no-data-icon"></i>
+      <p>No projects found in this category.</p>
+    </div>
     }
-
-
   </div>
 </section>
