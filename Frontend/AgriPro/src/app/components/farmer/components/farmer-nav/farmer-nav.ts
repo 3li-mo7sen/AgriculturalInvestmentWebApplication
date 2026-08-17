@@ -96,6 +96,13 @@ export class FarmerNav {
       return;
     }
 
+    if (url.includes('/settings')) {
+      const config = this.pageMap.get('settings');
+      this.pageTitle = config?.title ?? 'Settings';
+      this.pageSubtitle = config?.subtitle ?? '';
+      return;
+    }
+
     const segments = url.split('/').filter(Boolean);
     const pageKey = segments.length ? segments[segments.length - 1] : 'dashboard';
     const effectiveKey = ['security', 'notifications', 'preferences'].includes(pageKey) ? 'settings' : pageKey;

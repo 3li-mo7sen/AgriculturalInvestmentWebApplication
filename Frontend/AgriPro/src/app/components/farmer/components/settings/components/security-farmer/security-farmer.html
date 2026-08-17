@@ -12,13 +12,20 @@
       </div>
     </div>
 
-    <form class="settings-form">
+    <div *ngIf="passwordSuccess" class="alert alert-success m-3" style="padding: 10px; background: #e8f5e9; color: #2e7d32; border-radius: 6px;">
+      {{ passwordSuccess }}
+    </div>
+    <div *ngIf="passwordError" class="alert alert-danger m-3" style="padding: 10px; background: #ffebee; color: #c62828; border-radius: 6px;">
+      {{ passwordError }}
+    </div>
+
+    <form class="settings-form" (ngSubmit)="onChangePassword()">
       <div class="field-group">
         <label>Current Password</label>
         <div class="input-with-icon">
-          <input type="password" placeholder="Enter current password" />
-          <button type="button" class="field-icon" aria-label="Show password">
-            <i class="fa-regular fa-eye"></i>
+          <input [type]="showCurrentPassword ? 'text' : 'password'" [(ngModel)]="passwordData.currentPassword" name="currentPassword" placeholder="Enter current password" />
+          <button type="button" class="field-icon" (click)="showCurrentPassword = !showCurrentPassword">
+            <i class="fa-regular" [ngClass]="showCurrentPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
           </button>
         </div>
       </div>
@@ -26,9 +33,9 @@
       <div class="field-group">
         <label>New Password</label>
         <div class="input-with-icon">
-          <input type="password" placeholder="Enter new password" />
-          <button type="button" class="field-icon" aria-label="Show password">
-            <i class="fa-regular fa-eye"></i>
+          <input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="passwordData.newPassword" name="newPassword" placeholder="Enter new password" />
+          <button type="button" class="field-icon" (click)="showNewPassword = !showNewPassword">
+            <i class="fa-regular" [ngClass]="showNewPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
           </button>
         </div>
       </div>
@@ -36,14 +43,14 @@
       <div class="field-group">
         <label>Confirm New Password</label>
         <div class="input-with-icon">
-          <input type="password" placeholder="Confirm new password" />
+          <input type="password" [(ngModel)]="passwordData.confirmPassword" name="confirmPassword" placeholder="Confirm new password" />
         </div>
       </div>
 
       <div class="form-footer">
-        <button type="submit" class="btn-primary btn-action">
+        <button type="submit" class="btn-primary btn-action" [disabled]="isSubmittingPassword">
           <i class="fa-solid fa-lock"></i>
-          Update Password
+          {{ isSubmittingPassword ? 'Updating...' : 'Update Password' }}
         </button>
       </div>
     </form>
@@ -69,7 +76,7 @@
           <p class="row-subtitle">Add an extra layer of security to your account</p>
         </div>
         <label class="switch">
-          <input type="checkbox" />
+          <input type="checkbox" [checked]="settings.twoFactorAuth" (change)="onToggleSetting('twoFactorAuth')" />
           <span class="slider"></span>
         </label>
       </div>
@@ -79,8 +86,8 @@
           <p class="row-title">Login Alerts</p>
           <p class="row-subtitle">Get notified when someone logs into your account</p>
         </div>
-        <label class="switch switch-on">
-          <input type="checkbox" checked />
+        <label class="switch">
+          <input type="checkbox" [checked]="settings.loginAlerts" (change)="onToggleSetting('loginAlerts')" />
           <span class="slider"></span>
         </label>
       </div>

@@ -133,15 +133,18 @@ export const routes: Routes = [
       { path: 'wallet', component: Wallet },
       
 
-     /* {
+      {
         path: 'settings', component: Settings,
         children: [
-          { path: '', redirectTo: 'profile', pathMatch: 'full' }, 
-          { path: 'profile', component: ProfileFarmer},
+          { path: '', redirectTo: 'profile', pathMatch: 'full' },
+          { path: 'profile', component: ProfileFarmer },
+          { path: 'security', component: SecurityFarmer },
+          { path: 'notifications', component: NotificationsFarmer },
+         /* { path: 'preferences', component: PreferencesFarmer }*/
         
          
         ]
-},*/ 
+      },
     
     ]  },
   {

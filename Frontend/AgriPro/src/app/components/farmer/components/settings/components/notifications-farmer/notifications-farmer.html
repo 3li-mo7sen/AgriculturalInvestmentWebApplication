@@ -17,8 +17,8 @@
         <p class="row-title">Email Notifications</p>
         <p class="row-subtitle">Receive notifications via email</p>
       </div>
-      <label class="switch switch-on">
-        <input type="checkbox" checked />
+      <label class="switch">
+        <input type="checkbox" [checked]="settings.emailNotifications" (change)="toggleSetting('emailNotifications')" />
         <span class="slider"></span>
       </label>
     </div>
@@ -28,8 +28,8 @@
         <p class="row-title">SMS Notifications</p>
         <p class="row-subtitle">Receive notifications via SMS</p>
       </div>
-      <label class="switch switch-on">
-        <input type="checkbox" checked />
+      <label class="switch">
+        <input type="checkbox" [checked]="settings.smsNotifications" (change)="toggleSetting('smsNotifications')" />
         <span class="slider"></span>
       </label>
     </div>
@@ -39,8 +39,8 @@
         <p class="row-title">Investment Alerts</p>
         <p class="row-subtitle">Get notified when you receive new investments</p>
       </div>
-      <label class="switch switch-on">
-        <input type="checkbox" checked />
+      <label class="switch">
+        <input type="checkbox" [checked]="settings.investmentAlerts" (change)="toggleSetting('investmentAlerts')" />
         <span class="slider"></span>
       </label>
     </div>
@@ -50,8 +50,8 @@
         <p class="row-title">Project Updates</p>
         <p class="row-subtitle">Get notified about your project status changes</p>
       </div>
-      <label class="switch switch-on">
-        <input type="checkbox" checked />
+      <label class="switch">
+        <input type="checkbox" [checked]="settings.projectUpdates" (change)="toggleSetting('projectUpdates')" />
         <span class="slider"></span>
       </label>
     </div>
@@ -62,7 +62,7 @@
         <p class="row-subtitle">Receive tips and updates about the platform</p>
       </div>
       <label class="switch">
-        <input type="checkbox" />
+        <input type="checkbox" [checked]="settings.marketingEmails" (change)="toggleSetting('marketingEmails')" />
         <span class="slider"></span>
       </label>
     </div>
