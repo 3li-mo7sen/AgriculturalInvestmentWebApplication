@@ -1,5 +1,5 @@
 .stepper-container {
-  background-color: #f8f9fa; /* لون خلفية خفيف */
+  background-color: #f8f9fa; 
   padding: 40px;
   min-height: 100vh;
 }
@@ -17,13 +17,13 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 150px; /* مسافة بين العناصر */
+  width: 150px; 
 }
 
 .step-circle {
   width: 45px;
   height: 45px;
-  border-radius: 12px; /* مربعة بحواف دائرية زي الصورة */
+  border-radius: 12px; 
   background-color: #e0e0e0;
   display: flex;
   justify-content: center;
@@ -34,7 +34,7 @@
 }
 
   .step-circle.active, .step-circle.completed {
-    background-color: #004d2c; /* اللون الأخضر بتاعك */
+    background-color: #004d2c;
   }
 
 .step-label {
@@ -50,7 +50,7 @@
     font-weight: bold;
   }
 
-/* الخط الواصل بين الدوائر */
+
 .step-line {
   position: absolute;
   height: 2px;
@@ -74,16 +74,15 @@
   margin: 0 auto;
 }
 
-/* --- تصميم كارت الأخطاء الجمالي --- */
-/* --- تصميم كارت الأخطاء الجمالي --- */
+
 .error-banner {
   background: #fdf2f2;
   border: 1px solid #f8b4b4;
-  border-left: 6px solid #e53e3e; /* 👈 تم التعديل لجهة اليسار للواجهة الإنجليزية */
+  border-left: 6px solid #e53e3e; 
   border-radius: 16px;
   padding: 16px 20px;
   margin: 0 auto 30px auto;
-  max-width: 900px; /* ليناسب عرض الـ stepper-content */
+  max-width: 900px; 
   box-shadow: 0 10px 25px rgba(229, 62, 62, 0.12);
   animation: slideDown 0.4s ease-out forwards;
 }
@@ -136,7 +135,7 @@
 
 .error-list {
   margin: 0;
-  padding-left: 24px; /* 👈 تم التعديل لجهة اليسار LTR */
+  padding-left: 24px; 
   padding-right: 0;
   color: #c81e1e;
   font-size: 14px;

@@ -1,4 +1,6 @@
 <div class="create-project-page">
   <app-icons-raw></app-icons-raw>
-  <app-add-project-form></app-add-project-form>
+  <app-add-project-form
+    [formData]="rawFormData" 
+    (continue)="handleFormData($event)"></app-add-project-form>
 </div>

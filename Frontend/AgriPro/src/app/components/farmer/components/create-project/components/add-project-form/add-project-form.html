@@ -29,7 +29,7 @@
 
     <div class="field-group">
       <label>Expected Profit<span class="required-star">*</span></label>
-      <input type="number" [(ngModel)]="data.expectedProfit" name="expectedProfit" name="expectedProfit"
+      <input type="number" [(ngModel)]="data.expectedProfit" name="expectedProfit" 
              #expectedProfit="ngModel"
              required
              min="1" placeholder="Expected Profit">
@@ -67,12 +67,27 @@
     </div>
 
     <div class="field-group">
+
       <label>Crop Type<span class="required-star">*</span></label>
-      <input type="text" [(ngModel)]="data.cropType" name="cropType" #cropType="ngModel"
-             required placeholder="Crop Type" />
+
+      <select [(ngModel)]="data.cropType" name="cropType" #cropType="ngModel" required class="form-select">
+
+        <option value="" disabled selected>Select Crop Type</option>
+
+        <option *ngFor="let crop of cropOptions" [value]="crop">
+
+          {{ crop }}
+
+        </option>
+
+      </select>
+
       <small class="error-msg" *ngIf="cropType.invalid && (cropType.touched || projectForm.submitted)">
+
         Crop Type is required.
+
       </small>
+
     </div>
 
     <div class="form-actions">

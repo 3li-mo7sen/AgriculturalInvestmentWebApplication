@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, NgZone, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -9,6 +9,8 @@ import { ChangeDetectorRef, Component, EventEmitter, NgZone, Output } from '@ang
   styleUrls: ['./land-images.css'],
 })
 export class LandImages {
+  //edit
+  @Input() formData: any = {};
   @Output() continue = new EventEmitter<any>();
   @Output() previous = new EventEmitter<void>();
 
@@ -18,12 +20,28 @@ export class LandImages {
 
   showError: boolean = false;
   errorMessage: string = '';
+  //edit
+  ngOnInit(): void {
+   
+    if (this.formData) {
+      const savedImage = this.formData.Image || this.formData.image;
+      if (savedImage && savedImage instanceof File) {
+        this.selectedFile = savedImage;
 
+        
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.imagePreview = e.target.result;
+        };
+        reader.readAsDataURL(savedImage);
+      }
+    }
+  }
   onFileSelected(event: any) {
     const file = event.target.files[0];
 
     if (file) {
-      // 1. Validation للحجم (أقل من 10 ميجا)
+      
       const maxSizeInMB = 10;
       if (file.size > maxSizeInMB * 1024 * 1024) {
         this.showError = true;
@@ -33,7 +51,7 @@ export class LandImages {
         return;
       }
 
-      // 2. Validation للنوع (صور فقط)
+     
       if (!file.type.startsWith('image/')) {
         this.showError = true;
         this.errorMessage = 'Please select a valid image file (PNG or JPG).';
@@ -42,7 +60,7 @@ export class LandImages {
         return;
       }
 
-      // إخفاء الأخطاء إذا كانت الصورة سليمة
+      
       this.showError = false;
       this.errorMessage = '';
       this.selectedFile = file;

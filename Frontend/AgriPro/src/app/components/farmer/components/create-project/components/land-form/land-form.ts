@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 
 @Component({
@@ -10,11 +10,13 @@ import { FormsModule, NgForm, NgModel } from '@angular/forms';
   styleUrls: ['./land-form.css'],
 })
 export class LandForm {
+  //edit
+  @Input() formData: any = {};
   @Output() continue = new EventEmitter<any>();
   @Output() previous = new EventEmitter<void>();
 
   data = {
-    cropType: '',
+    /*cropType: '',*/
     governorate: '',
     district: '',
     landSize: null as number | null,
@@ -54,6 +56,20 @@ export class LandForm {
     'Sohag'
   ];
 
+  //edit
+  ngOnInit(): void {
+    if (this.formData) {
+      this.data = {
+        governorate: this.formData.governorate || this.formData.Governorate || '',
+        district: this.formData.district || this.formData.District || '',
+        landSize: this.formData.landSize ?? this.formData.LandSize ?? null,
+        soilType: this.formData.soilType || this.formData.SoilType || '',
+        waterSource: this.formData.waterSource || this.formData.WaterSource || '',
+        landOwnershipType: this.formData.landOwnershipType || this.formData.LandOwnershipType || '',
+        expectedCropSeason: this.formData.expectedCropSeason || this.formData.ExpectedCropSeason || ''
+      };
+    }
+  }
   sendData(form: NgForm) {
     if (form.invalid) {
       Object.keys(form.controls).forEach(field => {

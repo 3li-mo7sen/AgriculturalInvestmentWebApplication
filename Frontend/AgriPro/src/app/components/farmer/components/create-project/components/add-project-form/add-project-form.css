@@ -28,26 +28,24 @@
   gap: 0.55rem;
 }
 
-.field-group label {
-  font-weight: 700;
-  color: #24323d;
-}
+  .field-group label {
+    font-weight: 700;
+    color: #24323d;
+  }
 
-.field-group input,
-.field-group select,
-.field-group textarea {
-  width: 100%;
-  border: 1px solid #d7d7cf;
-  border-radius: 24px;
-  padding: 1rem 1.1rem;
-  font-size: 1rem;
-  color: #26322f;
-  background: #fcfcfb;
-}
+  .field-group input, .field-group select, .field-group textarea {
+    width: 100%;
+    border: 1px solid #d7d7cf;
+    border-radius: 24px;
+    padding: 1rem 1.1rem;
+    font-size: 1rem;
+    color: #26322f;
+    background: #fcfcfb;
+  }
 
-.field-group textarea {
-  resize: vertical;
-}
+  .field-group textarea {
+    resize: vertical;
+  }
 
 .select-wrap {
   position: relative;
@@ -55,8 +53,7 @@
 
 .field-group select {
   appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, #8a8f86 50%),
-    linear-gradient(135deg, #8a8f86 50%, transparent 50%);
+  background-image: linear-gradient(45deg, transparent 50%, #8a8f86 50%), linear-gradient(135deg, #8a8f86 50%, transparent 50%);
   background-position: calc(100% - 1rem) calc(50% - 2px), calc(100% - 0.65rem) calc(50% - 2px);
   background-size: 8px 8px, 8px 8px;
   background-repeat: no-repeat;
@@ -103,29 +100,32 @@
 }
 
 @media (max-width: 767px) {
+
   .form-card {
     padding: 1.6rem;
   }
+
   .form-actions {
     flex-direction: column;
     align-items: stretch;
   }
+
   .action-group {
     width: 100%;
   }
+
   .btn {
     width: 100%;
   }
 }
 
 
-/* نجمة الحقول الإجبارية */
 .required-star {
   color: #e53e3e;
   margin-left: 2px;
 }
 
-/* رسالة الخطأ */
+
 .error-msg {
   color: #e53e3e;
   font-size: 0.85rem;
@@ -133,12 +133,13 @@
   margin-top: 2px;
 }
 
-/* تمييز الـ Input في حالة الخطأ */
-.field-group input.ng-invalid.ng-touched,
-.field-group textarea.ng-invalid.ng-touched {
+
+.field-group input.ng-invalid.ng-touched, .field-group textarea.ng-invalid.ng-touched {
   border-color: #e53e3e;
   background-color: #fff8f8;
 }
+
+
 
   .field-group input.ng-invalid.ng-touched:focus,
   .field-group textarea.ng-invalid.ng-touched:focus {

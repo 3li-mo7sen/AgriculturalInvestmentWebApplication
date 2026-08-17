@@ -10,6 +10,8 @@ import { FormsModule, NgForm } from '@angular/forms';
   styleUrls: ['./farmer-investment.css'],
 })
 export class FarmerInvestment {
+  //edit
+  @Input() formData: any = {};
   @Output() previous = new EventEmitter<void>();
   
   @Output() submitForm = new EventEmitter<any>(); 
@@ -25,6 +27,16 @@ export class FarmerInvestment {
   };
 
   sharesSumError: boolean = false;
+  //edit
+  ngOnInit(): void {
+    if (this.formData) {
+      this.data = {
+        minimumInvestment: this.formData.minimumInvestment ?? this.formData.MinimumInvestment ?? null,
+        farmerProfitShare: this.formData.farmerProfitShare ?? this.formData.FarmerProfitShare ?? null,
+        investorProfitShare: this.formData.investorProfitShare ?? this.formData.InvestorProfitShare ?? null,
+      };
+    }
+  }
 
   sendData(form: NgForm) {
     this.sharesSumError = false;

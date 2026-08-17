@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -9,6 +9,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./farmer-documents.css'],
 })
 export class FarmerDocuments {
+  //edit
+  @Input() formData: any = {};
   @Output() continue = new EventEmitter<any>();
   @Output() previous = new EventEmitter<void>();
 
@@ -25,7 +27,15 @@ export class FarmerDocuments {
   idErrorMessage: string = '';
 
   maxFileSizeMB = 10;
-
+  //edit
+  ngOnInit(): void {
+    if (this.formData) {
+      this.landOwnershipDoc = this.formData.landOwnershipDoc || this.formData.LandOwnershipDoc || null;
+      this.nationalIdDoc = this.formData.nationalIdDoc || this.formData.NationalIdDoc || null;
+      this.agriculturalPermitDoc = this.formData.agriculturalPermitDoc || this.formData.AgriculturalPermitDoc || null;
+      this.waterRightsDoc = this.formData.waterRightsDoc || this.formData.WaterRightsDoc || null;
+    }
+  }
   
   onFileSelected(event: any, docType: string) {
     const file = event.target.files[0];

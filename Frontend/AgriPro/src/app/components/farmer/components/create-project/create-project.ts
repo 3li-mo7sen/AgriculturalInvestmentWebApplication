@@ -10,5 +10,10 @@ import { AddProjectForm } from './components/add-project-form/add-project-form';
   styleUrls: ['./create-project.css'],
 })
 export class CreateProject {
-
+  //edit
+  rawFormData: any = {};
+  //edit
+  handleFormData(data: any) {
+    this.rawFormData = { ...this.rawFormData, ...data };
+  }
 }
