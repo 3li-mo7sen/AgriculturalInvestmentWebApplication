@@ -111,3 +111,33 @@
     min-width: 740px;
   }
 }
+
+/*for download button*/
+.actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+  .action-btn:hover {
+    background: #f1f5f9;
+    color: #0f5132;
+  }
+
+  .action-btn i {
+    font-size: 1rem;
+  }

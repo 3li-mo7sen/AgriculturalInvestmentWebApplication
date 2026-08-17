@@ -3,7 +3,9 @@
     <div>
       <h2>Recent Projects</h2>
     </div>
-    <a class="view-all-link" href="/farmer/my-projects">View All <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    <a class="view-all-link" routerLink="/farmer/my-projects">
+      View All <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </a>
   </div>
 
   <div class="table-responsive">
@@ -14,63 +16,42 @@
           <th>Status</th>
           <th>Funded</th>
           <th>Progress</th>
-          <th>Investors</th>
-          <th>Action</th>
+          <th style="text-align: center;">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let project of projects">
-          <td>{{ project.name }}</td>
-          <td><span class="status-badge" [ngClass]="{'status-active': project.status === 'Published'}"><i class="fa-solid fa-chart-line"></i> {{ project.status }}</span></td>
-          <td>EGP {{ project.fundingRaised | number }}</td>
+          <td class="project-name">{{ project.name }}</td>
           <td>
-            <div class="progress-wrap">
-              <div class="progress-bar filled" [style.width.%]="project.fundingProgress"></div>
-            </div>
-            <span>{{ project.fundingProgress }}%</span>
+            <span class="status-badge" [ngClass]="{
+              'status-active': project.status === 'Approved',
+              'status-pending': project.status === 'Pending',
+              'status-rejected': project.status === 'Rejected'
+            }">
+              <i class="fa-solid fa-circle" style="font-size: 6px;"></i> {{ project.status }}
+            </span>
           </td>
-          <td><i class="fa-solid fa-arrow-right"></i></td>
-          <td><i class="fa-solid fa-arrow-right"></i></td>
-        </tr>
-        <tr *ngIf="projects.length === 0">
-          <td colspan="5" style="text-align: center; padding: 20px;">No active projects found.</td>
-          <!--<td><span class="status-badge status-review"><i class="fa-solid fa-clock"></i> Under Review</span></td>
-  <td>EGP 0</td>
-  <td>
-    <div class="progress-wrap">
-      <div class="progress-bar"></div>
-    </div>
-    <span>0%</span>
-  </td>
-  <td>0</td>
-  <td><i class="fa-solid fa-arrow-right"></i></td>-->
-        </tr>
-      <!--  <tr>
-          <td>Organic Vegetables - Fayoum</td>
-          <td><span class="status-badge status-funded"><i class="fa-solid fa-circle-check"></i> Funded</span></td>
-          <td>EGP 250,000</td>
+          <td style="font-weight: 600; color: #334155;">EGP {{ project.fundingRaised | number }}</td>
           <td>
-            <div class="progress-wrap">
-              <div class="progress-bar filled" style="width: 100%"></div>
+            <div class="progress-container">
+              <div class="progress-wrap">
+                <div class="progress-bar filled" [style.width.%]="project.fundingProgress"></div>
+              </div>
+              <span class="progress-text">{{ project.fundingProgress }}%</span>
             </div>
-            <span>100%</span>
           </td>
-          <td>18</td>
-          <td><i class="fa-solid fa-arrow-right"></i></td>
+          <td style="text-align: center;">
+            <a [routerLink]="['/farmer/project-details', project.id]" class="btn-view-details">
+              <i class="fa-regular fa-eye"></i> View
+            </a>
+          </td>
         </tr>
-        <tr>
-          <td>Cotton Plantation - Minya</td>
-          <td><span class="status-badge status-draft"><i class="fa-solid fa-circle-info"></i> Draft</span></td>
-          <td>EGP 0</td>
-          <td>
-            <div class="progress-wrap">
-              <div class="progress-bar"></div>
-            </div>
-            <span>0%</span>
+
+        <tr *ngIf="!projects || projects.length === 0">
+          <td colspan="5" style="text-align: center; padding: 2rem; color: #94a3b8;">
+            No active projects found.
           </td>
-          <td>0</td>
-          <td><i class="fa-solid fa-arrow-right"></i></td>
-        </tr>-->
+        </tr>
       </tbody>
     </table>
   </div>

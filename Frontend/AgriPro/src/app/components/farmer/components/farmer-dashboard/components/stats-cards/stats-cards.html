@@ -1,4 +1,5 @@
 <section class="stats-grid">
+ 
   <article class="stat-card">
     <div class="stat-meta">
       <div>
@@ -6,26 +7,25 @@
         <h3>{{ stats?.totalProjects || 0 }}</h3>
       </div>
       <span class="stat-icon stat-icon-green">
-        <i class="fa-solid fa-copy"></i>
+        <i class="fa-solid fa-folder-closed"></i>
       </span>
     </div>
-  
   </article>
-  
-    <article class="stat-card">
-      <div class="stat-meta">
-        <div>
-          <p class="stat-label">Funding Raised</p>
-          <h3>EGP {{ stats?.totalFundingRaised | number }}</h3>
-        </div>
-        <span class="stat-icon stat-icon-dark">
-          <i class="fa-solid fa-chart-line"></i>
-        </span>
-      </div>
-      
-    </article>
-    
 
+  
+  <article class="stat-card">
+    <div class="stat-meta">
+      <div>
+        <p class="stat-label">Funding Raised</p>
+        <h3>EGP {{ stats?.totalFundingRaised | number }}</h3>
+      </div>
+      <span class="stat-icon stat-icon-dark">
+        <i class="fa-solid fa-seedling"></i>
+      </span>
+    </div>
+  </article>
+
+  
   <article class="stat-card">
     <div class="stat-meta">
       <div>
@@ -33,24 +33,8 @@
         <h3>{{ stats?.totalInvestors || 0 }}</h3>
       </div>
       <span class="stat-icon stat-icon-yellow">
-        <i class="fa-solid fa-clock"></i>
+        <i class="fa-solid fa-users"></i>
       </span>
     </div>
-    
   </article>
-  <!--
-    <article class="stat-card">
-      <div class="stat-meta">
-        <div>
-          <p class="stat-label">Wallet Balance</p>
-          <h3>EGP 125,000</h3>
-        </div>
-        <span class="stat-icon stat-icon-blue">
-          <i class="fa-solid fa-wallet"></i>
-        </span>
-      </div>
-      <p class="stat-note">Available for withdrawal</p>
-    </article>
-
-    -->
 </section>

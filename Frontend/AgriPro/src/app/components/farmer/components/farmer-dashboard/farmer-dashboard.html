@@ -1,12 +1,40 @@
-
 <div class="dashboard-page">
+
   <div class="dashboard-toolbar">
-    <a class="btn btn-create-project" href="/farmer/create-project">
+    
+    <div class="toolbar-title">
+      <h1>Overview</h1>
+    </div>
+    
+    <a class="btn btn-create-project" routerLink="/farmer/create-project">
       <i class="fa-solid fa-folder-plus"></i>
       Create New Project
     </a>
   </div>
 
-  <app-stats-cards [stats]="dashboardData"></app-stats-cards>
-  <app-recent-projects [projects]="dashboardData?.activeProjects"></app-recent-projects>
+ 
+  <ng-container *ngIf="isLoading; else dashboardContent">
+    
+    <div class="skeleton-grid">
+      <div class="skeleton-card" *ngFor="let item of [1, 2, 3]">
+        <div class="skeleton-info">
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line long"></div>
+        </div>
+        <div class="skeleton-circle"></div>
+      </div>
+    </div>
+
+  
+    <div class="skeleton-section">
+      <div class="skeleton-line title"></div>
+      <div class="skeleton-box"></div>
+    </div>
+  </ng-container>
+
+  
+  <ng-template #dashboardContent>
+    <app-stats-cards [stats]="dashboardData"></app-stats-cards>
+    <app-recent-projects [projects]="dashboardData?.activeProjects"></app-recent-projects>
+  </ng-template>
 </div>

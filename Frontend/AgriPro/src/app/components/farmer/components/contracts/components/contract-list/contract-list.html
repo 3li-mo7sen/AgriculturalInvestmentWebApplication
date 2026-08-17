@@ -34,7 +34,14 @@
             </span>
           </td>
           <td>{{ contract.expiresAt | date:'mediumDate' }}</td>
-          <td class="actions-cell"><i class="fa-regular fa-eye"></i><i class="fa-solid fa-download"></i></td>
+          <td class="actions-cell">
+            <button type="button" class="action-btn" title="View & Print" (click)="printContract(contract)">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+            <button type="button" class="action-btn" title="Download PDF" (click)="printContract(contract)">
+              <i class="fa-solid fa-download"></i>
+            </button>
+          </td>
         </tr>
         <tr *ngIf="contracts.length === 0">
           <td colspan="7" style="text-align: center; padding: 20px;">No contracts found.</td>

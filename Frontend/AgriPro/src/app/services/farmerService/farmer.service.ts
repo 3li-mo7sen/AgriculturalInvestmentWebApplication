@@ -12,7 +12,44 @@ export class FarmerService {
   constructor(private _http: HttpClient) { }
 
   getDashboardData(): Observable<any> {
-    return this._http.get<any>(`${environment.baseUrl}/api/Farmer/Get-Farmer-Dashboard`);
+    return this._http.get<any>(`${environment.baseUrl}/api/Farmer/Get-Farmer-Dashboard`).pipe(
+      map((res) => this.mapDashboard(res))
+    );
+  }
+
+  private mapDashboard(dashboard: any): any {
+    const statsArray = dashboard?.stats ?? [];
+
+    
+    const getStatValue = (title: string) => {
+      const found = statsArray.find((item: any) => item.title?.toLowerCase() === title.toLowerCase());
+      return found ? found.value : 0;
+    };
+
+  
+    const activeProjects = (dashboard?.recentItems ?? []).map((project: any) => ({
+      id: project.id,
+      name: project.projectTitle ?? project.name,
+      status: project.status,
+      fundingRaised: project.fundingRaised ?? 0,
+      targetAmount: project.fundingGoal ?? 0,
+      fundingProgress: project.fundingProgress ?? 0,
+      investorsCount: project.investorsCount ?? 0
+    }));
+
+    return {
+      totalProjects: Number(getStatValue('Total Projects')) || 0,
+      activeProjectsCount: Number(getStatValue('Active Projects')) || 0,
+      pendingReviews: Number(getStatValue('Pending Reviews')) || 0,
+      totalFundingRaised: this.parseMoney(getStatValue('Total Raised')),
+      totalInvestors: activeProjects.reduce((sum: number, item: any) => sum + item.investorsCount, 0),
+      activeProjects: activeProjects
+    };
+  }
+
+  private parseMoney(value: any): number {
+    if (typeof value === 'number') return value;
+    return Number(String(value ?? '').replace(/[^\d.-]/g, '')) || 0;
   }
 
   getMyProjects(): Observable<any[]> {
@@ -84,6 +121,7 @@ export class FarmerService {
     };
   }
   */
+ 
   private mapProject(project: any): any {
     return {
       ...project,
@@ -94,10 +132,7 @@ export class FarmerService {
       investorsCount: project.investorsCount ?? project.investorCount ?? 0
     };
   }
-
-  private parseMoney(value: any): number {
-    if (typeof value === 'number') return value;
-    return Number(String(value ?? '').replace(/[^\d.-]/g, '')) || 0;
-  }
+  
+  
 
 }
