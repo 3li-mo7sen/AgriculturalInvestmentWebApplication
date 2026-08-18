@@ -30,7 +30,7 @@ export class FarmerNav {
     ['project-details', { title: 'Project Details', subtitle: 'View detailed information and status of your project' }],
     ['wallet', { title: 'Wallet', subtitle: 'Manage your funds and transactions' }],
     ['contracts', { title: 'Contracts', subtitle: 'Manage your investment contracts' }],
-    ['profile', { title: 'My Profile', subtitle: 'Manage your farmer profile and account details' }],
+    ['profile', { title: 'My Profile', subtitle: 'Manage your profile and account details' }],
     ['settings', { title: 'Settings', subtitle: 'Manage your account preferences' }],
   ]);
 

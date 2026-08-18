@@ -30,7 +30,8 @@ export class InvestorNav {
     ['my-investments', { title: 'My Investments', subtitle: 'Track and manage your agricultural investments' }],
     ['investment-history', { title: 'Investment History', subtitle: 'View your complete investment transaction history' }],
     ['wallet', { title: 'Wallet', subtitle: 'Manage your investment funds' }],
-    ['settings', { title: 'My Profile', subtitle: 'Manage your account preferences' }],
+    ['profile', { title: 'My Profile', subtitle: 'Manage your profile and account details' }],
+    ['settings', { title: 'settings', subtitle: 'Manage your account preferences' }],
   ]);
 
   constructor(private accountService: AccountService,
@@ -76,9 +77,26 @@ export class InvestorNav {
 
 
   private updateHeader(url: string) {
+    if (url.includes('/settings')) {
+      const config = this.pageMap.get('settings');
+      this.pageTitle = config?.title ?? 'Settings';
+      this.pageSubtitle = config?.subtitle ?? 'Manage your account preferences';
+      return;
+    }
+
+   
     if (url.includes('project-details')) {
-      this.pageTitle = 'Project Details';
-      this.pageSubtitle = 'Review and invest in this project';
+      const config = this.pageMap.get('project-details');
+      this.pageTitle = config?.title ?? 'Project Details';
+      this.pageSubtitle = config?.subtitle ?? 'Review and invest in this project';
+      return;
+    }
+
+  
+    if (url.includes('/profile')) {
+      const config = this.pageMap.get('profile');
+      this.pageTitle = config?.title ?? 'My Profile';
+      this.pageSubtitle = config?.subtitle ?? 'Manage your profile and account details';
       return;
     }
 

@@ -74,20 +74,20 @@
   gap: 0.6rem;
 }
 
-.field-group label {
-  font-weight: 700;
-  color: #22332a;
-}
+  .field-group label {
+    font-weight: 700;
+    color: #22332a;
+  }
 
-.field-group input {
-  width: 100%;
-  border: 1px solid #e4e4db;
-  border-radius: 22px;
-  padding: 1rem 1.1rem;
-  font-size: 1rem;
-  background: #fcfcfb;
-  color: #1b2a1e;
-}
+  .field-group input {
+    width: 100%;
+    border: 1px solid #e4e4db;
+    border-radius: 22px;
+    padding: 1rem 1.1rem;
+    font-size: 1rem;
+    background: #fcfcfb;
+    color: #1b2a1e;
+  }
 
 .full-width {
   grid-column: 1 / -1;
@@ -97,13 +97,16 @@
   .profile-card {
     padding: 1.5rem;
   }
+
   .profile-card-header {
     flex-direction: column;
     align-items: flex-start;
   }
+
   .two-cols {
     grid-template-columns: 1fr;
   }
+
   .btn-save {
     width: 100%;
     justify-content: center;

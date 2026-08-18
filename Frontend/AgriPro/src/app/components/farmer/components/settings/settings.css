@@ -15,29 +15,29 @@
   justify-content: center;
 }
 
-.settings-tabs a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.85rem 1.25rem;
-  color: #5e665f;
-  text-decoration: none;
-  border-radius: 999px;
-  transition: background-color 0.25s ease, color 0.25s ease;
-  background: transparent;
-  font-weight: 600;
-}
+  .settings-tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.85rem 1.25rem;
+    color: #5e665f;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    background: transparent;
+    font-weight: 600;
+  }
 
-.settings-tabs a:hover {
-  background: rgba(15, 81, 50, 0.08);
-  color: #0f5132;
-}
+    .settings-tabs a:hover {
+      background: rgba(15, 81, 50, 0.08);
+      color: #0f5132;
+    }
 
-.settings-tabs .active-tab {
-  background: #ffffff;
-  color: #0f5132 !important;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
-}
+  .settings-tabs .active-tab {
+    background: #ffffff;
+    color: #0f5132 !important;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  }
 
 .settings-panel {
   background: rgba(255, 255, 255, 0.96);
@@ -50,6 +50,7 @@
   .settings-container {
     padding: 1rem 0.75rem 1.5rem;
   }
+
   .settings-panel {
     padding: 1.4rem;
   }

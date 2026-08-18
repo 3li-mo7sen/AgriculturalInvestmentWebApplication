@@ -33,8 +33,13 @@
   color: #ffffff;
 }
 
-.green-icon { background: #0f5132; }
-.dark-icon { background: #225237; }
+.green-icon {
+  background: #0f5132;
+}
+
+.dark-icon {
+  background: #225237;
+}
 
 .settings-card-title h2 {
   margin: 0 0 0.35rem;
@@ -57,24 +62,24 @@
   gap: 0.7rem;
 }
 
-.field-group label {
-  font-weight: 700;
-  color: #24332d;
-}
+  .field-group label {
+    font-weight: 700;
+    color: #24332d;
+  }
 
 .input-with-icon {
   position: relative;
 }
 
-.input-with-icon input {
-  width: 100%;
-  border: 1px solid #e5e5de;
-  border-radius: 28px;
-  padding: 1rem 1.3rem;
-  font-size: 1rem;
-  background: #fbfbf9;
-  color: #1d2c21;
-}
+  .input-with-icon input {
+    width: 100%;
+    border: 1px solid #e5e5de;
+    border-radius: 28px;
+    padding: 1rem 1.3rem;
+    font-size: 1rem;
+    background: #fbfbf9;
+    color: #1d2c21;
+  }
 
 .field-icon {
   position: absolute;
@@ -121,9 +126,9 @@
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
 }
 
-.settings-row:last-child {
-  border-bottom: none;
-}
+  .settings-row:last-child {
+    border-bottom: none;
+  }
 
 .row-title {
   margin: 0 0 0.25rem;
@@ -144,11 +149,11 @@
   display: inline-block;
 }
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
 
 .slider {
   position: absolute;
@@ -162,25 +167,25 @@
   transition: 0.25s;
 }
 
-.slider::before {
-  position: absolute;
-  content: "";
-  height: 22px;
-  width: 22px;
-  left: 4px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.25s;
-}
+  .slider::before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.25s;
+  }
 
 .switch input:checked + .slider {
   background-color: #0f5132;
 }
 
-.switch input:checked + .slider::before {
-  transform: translateX(24px);
-}
+  .switch input:checked + .slider::before {
+    transform: translateX(24px);
+  }
 
 .switch-on .slider {
   background-color: #0f5132;
@@ -191,6 +196,7 @@
   .compact-card {
     padding: 1.5rem;
   }
+
   .settings-row {
     flex-direction: column;
     align-items: flex-start;

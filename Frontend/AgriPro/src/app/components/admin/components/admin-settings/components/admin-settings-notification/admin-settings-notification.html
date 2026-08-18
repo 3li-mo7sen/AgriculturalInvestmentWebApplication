@@ -1,97 +1,74 @@
-<section class="notification-settings-page">
-  <article class="notification-card">
-    <div class="notification-card-header">
+<section class="settings-card">
+  <div class="settings-card-header">
+    <div class="settings-card-title">
+      <span class="settings-card-icon green-icon">
+        <i class="fa-regular fa-bell"></i>
+      </span>
       <div>
-        <h2>Notification Channels</h2>
-        <p>Configure how notifications are sent</p>
+        <h2>Notification Preferences</h2>
+        <p>Choose how you want to receive notifications</p>
       </div>
     </div>
+  </div>
 
-    <div class="notification-row">
+  <div class="settings-list">
+    <div class="settings-row">
       <div>
-        <h3>Email Notifications</h3>
-        <p>Send notifications via email</p>
+        <p class="row-title">Email Notifications</p>
+        <p class="row-subtitle">Receive notifications via email</p>
       </div>
-      <label class="switch-toggle">
-        <input type="checkbox" checked />
+      <label class="switch">
+        <input type="checkbox" [checked]="settings.emailNotifications" (change)="toggleSetting('emailNotifications')" />
         <span class="slider"></span>
       </label>
     </div>
 
-    <div class="divider"></div>
-
-    <div class="notification-row">
+    <div class="settings-row">
       <div>
-        <h3>SMS Notifications</h3>
-        <p>Send notifications via SMS</p>
+        <p class="row-title">SMS Notifications</p>
+        <p class="row-subtitle">Receive notifications via SMS</p>
       </div>
-      <label class="switch-toggle">
-        <input type="checkbox" checked />
+      <label class="switch">
+        <input type="checkbox" [checked]="settings.smsNotifications" (change)="toggleSetting('smsNotifications')" />
         <span class="slider"></span>
       </label>
     </div>
-  </article>
-
-  <article class="notification-card">
-    <div class="notification-card-header">
+    <!--
+    <div class="settings-row">
       <div>
-        <h2>Alert Types</h2>
-        <p>Choose which events trigger notifications</p>
+        <p class="row-title">Investment Alerts</p>
+        <p class="row-subtitle">Get notified when you receive new investments</p>
       </div>
-    </div>
-
-    <div class="notification-row">
-      <div>
-        <h3>New Project Alerts</h3>
-        <p>When new projects are submitted</p>
-      </div>
-      <label class="switch-toggle">
-        <input type="checkbox" checked />
+      <label class="switch">
+        <input type="checkbox" [checked]="settings.investmentAlerts" (change)="toggleSetting('investmentAlerts')" />
         <span class="slider"></span>
       </label>
     </div>
-
-    <div class="divider"></div>
-
-    <div class="notification-row">
+    -->
+    <!--
+    <div class="settings-row">
       <div>
-        <h3>Investment Alerts</h3>
-        <p>When investments are made</p>
+        <p class="row-title">Project Updates</p>
+        <p class="row-subtitle">Get notified about your project status changes</p>
       </div>
-      <label class="switch-toggle">
-        <input type="checkbox" checked />
+      <label class="switch">
+        <input type="checkbox" [checked]="settings.projectUpdates" (change)="toggleSetting('projectUpdates')" />
         <span class="slider"></span>
       </label>
     </div>
-
-    <div class="divider"></div>
-
-    <div class="notification-row">
+    -->
+    <!--
+    <div class="settings-row">
       <div>
-        <h3>KYC Alerts</h3>
-        <p>When KYC documents are submitted</p>
+        <p class="row-title">Marketing Emails</p>
+        <p class="row-subtitle">Receive tips and updates about the platform</p>
       </div>
-      <label class="switch-toggle">
-        <input type="checkbox" checked />
+
+      <label class="switch">
+        <input type="checkbox" [checked]="settings.marketingEmails" (change)="toggleSetting('marketingEmails')" />
         <span class="slider"></span>
       </label>
     </div>
-
-    <div class="divider"></div>
-
-    <div class="notification-row">
-      <div>
-        <h3>System Alerts</h3>
-        <p>Critical system notifications</p>
-      </div>
-      <label class="switch-toggle">
-        <input type="checkbox" checked />
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <div class="actions-row">
-      <button class="btn-save" type="button">Save Changes</button>
-    </div>
-  </article>
+    --->
+  </div>
 </section>

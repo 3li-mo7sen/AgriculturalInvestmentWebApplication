@@ -1,69 +1,58 @@
-<section class="general-settings-page">
-  <article class="settings-card">
-    <div class="settings-card-header">
+<div class="profile-card">
+  <div class="profile-card-header">
+    <div class="profile-title">
+      <span class="profile-icon">
+        <i class="fa-regular fa-user"></i>
+      </span>
       <div>
-        <h2>Platform Information</h2>
-        <p>Basic platform configuration settings</p>
-      </div>
-      <div class="settings-icon">🌐</div>
-    </div>
-
-    <div class="settings-grid">
-      <div class="settings-field">
-        <label>Platform Name</label>
-        <input type="text" value="Agri-Pro" />
-      </div>
-      <div class="settings-field">
-        <label>Support Email</label>
-        <input type="email" value="support@agri-pro.com" />
-      </div>
-      <div class="settings-field full-width">
-        <label>Platform Description</label>
-        <textarea>Connecting farmers and investors for agricultural growth</textarea>
-      </div>
-    </div>
-  </article>
-
-  <article class="settings-card">
-    <div class="settings-card-header">
-      <div>
-        <h2>Investment Settings</h2>
-        <p>Configure investment limits and fees</p>
-      </div>
-      <div class="settings-icon">📈</div>
-    </div>
-
-    <div class="settings-grid investment-grid">
-      <div class="settings-field">
-        <label>Default Currency</label>
-        <div class="select-control">
-          <select>
-            <option>Egyptian Pound (EGP)</option>
-            <option>US Dollar (USD)</option>
-            <option>Euro (EUR)</option>
-          </select>
-          <span class="select-arrow">▾</span>
-        </div>
-      </div>
-      <div class="settings-field">
-        <label>Minimum Investment (EGP)</label>
-        <input type="number" value="10000" />
-      </div>
-      <div class="settings-field">
-        <label>Maximum Investment (EGP)</label>
-        <input type="number" value="5000000" />
-      </div>
-      <div class="settings-field">
-        <label>Platform Fee (%)</label>
-        <input type="number" value="2.5" step="0.1" />
-      </div>
-      <div class="settings-note full-width">
-        Fee charged on successful investments
+        <h2>Profile Information</h2>
+        <p>Update your personal information</p>
       </div>
     </div>
 
-    <div class="actions-row">
-      <button class="btn-save" type="button">Save Changes</button>
+    <button type="button" class="btn-save" (click)="onSave()" [disabled]="isSaving || isLoading">
+      <i class="fa-solid fa-floppy-disk"></i>
+      {{ isSaving ? 'Saving...' : 'Save Changes' }}
+    </button>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-3" style="padding: 10px; background: #e8f5e9; color: #2e7d32; border-radius: 6px;">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3" style="padding: 10px; background: #ffebee; color: #c62828; border-radius: 6px;">
+    {{ errorMessage }}
+  </div>
+
+  <form class="profile-form" (ngSubmit)="onSave()" style="margin-top: 15px;">
+    <div class="form-row two-cols">
+      <div class="field-group">
+        <label>Full Name</label>
+        <input type="text" [(ngModel)]="profileData.name" name="name" placeholder="Enter your full name" />
+      </div>
+      <div class="field-group">
+        <label>Email Address</label>
+        <input type="email" [(ngModel)]="profileData.email" name="email" placeholder="Enter your email address" />
+      </div>
     </div>
-  </article>
-</section>
+
+    <div class="form-row two-cols">
+      <div class="field-group">
+        <label>Phone Number</label>
+        <input type="tel" [(ngModel)]="profileData.phone" name="phone" placeholder="Enter your phone number" />
+      </div>
+      <div class="field-group">
+        <label>Location</label>
+        <input type="text" [(ngModel)]="profileData.location" name="location" placeholder="e.g. Cairo, Egypt" />
+      </div>
+    </div>
+    <!--
+    <div class="form-row">
+      <div class="field-group full-width">
+        <label>Land Details</label>
+
+        <textarea [(ngModel)]="profileData.landDetails" name="landDetails" rows="3" class="form-control" placeholder="Describe your land details"></textarea>
+      </div>
+    </div>
+    -->
+  </form>
+</div>

@@ -1,150 +1,114 @@
-.general-settings-page {
-  display: grid;
-  gap: 1.5rem;
-  padding: 1rem;
-}
-
-.settings-card {
+.profile-card {
   background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 1.75rem;
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
-  padding: 1.75rem;
+  border-radius: 28px;
+  padding: 2rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.05);
 }
 
-.settings-card-header {
+.profile-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.profile-title {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.5rem;
 }
 
-.settings-card-header h2 {
-  margin: 0;
-  font-size: 1.35rem;
-  color: #0f172a;
-}
-
-.settings-card-header p {
-  margin: 0.45rem 0 0;
-  color: rgba(15, 23, 42, 0.65);
-  font-size: 0.95rem;
-}
-
-.settings-icon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 1rem;
+.profile-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #ecf5eb;
+  color: #0f5132;
   display: grid;
   place-items: center;
-  background: rgba(220, 252, 231, 0.8);
-  color: #047857;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 
-.settings-grid,
-.investment-grid {
-  display: grid;
-  gap: 1rem;
+.profile-card-header h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.6rem;
+  color: #162a18;
 }
 
-.settings-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.investment-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.settings-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
-.settings-field.full-width,
-.settings-note.full-width {
-  grid-column: span 3;
-}
-
-.settings-field label {
-  color: #334155;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.settings-field input,
-.settings-field textarea,
-.select-control select {
-  width: 100%;
-  padding: 0.95rem 1rem;
-  border-radius: 1rem;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  background: #ffffff;
-  color: #0f172a;
-  font-size: 0.95rem;
-}
-
-.settings-field textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-.select-control {
-  position: relative;
-}
-
-.select-control select {
-  appearance: none;
-}
-
-.select-arrow {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: #0f5132;
-  font-size: 0.95rem;
-}
-
-.settings-note {
-  color: rgba(15, 23, 42, 0.6);
-  font-size: 0.92rem;
-  padding-left: 0.15rem;
-}
-
-.actions-row {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 1.5rem;
+.profile-card-header p {
+  margin: 0;
+  color: #5f6c65;
+  font-size: 0.97rem;
 }
 
 .btn-save {
-  padding: 0.95rem 1.75rem;
-  border-radius: 999px;
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   background: #0f5132;
   color: #ffffff;
-  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 0.95rem 1.6rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.btn-save:hover {
-  background: #14532d;
-  transform: translateY(-1px);
+.profile-form {
+  display: grid;
+  gap: 1.5rem;
 }
 
-@media (max-width: 980px) {
-  .settings-grid,
-  .investment-grid {
+.form-row {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.two-cols {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.field-group {
+  display: grid;
+  gap: 0.6rem;
+}
+
+  .field-group label {
+    font-weight: 700;
+    color: #22332a;
+  }
+
+  .field-group input {
+    width: 100%;
+    border: 1px solid #e4e4db;
+    border-radius: 22px;
+    padding: 1rem 1.1rem;
+    font-size: 1rem;
+    background: #fcfcfb;
+    color: #1b2a1e;
+  }
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 767px) {
+  .profile-card {
+    padding: 1.5rem;
+  }
+
+  .profile-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .two-cols {
     grid-template-columns: 1fr;
   }
 
-  .settings-field.full-width,
-  .settings-note.full-width {
-    grid-column: span 1;
+  .btn-save {
+    width: 100%;
+    justify-content: center;
   }
 }

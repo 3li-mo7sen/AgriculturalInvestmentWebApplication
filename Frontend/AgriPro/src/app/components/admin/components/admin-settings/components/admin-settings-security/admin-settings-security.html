@@ -1,49 +1,96 @@
-<section class="security-settings-page">
-  <article class="security-card">
-    <div class="security-card-header">
-      <div>
-        <h2>Authentication Settings</h2>
-        <p>Configure security and authentication options</p>
-      </div>
-      <label class="switch-toggle">
-        <span>Two-Factor Authentication</span>
-        <input type="checkbox" checked />
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="security-grid">
-      <div class="security-field">
-        <label>Session Timeout (minutes)</label>
-        <input type="number" value="30" />
-      </div>
-      <div class="security-field">
-        <label>Password Expiry (days)</label>
-        <input type="number" value="90" />
-      </div>
-      <div class="security-field">
-        <label>Max Login Attempts</label>
-        <input type="number" value="5" />
+<div class="security-page">
+  <section class="settings-card">
+    <div class="settings-card-header">
+      <div class="settings-card-title">
+        <span class="settings-card-icon green-icon">
+          <i class="fa-solid fa-lock"></i>
+        </span>
+        <div>
+          <h2>Change Password</h2>
+          <p>Update your password regularly for better security</p>
+        </div>
       </div>
     </div>
 
-    <div class="divider"></div>
+    <div *ngIf="passwordSuccess" class="alert alert-success m-3" style="padding: 10px; background: #e8f5e9; color: #2e7d32; border-radius: 6px;">
+      {{ passwordSuccess }}
+    </div>
+    <div *ngIf="passwordError" class="alert alert-danger m-3" style="padding: 10px; background: #ffebee; color: #c62828; border-radius: 6px;">
+      {{ passwordError }}
+    </div>
 
-    <div class="security-footer">
-      <div>
-        <h3>IP Whitelist</h3>
-        <p>Restrict admin access to specific IPs</p>
+    <form class="settings-form" (ngSubmit)="onChangePassword()">
+      <div class="field-group">
+        <label>Current Password</label>
+        <div class="input-with-icon">
+          <input [type]="showCurrentPassword ? 'text' : 'password'" [(ngModel)]="passwordData.currentPassword" name="currentPassword" placeholder="Enter current password" />
+          <button type="button" class="field-icon" (click)="showCurrentPassword = !showCurrentPassword">
+            <i class="fa-regular" [ngClass]="showCurrentPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
       </div>
-      <label class="switch-toggle switch-right">
-        <input type="checkbox" />
-        <span class="slider"></span>
-      </label>
+
+      <div class="field-group">
+        <label>New Password</label>
+        <div class="input-with-icon">
+          <input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="passwordData.newPassword" name="newPassword" placeholder="Enter new password" />
+          <button type="button" class="field-icon" (click)="showNewPassword = !showNewPassword">
+            <i class="fa-regular" [ngClass]="showNewPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Confirm New Password</label>
+        <div class="input-with-icon">
+          <input type="password" [(ngModel)]="passwordData.confirmPassword" name="confirmPassword" placeholder="Confirm new password" />
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button type="submit" class="btn-primary btn-action" [disabled]="isSubmittingPassword">
+          <i class="fa-solid fa-lock"></i>
+          {{ isSubmittingPassword ? 'Updating...' : 'Update Password' }}
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="settings-card compact-card">
+    <div class="settings-card-header">
+      <div class="settings-card-title">
+        <span class="settings-card-icon dark-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </span>
+        <div>
+          <h2>Security Options</h2>
+          <p>Add an extra layer of security to your account</p>
+        </div>
+      </div>
     </div>
 
-    <div class="actions-row">
-      <button class="btn-save" type="button">Save Changes</button>
+    <div class="settings-list">
+      <div class="settings-row">
+        <div>
+          <p class="row-title">Two-Factor Authentication</p>
+          <p class="row-subtitle">Add an extra layer of security to your account</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" [checked]="settings.twoFactorAuth" (change)="onToggleSetting('twoFactorAuth')" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <p class="row-title">Login Alerts</p>
+          <p class="row-subtitle">Get notified when someone logs into your account</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" [checked]="settings.loginAlerts" (change)="onToggleSetting('loginAlerts')" />
+          <span class="slider"></span>
+        </label>
+      </div>
     </div>
-  </article>
-</section>
+  </section>
+</div>

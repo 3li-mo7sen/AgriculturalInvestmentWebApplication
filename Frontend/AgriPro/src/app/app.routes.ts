@@ -157,7 +157,18 @@ export const routes: Routes = [
       { path: 'my-investments', component: InvestorInvestments },
       { path: 'investment-history', component: InvestorHistory },
       { path: 'wallet', component: InvestorWallet },
+      {
+        path: 'settings', component: InvestorSettings,
+        children: [
+          { path: '', redirectTo: 'profile', pathMatch: 'full' },
+          { path: 'profile', component:ProfileInvestor },
+          { path: 'security', component: SecurityInvestor },
+          { path: 'notifications', component: NotificationsInvestor },
+          /* { path: 'preferences', component: PreferencesFarmer }*/
 
+
+        ]
+      },
       {path:'profile',component:InvestorProfile2}
       ]
   }

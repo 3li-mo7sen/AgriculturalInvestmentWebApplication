@@ -52,6 +52,11 @@ export class ExpertNav {
   }
 
   private getBestMatch(path: string): { title: string; subtitle: string } {
+
+    if (path.includes('/expert/settings')) {
+      return this.titleMap['/expert/settings'];
+    }
+
     if (this.titleMap[path]) {
       return this.titleMap[path];
     }
