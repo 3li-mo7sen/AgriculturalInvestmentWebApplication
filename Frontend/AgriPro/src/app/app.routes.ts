@@ -62,6 +62,7 @@ import { InvestorProfile2 } from './components/investor/components/investor-prof
 import { ExpertProfile } from './components/expert/components/expert-profile/expert-profile';
 import { InvestorProjectDetails } from './components/investor/components/investor-project-details/investor-project-details';
 import { AdminProfile } from './components/admin/components/admin-profile/admin-profile';
+import { AdminProjects } from './components/admin/components/admin-projects/admin-projects';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -73,8 +74,11 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: AdminDashboard },
-      { path: 'manage-accounts', component:  AdminAccounts},
+      { path: 'manage-accounts', component: AdminAccounts },
+      /*
       { path: 'approve-documents', component: AdminDocuments },
+      */
+      { path: 'manage-projects', component: AdminProjects },
       { path: 'profile', component: AdminProfile },
       {
         path: 'reports', component: AdminReports,

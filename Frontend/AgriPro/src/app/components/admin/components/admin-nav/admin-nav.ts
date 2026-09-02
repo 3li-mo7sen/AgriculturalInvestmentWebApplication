@@ -25,6 +25,7 @@ export class AdminNav {
   private readonly pageMap = new Map<string, { title: string; subtitle: string }>([
     ['dashboard', { title: 'Dashboard', subtitle: "Welcome back, Admin! Here's your admin overview." }],
     ['manage-accounts', { title: 'Manage Accounts', subtitle: 'Manage user accounts and roles' }],
+    ['manage-projects', { title: 'Manage Projects', subtitle: 'Review and manage agricultural projects' }],
     ['approve-documents', { title: 'Approve Documents', subtitle: 'Review and approve user documents' }],
     ['reports', { title: 'Reports', subtitle: 'View system reports and alerts' }],
     ['profile', { title: 'My Profile', subtitle: 'View and manage your account details' }],

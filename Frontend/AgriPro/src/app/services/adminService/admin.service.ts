@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { AdminUser, CreateUserData } from '../../models/admin-accounts';
 import { Observable } from 'rxjs';
 import { AdminDashboardResponse } from '../../models/admin-dashboard';
+import { Project } from '../../models/admin-projects';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class AdminService {
   private baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) {}
-
+  //user api
   getUsers(role?: string, status?: string, search?: string): Observable<AdminUser[]> {
     let params = new HttpParams();
 
@@ -52,4 +53,26 @@ export class AdminService {
   getDashboardData(): Observable<AdminDashboardResponse> {
     return this.http.get<AdminDashboardResponse>(`${this.baseUrl}/api/Admin/dashboard`);
   }
+
+
+
+
+  //project api
+
+  getAllProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.baseUrl}/api/Project/Get-All-Projects`);
+  }
+
+  getProjectsByStatus(status: string): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.baseUrl}/api/Project/Get-Projects-By-Status/${status}`);
+  }
+
+  deleteProject(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/api/Project/Delete-Project/${id}`, { responseType: 'text' as 'json' });
+  }
+
+
+
+
+
 }
