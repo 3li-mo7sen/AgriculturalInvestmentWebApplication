@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FarmerService } from '../../services/farmerService/farmer.service';
-import { environment } from '../../../environment/environment';
+
+
 import { Subject, takeUntil } from 'rxjs';
+import { FarmerService } from '../../../../services/farmerService/farmer.service';
+import { environment } from '../../../../../environment/environment';
 
 @Component({
   selector: 'app-project-details',

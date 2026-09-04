@@ -57,12 +57,14 @@ import { AdminReportsReports } from './components/admin/components/admin-reports
 import { FarmerProfile2 } from './components/farmer/components/farmer-profile2/farmer-profile2';
 import { AddProjectForm } from './components/farmer/components/create-project/components/add-project-form/add-project-form';
 import { CreateProjectForms } from './components/farmer/components/create-project/components/create-project-forms/create-project-forms';
-import { ProjectDetails } from './components/project-details/project-details';
+
 import { InvestorProfile2 } from './components/investor/components/investor-profile2/investor-profile2';
 import { ExpertProfile } from './components/expert/components/expert-profile/expert-profile';
 import { InvestorProjectDetails } from './components/investor/components/investor-project-details/investor-project-details';
 import { AdminProfile } from './components/admin/components/admin-profile/admin-profile';
 import { AdminProjects } from './components/admin/components/admin-projects/admin-projects';
+import { ProjectDetails } from './components/farmer/components/project-details/project-details';
+import { Projects } from './components/projects/projects';
 
 export const routes: Routes = [
   { path: '', component: Home,/*canActivate:[authGuard] */},
@@ -179,8 +181,7 @@ export const routes: Routes = [
   ,
   { path: 'forget-password', component: ForgetPassword },
   { path: 'reset-password', component: ResetPassword },
-  {path:'project-details/:id' ,component:ProjectDetails}
-  
+  {path:'projects',component:Projects}
 
 
 
