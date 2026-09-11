@@ -1,8 +1,47 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Project } from '../../models/admin-projects';
+import { environment } from '../../../environment/environment';
+import { ProjectFilter } from '../../models/investor-projects';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectsService {
-  
+  private filterSubject = new BehaviorSubject<ProjectFilter>({
+    searchQuery: '',
+    cropType: 'All Crops',
+    location: 'All Locations',
+    sortByProgress: null,
+  });
+
+  filter$ = this.filterSubject.asObservable();
+
+  constructor(private http: HttpClient) { }
+  //alternative for get-published-projects endpoint cuz it doesn't work correctly :(
+  //this gets the approved projects only :(((
+  getAllProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(`${environment.baseUrl}/api/Project/Get-All-Projects`).pipe(
+      map((projects) =>
+
+        projects.filter(
+          (p) =>
+
+            p.status?.toLowerCase() === 'approved'
+        )
+      )
+    );
+  }
+
+  updateFilter(newFilter: Partial<ProjectFilter>): void {
+    this.filterSubject.next({
+      ...this.filterSubject.value,
+      ...newFilter,
+    });
+  }
+
+  getProjectById(id: number): Observable<Project> {
+    return this.http.get<Project>(`${environment.baseUrl}/api/Project/Get-Project-By-Id/${id}`);
+  }
 }

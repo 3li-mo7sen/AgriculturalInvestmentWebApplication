@@ -1,0 +1,108 @@
+
+<div class="projects-section-container">
+
+  <div *ngIf="!isLoading && filteredProjects.length > 0" class="results-header-bar">
+    <div class="results-count">
+      Showing <strong>{{ filteredProjects.length }}</strong> verified projects
+    </div>
+    <div class="verified-badge-info">
+      <i class="fa-solid fa-shield-halved me-1"></i>
+      <span>All projects are expert-verified</span>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="isLoading" class="projects-grid">
+    <div class="project-card skeleton-card" *ngFor="let item of [1, 2, 3]">
+      <div class="skeleton-image"></div>
+      <div class="skeleton-content">
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line title"></div>
+        <div class="skeleton-line text"></div>
+        <div class="skeleton-line text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && filteredProjects.length === 0" class="empty-projects-state">
+    <i class="fa-solid fa-folder-open"></i>
+    <h3>No Projects Available</h3>
+    <p>There are no approved projects matching your current filters.</p>
+  </div>
+
+  <div *ngIf="!isLoading && filteredProjects.length > 0" class="projects-grid">
+    <div class="project-card" *ngFor="let project of filteredProjects">
+
+
+      <div class="project-image" [class.empty]="!project.imageUrl">
+        <img *ngIf="project.imageUrl" [src]="apiUrl + project.imageUrl" [alt]="project.name" style="width:100%; height:100%; object-fit:cover;" />
+
+
+        <div class="image-badges">
+          <span class="status-badge" [ngClass]="project.status?.toLowerCase()">
+            {{ project.status }}
+          </span>
+          <span class="verified-badge">
+            <i class="fa-solid fa-circle-check"></i> Verified
+          </span>
+        </div>
+      </div>
+
+      <div class="project-details">
+        <div class="tag-row">
+          <span class="badge category">{{ project.cropType || 'General' }}</span>
+          <span class="badge duration" *ngIf="project.duration">
+            {{ project.duration }} Months
+          </span>
+        </div>
+
+        <h3>{{ project.name }}</h3>
+
+        <p class="project-location">
+          <i class="fa-solid fa-location-dot"></i>
+          {{ project.governorate }} <span *ngIf="project.district">, {{ project.district }}</span>
+        </p>
+
+        <p class="project-owner">By: {{ project.farmerName }}</p>
+
+        <div class="project-target">
+          Target: EGP {{ project.cost | number }}
+        </div>
+
+        <div class="funding-row">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="project.fundingProgress || 0"></div>
+          </div>
+          <span class="progress-label">{{ project.fundingProgress || 0 }}%</span>
+        </div>
+
+        <div class="project-stats">
+          <div>
+            <div class="stat-value">{{ calculateRoi(project.expectedProfit, project.cost) }}</div>
+            <div class="stat-label">Expected ROI</div>
+          </div>
+          <div>
+            <div class="stat-value">{{ project.duration }}</div>
+            <div class="stat-label">Months</div>
+          </div>
+          <div>
+            <div class="stat-value">EGP {{ project.minimumInvestment | number }}</div>
+            <div class="stat-label">Min Invest</div>
+          </div>
+        </div>
+
+
+        <div class="card-actions">
+          <button class="btn-secondary" (click)="goToDetails(project.id)">
+            View Details
+          </button>
+          <button class="btn-primary" (click)="goToDetails(project.id)">
+            Invest Now
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

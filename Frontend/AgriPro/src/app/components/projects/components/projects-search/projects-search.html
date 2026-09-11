@@ -1,0 +1,20 @@
+<div class="hero-search-section">
+  <div class="hero-container">
+    <h1 class="hero-title">Investment Projects</h1>
+    <p class="hero-subtitle">
+      Browse verified agricultural projects and start building your investment portfolio today.
+    </p>
+
+    <div class="search-filter-wrapper">
+      <div class="search-input-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text"
+               placeholder="Search projects..."
+               [(ngModel)]="searchQuery"
+               (input)="onSearchChange()" />
+      </div>
+
+      
+    </div>
+  </div>
+</div>
